@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
-  _lookSpeed: 0.5
+  _lookSpeed: 0.2
   _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _rb: {fileID: 7526982861462641497}
