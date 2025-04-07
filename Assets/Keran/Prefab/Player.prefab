@@ -155,8 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 1
   _lookSpeed: 0.5
-  _move: {fileID: 7770023931413906428, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  _look: {fileID: -8080167372832191585, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _rb: {fileID: 7526982861462641497}
   _camera: {fileID: 5537450855206374251}
 --- !u!114 &4977068925150361593
