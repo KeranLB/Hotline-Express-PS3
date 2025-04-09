@@ -8,14 +8,19 @@ using UnityEngine.InputSystem;
 public class InteractRouage : MonoBehaviour
 {
     [SerializeField] private float _rotationValue;
-    [SerializeField,Range(0f,360f)] private float _target;
+    [SerializeField,Range(-180f,179.99f)] private float _target;
     [SerializeField] private float _speedRotaion;
     public bool isLock = false;
     public bool test = false;
     private bool _isRotating;
 
-    [SerializeField] public float goTo;
-
+    public float currentRotation;
+    private Vector3 baseRota;
+    private void Start()
+    {
+        baseRota = transform.localEulerAngles;
+        currentRotation = baseRota.x;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -28,20 +33,19 @@ public class InteractRouage : MonoBehaviour
             test = false;
         }
         Verif();
-        if (transform.eulerAngles.x == 360f)
-        {
-            transform.eulerAngles = new Vector3(0f,transform.eulerAngles.y,transform.eulerAngles.z);
-        }
     }
 
     private void Verif()
     {
-        if (transform.eulerAngles.x == _target)
+        Debug.Log(true);
+        if (currentRotation == _target)
         {
+            Debug.Log(false);
             isLock = true;
         }
     }
 
+    /*
     public void Interact()
     {
         StartCoroutine(Rotation(transform.eulerAngles.x + _rotationValue));
@@ -64,7 +68,38 @@ public class InteractRouage : MonoBehaviour
             yield return null;
         }
         _isRotating = false;
+    }
+    */
 
-        //Stats.lasterWidth
+    public void Interact()
+    {
+        StartCoroutine(Rotation(currentRotation + _rotationValue));
+
+        //currentRotation += _rotationValue;
+        //transform.localEulerAngles = new Vector3(currentRotation, baseRota.y, baseRota.z);
+    }
+
+    IEnumerator Rotation(float target)
+    {
+        _isRotating = true;
+
+        float start = currentRotation;
+        
+        var t = 0f;
+        while (t < 1)
+        {
+            t += _speedRotaion * Time.deltaTime;
+            t = Mathf.Clamp01(t);
+            currentRotation = Mathf.Lerp(start, target ,t);
+            if (currentRotation >= 360f)
+            {
+                currentRotation -= 360;
+            }
+            transform.localEulerAngles = new Vector3(currentRotation, baseRota.y, baseRota.z);
+
+            yield return null;
+        }
+
+        _isRotating = false;
     }
 }
