@@ -1,101 +1,132 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InspectableObject : MonoBehaviour
 {
-    public Transform inspectDisplaySlot; // À assigner dans l’inspecteur via Canvas
+    [Header("Inspection System")]
+    public Camera inspectionCamera;
+    public RawImage inspectionDisplayImage;
+    public LayerMask interactableLayer;
+    public Transform playerCamera;
+    public float inspectDistance = 3f;
+
+    [Header("UI")]
+    public GameObject interactionPrompt; // UI Text or Panel saying "Press E to Inspect"
+
+    
 
     private bool isInspecting = false;
-    private GameObject currentInspectable;
-
-    // Sauvegarde pour remettre en place l'objet après inspection
-    private Transform originalParent;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
-    private Vector3 originalScale;
+    private GameObject currentInspectableClone;
+    private float rotateSpeed = 150f;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!isInspecting)
         {
-            if (!isInspecting)
+            HandleInteractionRaycast();
+
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 TryInspect();
             }
-            else
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 StopInspect();
             }
-        }
 
-        if (isInspecting && currentInspectable != null)
+            if (currentInspectableClone != null)
+            {
+                RotateObject();
+            }
+        }
+    }
+
+    void HandleInteractionRaycast()
+    {
+        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, inspectDistance, interactableLayer))
         {
-            RotateObject();
+            // Show UI
+            if (interactionPrompt != null)
+                interactionPrompt.SetActive(true);
+        }
+        else
+        {
+            // Hide UI
+            if (interactionPrompt != null)
+                interactionPrompt.SetActive(false);
         }
     }
 
     void TryInspect()
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 3f))
+        if (Physics.Raycast(ray, out hit, inspectDistance, interactableLayer))
         {
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
+            GameObject original = hit.collider.gameObject;
 
-            if (interactable != null && interactable.interactType == InteractType.Inspectable)
-            {
-                currentInspectable = hit.collider.gameObject;
+            // Clone & prepare
+            currentInspectableClone = Instantiate(original);
+            SetLayerRecursively(currentInspectableClone.transform, LayerMask.NameToLayer("InspectableOnly"));
 
-                // Sauvegarde des données actuelles
-                originalParent = currentInspectable.transform.parent;
-                originalPosition = currentInspectable.transform.position;
-                originalRotation = currentInspectable.transform.rotation;
-                originalScale = currentInspectable.transform.localScale;
+            currentInspectableClone.transform.SetParent(inspectionCamera.transform);
+            currentInspectableClone.transform.localPosition = new Vector3(0, 0, 4f);
+            currentInspectableClone.transform.localRotation = Quaternion.identity;
+            currentInspectableClone.transform.localScale = Vector3.one * 0.8f;
 
-                // On déplace l’objet dans le Canvas
-                currentInspectable.transform.SetParent(inspectDisplaySlot);
-                currentInspectable.transform.localPosition = Vector3.zero;
-                currentInspectable.transform.localRotation = Quaternion.identity;
-                currentInspectable.transform.localScale = Vector3.one * 100f; // Ajuste selon visuel voulu
+            // Affichage caméra + UI
+            inspectionCamera.gameObject.SetActive(true);
+            inspectionDisplayImage.gameObject.SetActive(true);
+            inspectionCamera.Render();
 
-                isInspecting = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0f;
+            isInspecting = true;
 
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                // Optionnel : désactive mouvement joueur
-                Time.timeScale = 0f;
-            }
+            if (interactionPrompt != null)
+                interactionPrompt.SetActive(false);
         }
     }
 
     void StopInspect()
     {
-        if (currentInspectable != null)
+        if (currentInspectableClone != null)
         {
-            currentInspectable.transform.SetParent(originalParent);
-            currentInspectable.transform.position = originalPosition;
-            currentInspectable.transform.rotation = originalRotation;
-            currentInspectable.transform.localScale = originalScale;
-
-            currentInspectable = null;
+            Destroy(currentInspectableClone);
         }
 
-        isInspecting = false;
+        inspectionCamera.gameObject.SetActive(false);
+        inspectionDisplayImage.gameObject.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
         Time.timeScale = 1f;
+        isInspecting = false;
     }
 
     void RotateObject()
     {
-        float rotateSpeed = 50f;
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        currentInspectable.transform.Rotate(Camera.main.transform.up, -mouseX * rotateSpeed * Time.unscaledDeltaTime, Space.World);
-        currentInspectable.transform.Rotate(Camera.main.transform.right, mouseY * rotateSpeed * Time.unscaledDeltaTime, Space.World);
+        currentInspectableClone.transform.Rotate(Camera.main.transform.up, -mouseX * rotateSpeed * Time.unscaledDeltaTime, Space.World);
+        currentInspectableClone.transform.Rotate(Camera.main.transform.right, mouseY * rotateSpeed * Time.unscaledDeltaTime, Space.World);
+    }
+
+    void SetLayerRecursively(Transform obj, int newLayer)
+    {
+        obj.gameObject.layer = newLayer;
+        foreach (Transform child in obj)
+        {
+            SetLayerRecursively(child, newLayer);
+        }
     }
 }
