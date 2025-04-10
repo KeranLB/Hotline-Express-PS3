@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class InspectableObject : MonoBehaviour
@@ -8,16 +8,14 @@ public class InspectableObject : MonoBehaviour
     public RawImage inspectionDisplayImage;
     public LayerMask interactableLayer;
     public Transform playerCamera;
-    public float inspectDistance = 3f;
+    public float inspectDistance = 4f;
 
     [Header("UI")]
-    public GameObject interactionPrompt; // UI Text or Panel saying "Press E to Inspect"
-
-    
+    public GameObject interactionPrompt;
 
     private bool isInspecting = false;
     private GameObject currentInspectableClone;
-    private float rotateSpeed = 150f;
+    private float rotateSpeed = 200f;
 
     void Update()
     {
@@ -51,13 +49,11 @@ public class InspectableObject : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, inspectDistance, interactableLayer))
         {
-            // Show UI
             if (interactionPrompt != null)
                 interactionPrompt.SetActive(true);
         }
         else
         {
-            // Hide UI
             if (interactionPrompt != null)
                 interactionPrompt.SetActive(false);
         }
@@ -72,21 +68,19 @@ public class InspectableObject : MonoBehaviour
         {
             GameObject original = hit.collider.gameObject;
 
-            // Clone & prepare
             currentInspectableClone = Instantiate(original);
             SetLayerRecursively(currentInspectableClone.transform, LayerMask.NameToLayer("InspectableOnly"));
 
             currentInspectableClone.transform.SetParent(inspectionCamera.transform);
-            currentInspectableClone.transform.localPosition = new Vector3(0, 0, 4f);
+            currentInspectableClone.transform.localPosition = new Vector3(0, 0, 5f);
             currentInspectableClone.transform.localRotation = Quaternion.identity;
-            currentInspectableClone.transform.localScale = Vector3.one * 0.8f;
+            currentInspectableClone.transform.localScale = Vector3.one;
 
-            // Affichage caméra + UI
             inspectionCamera.gameObject.SetActive(true);
             inspectionDisplayImage.gameObject.SetActive(true);
             inspectionCamera.Render();
 
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
             Time.timeScale = 0f;
             isInspecting = true;
@@ -114,11 +108,11 @@ public class InspectableObject : MonoBehaviour
 
     void RotateObject()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = Input.GetAxisRaw("Mouse X");
+        float mouseY = Input.GetAxisRaw("Mouse Y");
 
         currentInspectableClone.transform.Rotate(Camera.main.transform.up, -mouseX * rotateSpeed * Time.unscaledDeltaTime, Space.World);
-        currentInspectableClone.transform.Rotate(Camera.main.transform.right, mouseY * rotateSpeed * Time.unscaledDeltaTime, Space.World);
+        currentInspectableClone.transform.Rotate(Camera.main.transform.right, -mouseY * rotateSpeed * Time.unscaledDeltaTime, Space.World);
     }
 
     void SetLayerRecursively(Transform obj, int newLayer)
