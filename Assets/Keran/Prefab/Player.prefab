@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 9096560898694992257}
   - component: {fileID: 7526982861462641497}
   - component: {fileID: 8216840214822167357}
+  - component: {fileID: 1714997478280662104}
+  - component: {fileID: 3226792078658162033}
   - component: {fileID: 4977068925150361593}
   m_Layer: 0
   m_Name: Player
@@ -158,10 +160,57 @@ MonoBehaviour:
   _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _camera: {fileID: 5537450855206374251}
   _rb: {fileID: 7526982861462641497}
+  controller: {fileID: 0}
   _safeCanvas: {fileID: 0}
   _moveSpeed: 1
   _lookSpeed: 0.2
   canMove: 1
+--- !u!143 &1714997478280662104
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7443359927458983235}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3226792078658162033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7443359927458983235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fd29cfb38c1214c8a45ee99fb58ba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _moveSpeed: 4
+  _lookSpeed: 1
+  controller: {fileID: 0}
+  canMove: 1
+  _safeCanvas: {fileID: 0}
+  _camera: {fileID: 5537450855206374251}
 --- !u!114 &4977068925150361593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +238,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8216840214822167357}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 1
@@ -205,7 +254,7 @@ MonoBehaviour:
     m_ActionName: New action map/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: 18a69456-eef3-4dac-a8ef-8624948cbf8b
+  m_DefaultActionMap: PlayerMove
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &7541107351878739020

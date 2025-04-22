@@ -2,6 +2,6 @@ public enum InteractType
 {
     None,
     Movable,
-    Usable,
+    Interactable,
     Inspectable
 }

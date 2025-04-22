@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class K_PlayerController : MonoBehaviour
 {
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("object set :")]
     [SerializeField] private Transform _camera;
-    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Rigidbody _rb; // à enlever
+    [SerializeField] private CharacterController controller;
     [SerializeField] private Canvas _safeCanvas;
 
     [Header("parametre atomique :")]

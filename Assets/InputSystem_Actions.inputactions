@@ -1015,9 +1015,9 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "5bd3a613-548f-468c-a284-6e7cb3ac693e",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -1115,7 +1115,7 @@
                 {
                     "name": "up",
                     "id": "d3fab1fa-008c-4283-ab8d-055658a630bf",
-                    "path": "<Mouse>/delta/right",
+                    "path": "<Mouse>/delta/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1126,7 +1126,7 @@
                 {
                     "name": "down",
                     "id": "559eac2a-9c13-49cc-b3d3-a12cd764ade2",
-                    "path": "<Mouse>/delta/left",
+                    "path": "<Mouse>/delta/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1137,7 +1137,7 @@
                 {
                     "name": "left",
                     "id": "a304359d-1da0-4113-a03d-74c7035875f9",
-                    "path": "<Mouse>/delta/up",
+                    "path": "<Mouse>/delta/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1148,7 +1148,7 @@
                 {
                     "name": "right",
                     "id": "a2cb0d09-e209-4ee6-b0c7-4d3eeb1ee00c",
-                    "path": "<Mouse>/delta/down",
+                    "path": "<Mouse>/delta/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

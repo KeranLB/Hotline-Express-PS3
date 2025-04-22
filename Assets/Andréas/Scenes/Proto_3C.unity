@@ -1178,7 +1178,7 @@ MonoBehaviour:
   holdPoint: {fileID: 927944033}
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   moveSpeed: 10
 --- !u!1 &904624540
 GameObject:
