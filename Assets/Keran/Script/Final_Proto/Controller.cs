@@ -10,6 +10,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _interact;
 
     [Header("atomic Settings")]
+    [SerializeField] private Rigidbody _rb;
     private float _gravity = -9.81f;
     [SerializeField, Range(0, 500)] private float _moveSpeed;
     [SerializeField, Range(0, 500)] private float _lookSpeed;
@@ -47,6 +48,11 @@ public class Controller : MonoBehaviour
             close();
         }
         // --- ---
+
+    }
+
+    private void FixedUpdate()
+    {
         if (canMove)
         {
             Look();
@@ -68,21 +74,22 @@ public class Controller : MonoBehaviour
         // Input souris brut
         _lookDirection = _look.action.ReadValue<Vector3>();
 
+        /*
         // Lissage avec SmoothDamp pour une inertie douce
         _currentMouseDelta = Vector3.SmoothDamp(_currentMouseDelta, _lookDirection, ref _currentMouseDeltaVelocity, smoothTime);
-
+        */
         // Rotation verticale (haut/bas)
-        _verticalRotation -= _currentMouseDelta.y * _lookSpeed;
+        _verticalRotation -= _lookDirection.y * _lookSpeed;
         _verticalRotation = Mathf.Clamp(_verticalRotation, -maxVerticalLook, maxVerticalLook);
         _camera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
-
+        
         // Rotation horizontale (gauche/droite) : le corps tourne ici
-        transform.Rotate(Vector3.up * _currentMouseDelta.x * _lookSpeed);
+        transform.Rotate(Vector3.up * _lookDirection.x * _lookSpeed);
     }
     void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
-
+        
         Vector3 camForward = _camera.forward;
         camForward.y = 0f;
         camForward.Normalize();
@@ -92,8 +99,14 @@ public class Controller : MonoBehaviour
         camRight.Normalize();
 
         Vector3 move = camRight * _moveDirection.x + camForward * _moveDirection.z;
-
+        
         controller.Move(move * _moveSpeed * Time.deltaTime);
+        /*
+        //Vector3 forward = new Vector3(_moveDirection.x + transform.localPosition.x, 0f, _moveDirection.z + transform.localPosition.z);
+        Debug.Log(_moveDirection.z);
+        Debug.Log(_moveDirection.x);
+        _rb.MovePosition(transform.localPosition + (transform.forward * _moveDirection.z) + (transform.right * _moveDirection.x) * Time.deltaTime * _moveSpeed);
+        */
     }
 
     void SimGravity()

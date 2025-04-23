@@ -44,7 +44,7 @@ public class K_PlayerController : MonoBehaviour
             _moveDirection = _move.action.ReadValue<Vector3>();
             //transform.forward += new Vector3 (0f,0f,_moveDirection.z * _moveSpeed);
             //transform.position = new Vector3(transform.right + _moveDirection.x * _moveSpeed, _moveDirection.y, 0f);
-            _rb.MovePosition(transform.localPosition + _moveDirection * _moveSpeed * Time.deltaTime);
+            _rb.MovePosition(transform.position+transform.forward + _moveDirection * _moveSpeed * Time.deltaTime);
 
             //_rb.linearVelocity = new Vector3(_moveDirection.x, 0f,_moveDirection.z) * _moveSpeed;
 

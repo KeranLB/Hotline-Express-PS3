@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3578577768574024827}
   - component: {fileID: 9096560898694992257}
   - component: {fileID: 7526982861462641497}
-  - component: {fileID: 8216840214822167357}
   - component: {fileID: 1714997478280662104}
   - component: {fileID: 3226792078658162033}
   - component: {fileID: 4977068925150361593}
@@ -143,28 +142,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &8216840214822167357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7443359927458983235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad87d16d417df14eba821cb7605277b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  _camera: {fileID: 5537450855206374251}
-  _rb: {fileID: 7526982861462641497}
-  controller: {fileID: 0}
-  _safeCanvas: {fileID: 0}
-  _moveSpeed: 1
-  _lookSpeed: 0.2
-  canMove: 1
 --- !u!143 &1714997478280662104
 CharacterController:
   m_ObjectHideFlags: 0
@@ -206,11 +183,13 @@ MonoBehaviour:
   _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _moveSpeed: 4
-  _lookSpeed: 1
-  controller: {fileID: 0}
+  _lookSpeed: 0.1
+  smoothTime: 0.05
+  controller: {fileID: 1714997478280662104}
   canMove: 1
   _safeCanvas: {fileID: 0}
   _camera: {fileID: 5537450855206374251}
+  maxVerticalLook: 80
 --- !u!114 &4977068925150361593
 MonoBehaviour:
   m_ObjectHideFlags: 0
