@@ -1,91 +1,93 @@
+using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Controller : MonoBehaviour
 {
+    [Header("Set component :")]
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform _camera;
+    [SerializeField] private Transform _holdPoint;
+
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
+    [SerializeField] private InputActionReference _zoom;
 
-    [Header("atomic Settings")]
-    [SerializeField] private Rigidbody _rb;
-    private float _gravity = -9.81f;
-    [SerializeField, Range(0, 500)] private float _moveSpeed;
-    [SerializeField, Range(0, 500)] private float _lookSpeed;
-    public float smoothTime = 0.05f;
     private Vector3 _moveDirection;
     private Vector3 _lookDirection;
 
-    [SerializeField] private CharacterController controller;
+    [Header("Move Settings")]
+    [SerializeField, Range(0, 500)] private float _moveSpeed;
+
+    [Header("Look Settings")]
+    [SerializeField, Range(0, 500)] private float _sensitivity;
+
+    [Header("Raycast settings")]
+    [SerializeField, Range(0, 500)] private float _rayDistance;
+
+    private float _verticalRotation = 0f;
+    private float _maxVerticalLook = 80f;
 
     [HideInInspector] public bool canMove = true;
-    [SerializeField] private Canvas _safeCanvas;
-    [SerializeField] private Transform _camera;
-    private Vector3 _velocity;
-    private Vector3 _currentMouseDelta;
-    private Vector3 _currentMouseDeltaVelocity;
-    private float _verticalRotation = 0f;
-    public float maxVerticalLook = 80f;
+
+
+
+
     public void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        _safeCanvas.enabled = false;
     }
 
     private void Update()
     {
-        // --- à mettre dans un autre script ---
+        RaycastHit hit;
 
-        if (_interact.action.IsPressed())
+        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
         {
-            Open();
-        }
-        else
-        {
-            close();
-        }
-        // --- ---
+            GameObject test = hit.collider.gameObject;
+            if (test.GetComponent<ObjectClass>() != null)
+            {
+                ObjectClass objectClass = test.GetComponent<ObjectClass>();
 
-    }
+                // modification UI et outline
 
-    private void FixedUpdate()
-    {
+                ObjectAction(test, objectClass.interactType);
+                if (objectClass.interactType == InteractType.Interactable)
+                {
+                    Debug.Log("Ca marche !!!!!!");
+                    //objectClass.Interact();
+                }
+            }
+        }
+
+        Debug.Log(_zoom.action.ReadValue<float>());
+
         if (canMove)
         {
             Look();
             Move();
-            //SimGravity();
         }
     }
-    /*
-    private void Look()
-    {
-        _lookDirection = _look.action.ReadValue<Vector3>();
-        transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y + _lookDirection.y * _lookSpeed, 0f);
-        _camera.eulerAngles = new Vector3(_camera.eulerAngles.x + _lookDirection.x * _lookSpeed, transform.eulerAngles.y, 0f);
-    }
-    */
 
     private void Look()
     {
         // Input souris brut
         _lookDirection = _look.action.ReadValue<Vector3>();
 
-        /*
-        // Lissage avec SmoothDamp pour une inertie douce
-        _currentMouseDelta = Vector3.SmoothDamp(_currentMouseDelta, _lookDirection, ref _currentMouseDeltaVelocity, smoothTime);
-        */
         // Rotation verticale (haut/bas)
-        _verticalRotation -= _lookDirection.y * _lookSpeed;
-        _verticalRotation = Mathf.Clamp(_verticalRotation, -maxVerticalLook, maxVerticalLook);
+        _verticalRotation -= _lookDirection.y * _sensitivity;
+        _verticalRotation = Mathf.Clamp(_verticalRotation, -_maxVerticalLook, _maxVerticalLook);
         _camera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
         
         // Rotation horizontale (gauche/droite) : le corps tourne ici
-        transform.Rotate(Vector3.up * _lookDirection.x * _lookSpeed);
+        transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
     }
+
     void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
@@ -101,37 +103,49 @@ public class Controller : MonoBehaviour
         Vector3 move = camRight * _moveDirection.x + camForward * _moveDirection.z;
         
         controller.Move(move * _moveSpeed * Time.deltaTime);
-        /*
-        //Vector3 forward = new Vector3(_moveDirection.x + transform.localPosition.x, 0f, _moveDirection.z + transform.localPosition.z);
-        Debug.Log(_moveDirection.z);
-        Debug.Log(_moveDirection.x);
-        _rb.MovePosition(transform.localPosition + (transform.forward * _moveDirection.z) + (transform.right * _moveDirection.x) * Time.deltaTime * _moveSpeed);
-        */
     }
 
-    void SimGravity()
+    private void ObjectAction(GameObject target, InteractType interactType)
     {
-        if (controller.isGrounded && _velocity.y < 0)
-            _velocity.y = -2f;
+        switch (interactType)
+        {
+            case InteractType.Interactable :
+                Interactable interactable = target.GetComponent<Interactable>();
+                if (_interact.action.WasPressedThisFrame())
+                {
+                    //Grab.MoveObject();
+                }
+                break;
 
-        _velocity.y += _gravity * Time.deltaTime;
-        controller.Move(_velocity * Time.deltaTime);
-    }
+            case InteractType.Movable :
+                Grab grab = target.GetComponent<Grab>();
+                /*
+                if (grab.isGrab)
+                {
+                    grab.Zoom(_zoom.action.ReadValue<float>(), _holdPoint);
+                }
+                */
+                if (_interact.action.WasPressedThisFrame())
+                {
+                    grab.MoveObject(_holdPoint);
+                }
+                else if (_interact.action.WasReleasedThisFrame())
+                {
+                    grab.DropObject(_holdPoint);
+                }
+                break;
 
-    // partie à mettre dans un autre script
-    private void Open()
-    {
-        canMove = false;
-        _safeCanvas.enabled = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
-    }
-
-    private void close()
-    {
-        canMove = true;
-        _safeCanvas.enabled = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+            case InteractType.Inspectable :
+                Inspect inspect = target.GetComponent<Inspect>();
+                if (_interact.action.WasPressedThisFrame())
+                {
+                    //Grab.MoveObject();
+                }
+                else if (_interact.action.WasReleasedThisFrame())
+                {
+                    //Grab.DropObject();
+                }
+                break;
+        }
     }
 }
