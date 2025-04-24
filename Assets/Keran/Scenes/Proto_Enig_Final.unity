@@ -1535,6 +1535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c2fdac8c410f74e90f9108abdd7d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isButton: 0
+  _is: 0
+  _isInteraction: 0
 --- !u!114 &900290487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2001,6 +2004,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7443359927458983235, guid: 7467d68992e0b664986765d01da2267b, type: 3}
   m_PrefabInstance: {fileID: 1409901227}
   m_PrefabAsset: {fileID: 0}
+--- !u!143 &1195969480 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 1714997478280662104, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+  m_PrefabInstance: {fileID: 1409901227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1252560811
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,6 +2174,10 @@ PrefabInstance:
       propertyPath: smoothTime
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: _controller
+      value: 
+      objectReference: {fileID: 1195969480}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: _safeCanvas
       value: 

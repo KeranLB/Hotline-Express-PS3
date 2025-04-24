@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
 {
     [Header("Set component :")]
     [SerializeField] private Rigidbody _rb;
-    [SerializeField] private CharacterController controller;
+    [SerializeField] private CharacterController _controller;
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _holdPoint;
 
@@ -45,32 +45,11 @@ public class Controller : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
-        {
-            GameObject test = hit.collider.gameObject;
-            if (test.GetComponent<ObjectClass>() != null)
-            {
-                ObjectClass objectClass = test.GetComponent<ObjectClass>();
-
-                // modification UI et outline
-
-                ObjectAction(test, objectClass.interactType);
-                if (objectClass.interactType == InteractType.Interactable)
-                {
-                    Debug.Log("Ca marche !!!!!!");
-                    //objectClass.Interact();
-                }
-            }
-        }
-
-        Debug.Log(_zoom.action.ReadValue<float>());
-
         if (canMove)
         {
             Look();
             Move();
+            RaycastThrow();
         }
     }
 
@@ -102,7 +81,25 @@ public class Controller : MonoBehaviour
 
         Vector3 move = camRight * _moveDirection.x + camForward * _moveDirection.z;
         
-        controller.Move(move * _moveSpeed * Time.deltaTime);
+        _controller.Move(move * _moveSpeed * Time.deltaTime);
+    }
+
+    private void RaycastThrow()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
+        {
+            GameObject test = hit.collider.gameObject;
+            if (test.GetComponent<ObjectClass>() != null)
+            {
+                ObjectClass objectClass = test.GetComponent<ObjectClass>();
+
+                // modification UI et outline
+
+                ObjectAction(test, objectClass.interactType);
+            }
+        }
     }
 
     private void ObjectAction(GameObject target, InteractType interactType)
@@ -110,28 +107,18 @@ public class Controller : MonoBehaviour
         switch (interactType)
         {
             case InteractType.Interactable :
-                Interactable interactable = target.GetComponent<Interactable>();
+                Interaction interaction = target.GetComponent<Interaction>();
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    //Grab.MoveObject();
+                    interaction.Interact();
                 }
                 break;
 
             case InteractType.Movable :
                 Grab grab = target.GetComponent<Grab>();
-                /*
-                if (grab.isGrab)
-                {
-                    grab.Zoom(_zoom.action.ReadValue<float>(), _holdPoint);
-                }
-                */
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    grab.MoveObject(_holdPoint);
-                }
-                else if (_interact.action.WasReleasedThisFrame())
-                {
-                    grab.DropObject(_holdPoint);
+                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom);
                 }
                 break;
 
@@ -139,7 +126,7 @@ public class Controller : MonoBehaviour
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    //Grab.MoveObject();
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this);
                 }
                 else if (_interact.action.WasReleasedThisFrame())
                 {
