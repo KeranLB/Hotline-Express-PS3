@@ -34,7 +34,7 @@ public class ObjectGrabber : MonoBehaviour
         if (Physics.Raycast(ray, out hit, grabRange, interactableLayer))
         {
             Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null && interactable.interactType == InteractType.Movable)
+            if (interactable != null && interactable.interactType == ObjectType.Movable)
             {
                 grabbedObject = hit.rigidbody;
                 grabbedObject.useGravity = false;

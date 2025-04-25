@@ -4,15 +4,17 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - InteractableObject
+  - prompteur
+  - Stephane
+  - Box
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Interactable
+  - 
   - Water
   - UI
-  - InspectableOnly
+  - 
   - 
   - 
   - 
