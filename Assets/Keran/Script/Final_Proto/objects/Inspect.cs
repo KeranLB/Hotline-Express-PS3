@@ -3,74 +3,85 @@ using UnityEngine.InputSystem;
 
 public class Inspect : MonoBehaviour
 {
+    [SerializeField] private float _rotationSpeed = 100f;
+
     private InputActionReference _rotate;
-    private Vector3 _rotateValue;
     private InputActionReference _interact;
-    private Controller _controller;
-    [HideInInspector] public bool isInspect;
-    public Vector3 _originPosition;
+    private Transform _holdPoint;
+    private Transform _originalParent;
+    private Vector3 _originalPosition;
+    private Quaternion _originalRotation;
 
-    [SerializeField] private float _rotationSpeed = 100f; // Vitesse de rotation configurable
+    private Controller _playerController;
 
-    private void Start()
-    {
-        _originPosition = transform.position;
-    }
+    private bool _isInspecting = false;
 
     private void Update()
     {
-        if (isInspect)
+        if (_isInspecting)
         {
+            RotateObject();
+
             if (_interact.action.WasReleasedThisFrame())
             {
                 StopInspect();
             }
-            ObjectRotation();
         }
     }
+    private Transform _cameraTransform;
 
-    public void StartInspect(Transform parent, Transform holdPoint, InputActionReference rotation, InputActionReference interact, Controller controller)
+    public void StartInspect(Transform cameraTransform, Transform holdPoint, InputActionReference rotateAction, InputActionReference interactAction, Controller controller)
     {
-        transform.parent = parent;
-        transform.position = holdPoint.position;
-        _rotate = rotation;
-        _interact = interact;
-        isInspect = true;
-        _controller = controller;
-        _controller.canMove = false;
+        _cameraTransform = cameraTransform;
+        _rotate = rotateAction;
+        _interact = interactAction;
+        _holdPoint = holdPoint;
+        _playerController = controller;
 
-        // Geler la physique si besoin
+        // Save state
+        _originalParent = transform.parent;
+        _originalPosition = transform.position;
+        _originalRotation = transform.rotation;
+
+        // Prepare object
+        transform.parent = cameraTransform;
+        transform.position = holdPoint.position;
+        transform.rotation = Quaternion.identity;
+
         if (TryGetComponent<Rigidbody>(out var rb))
         {
-            rb.useGravity = false;
             rb.isKinematic = true;
+            rb.useGravity = false;
         }
-    }
 
-    private void ObjectRotation()
-    {
-        _rotateValue = _rotate.action.ReadValue<Vector3>(); // Attention : en général une rotation est Vector2 (X = souris horizontale, Y = souris verticale)
-
-        // Appliquer une rotation inverse pour que les mouvements soient naturels
-        float rotationX = -_rotateValue.y * _rotationSpeed * Time.deltaTime;
-        float rotationY = _rotateValue.x * _rotationSpeed * Time.deltaTime;
-
-        transform.Rotate(Vector3.right, rotationX, Space.Self);
-        transform.Rotate(Vector3.up, rotationY, Space.World);
+        _playerController.canMove = false;
+        _isInspecting = true;
     }
 
     private void StopInspect()
     {
-        transform.parent = null;
-        transform.position = _originPosition;
-        isInspect = false;
-        _controller.canMove = true;
+        transform.parent = _originalParent;
+        transform.position = _originalPosition;
+        transform.rotation = _originalRotation;
 
-        // Restaurer la physique si besoin
         if (TryGetComponent<Rigidbody>(out var rb))
         {
-            rb.useGravity = true;
             rb.isKinematic = false;
+            rb.useGravity = true;
         }
+
+        _playerController.canMove = true;
+        _isInspecting = false;
+    }
+
+    private void RotateObject()
+    {
+        Vector2 rotationInput = _rotate.action.ReadValue<Vector3>();
+        float rotX = rotationInput.y * _rotationSpeed * Time.deltaTime;
+        float rotY = -rotationInput.x * _rotationSpeed * Time.deltaTime;
+
+        // Rotation par rapport à l'orientation de la caméra
+        transform.Rotate(_cameraTransform.right, rotX, Space.World);
+        transform.Rotate(Vector3.up, rotY, Space.World); // Ici on garde un axe global Y pour éviter des dérives
     }
 }

@@ -70,18 +70,9 @@ public class Controller : MonoBehaviour
     void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
-        
-        Vector3 camForward = _camera.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-
-        Vector3 camRight = _camera.right;
-        camRight.y = 0f;
-        camRight.Normalize();
-
-        Vector3 move = camRight * _moveDirection.x + camForward * _moveDirection.z;
-        
-        _controller.Move(move * _moveSpeed * Time.deltaTime);
+        Vector3 direction = _moveDirection.x * transform.right + transform.forward * _moveDirection.z;
+        _rb.AddForce(direction * _moveSpeed);
+        _rb.maxLinearVelocity = _moveSpeed;
     }
 
     private void RaycastThrow()
