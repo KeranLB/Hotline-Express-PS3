@@ -8,6 +8,7 @@ public class Grab : MonoBehaviour
     private float _distanceZoom;
     [HideInInspector] public bool isGrab;
     public float moveSpeed = 10f;
+    private Transform _holdPoint;
 
     private InputActionReference _interact;
     private InputActionReference _zoom;
@@ -16,6 +17,7 @@ public class Grab : MonoBehaviour
     {
         if (isGrab)
         {
+            transform.position = _holdPoint.position;
             //Zoom(_zoom.action.ReadValue<float>());
             if (_interact.action.WasReleasedThisFrame())
             {
@@ -27,7 +29,7 @@ public class Grab : MonoBehaviour
     public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference zoom)
     {
         transform.parent = parent;
-        transform.position = holdPoint.position;
+        _holdPoint = holdPoint;
         _interact = interact;
         _zoom = zoom;
         _rb.useGravity = false;
