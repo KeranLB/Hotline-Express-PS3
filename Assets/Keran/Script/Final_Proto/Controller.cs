@@ -102,11 +102,11 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void ObjectAction(GameObject target, InteractType interactType)
+    private void ObjectAction(GameObject target, ObjectType interactType)
     {
         switch (interactType)
         {
-            case InteractType.Interactable :
+            case ObjectType.Interactable :
                 Interaction interaction = target.GetComponent<Interaction>();
                 if (_interact.action.WasPressedThisFrame())
                 {
@@ -114,7 +114,7 @@ public class Controller : MonoBehaviour
                 }
                 break;
 
-            case InteractType.Movable :
+            case ObjectType.Movable :
                 Grab grab = target.GetComponent<Grab>();
                 if (_interact.action.WasPressedThisFrame())
                 {
@@ -122,7 +122,7 @@ public class Controller : MonoBehaviour
                 }
                 break;
 
-            case InteractType.Inspectable :
+            case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (_interact.action.WasPressedThisFrame())
                 {

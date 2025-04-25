@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public InteractType interactType = InteractType.None;
+    public ObjectType interactType = ObjectType.None;
 }

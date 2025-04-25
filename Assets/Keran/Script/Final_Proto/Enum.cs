@@ -1,9 +1,13 @@
-/*
 public enum ObjectType
 {
     None,
     Movable,
     Interactable,
-    Inspectable
+    Inspectable,
 }
-*/
+
+
+public enum InteractionType
+{
+
+}

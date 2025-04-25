@@ -16,7 +16,7 @@ public class Grab : MonoBehaviour
     {
         if (isGrab)
         {
-            Zoom(_zoom.action.ReadValue<float>());
+            //Zoom(_zoom.action.ReadValue<float>());
             if (_interact.action.WasReleasedThisFrame())
             {
                 DropObject();

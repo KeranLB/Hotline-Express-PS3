@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Inspect : MonoBehaviour
 {
     private InputActionReference _rotate;
+    private Vector3 _rotateValue;
     private InputActionReference _interact;
     private Controller _controller;
     [HideInInspector] public bool isInspect;
@@ -39,7 +40,7 @@ public class Inspect : MonoBehaviour
 
     private void ObjectRotation()
     {
-
+        _rotateValue = _rotate.action.ReadValue<Vector3>();
     }
 
     private void StopInspect()
