@@ -1030,6 +1030,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Squat",
+                    "type": "Button",
+                    "id": "e5cc3a9b-bbdd-4ebb-8ed9-2ada3b700514",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Tiptoe",
+                    "type": "Button",
+                    "id": "4554d6bb-cd22-4c4f-a7ac-719ba5b3467a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1230,6 +1248,28 @@
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bac11f9d-1047-42af-82bb-010a381fc1fd",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Squat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f46af32-0f87-4563-ae18-e03e00831a38",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tiptoe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

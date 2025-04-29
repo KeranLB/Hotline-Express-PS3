@@ -10,6 +10,8 @@ public enum ObjectType
 public enum InteractionType
 {
     Rotation,
-    Spawn,
+    SpawnObject,
     StateChange,
+    OpenUI,
+    EnterCode,
 }
