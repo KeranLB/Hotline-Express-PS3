@@ -15,3 +15,10 @@ public enum InteractionType
     OpenUI,
     EnterCode,
 }
+
+public enum RotationDirection
+{
+    RotationX,
+    RotationY,
+    RotationZ,
+}

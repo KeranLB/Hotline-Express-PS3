@@ -5,12 +5,12 @@ using UnityEngine;
 public class InteractRouage : MonoBehaviour
 {
     [SerializeField] private float _rotationValue;
-    [SerializeField,Range(0f, 359.99f)] private float _target;
+    [SerializeField, Range(0f, 359.99f)] private float _target;
     [SerializeField] private float _speedRotaion;
-    public bool isLock = false;
+    [HideInInspector] public bool isLock = false;
     private bool _isRotating;
-
-    public float currentRotation;
+    [SerializeField] private RotationDirection _rotationDirection;
+    [HideInInspector] public float currentRotation;
     private Vector3 baseRota;
 
     private void Start()
@@ -55,7 +55,18 @@ public class InteractRouage : MonoBehaviour
             {
                 currentRotation -= 360;
             }
-            transform.localEulerAngles = new Vector3(currentRotation, baseRota.y, baseRota.z);
+            switch (_rotationDirection)
+            {
+                case RotationDirection.RotationX:
+                    transform.localEulerAngles = new Vector3(currentRotation, baseRota.y, baseRota.z);
+                    break;
+                case RotationDirection.RotationY: 
+                    transform.localEulerAngles = new Vector3(baseRota.x, currentRotation, baseRota.z);
+                    break;
+                case RotationDirection.RotationZ:
+                    transform.localEulerAngles = new Vector3(baseRota.x, baseRota.y, currentRotation);
+                    break;
+            }
 
             yield return null;
         }

@@ -56,6 +56,7 @@ public class Inspect : MonoBehaviour
         _controller = controller;
         isInspect = true;
         _controller.canMove = false;
+        _controller.canInspect = false;
         StartCoroutine(DelayClick());
     }
 
@@ -86,5 +87,6 @@ public class Inspect : MonoBehaviour
         _canRelease = false;
         _controller.canMove = true;
         yield return new WaitForEndOfFrame();
+        _controller.canInspect = true;
     }
 }

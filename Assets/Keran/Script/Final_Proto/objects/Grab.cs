@@ -7,7 +7,6 @@ public class Grab : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     private float _distanceZoom;
     [HideInInspector] public bool isGrab;
-    public float moveSpeed = 10f;
     private Transform _holdPoint;
 
     private InputActionReference _interact;
@@ -18,7 +17,6 @@ public class Grab : MonoBehaviour
         if (isGrab)
         {
             transform.position = _holdPoint.position;
-            //Zoom(_zoom.action.ReadValue<float>());
             if (_interact.action.WasReleasedThisFrame())
             {
                 DropObject();

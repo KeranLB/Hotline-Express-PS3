@@ -38,6 +38,7 @@ public class Controller : MonoBehaviour
     private float _maxVerticalLook = 80f;
 
     [HideInInspector] public bool canMove = true;
+    [HideInInspector] public bool canInspect = true;
 
 
 
@@ -152,7 +153,7 @@ public class Controller : MonoBehaviour
             case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
                 _aimPoint.color = Color.blue;
-                if (_interactBis.action.WasPressedThisFrame())
+                if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
                     inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }

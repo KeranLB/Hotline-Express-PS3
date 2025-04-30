@@ -13,13 +13,7 @@ public class Interaction : MonoBehaviour
                 gameObject.GetComponent<EnterCode>().Interact();
                 break;
             case InteractionType.SpawnObject:
-                // get script and call launch fonction
-                break;
-            case InteractionType.OpenUI:
-                // get script and call launch fonction
-                break;
-            case InteractionType.StateChange:
-                // get script and call launch fonction
+                gameObject.GetComponent<SpawnObject>().Interact();
                 break;
             case InteractionType.Rotation:
                 gameObject.GetComponent<InteractRouage>().Interact();
