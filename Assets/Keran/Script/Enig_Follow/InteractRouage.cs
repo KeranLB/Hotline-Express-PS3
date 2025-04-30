@@ -1,9 +1,6 @@
 using System.Collections;
-using Autodesk.Fbx;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.InputSystem;
+
 
 public class InteractRouage : MonoBehaviour
 {
