@@ -1,16 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class MenuTransitionManager : MonoBehaviour
 {
     [Header("Cameras & Player")]
     [SerializeField] private Camera uiCamera;
-    [SerializeField] private GameObject playerObject; // Objet parent désactivé au départ (avec la PlayerCamera dedans)
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private GameObject playerObject;
 
     [Header("Transition Settings")]
-    [SerializeField] private Transform transitionStartPoint; // Position actuelle de la UICamera
-    [SerializeField] private Transform transitionEndPoint;   // Position finale du mouvement "je me lève"
+    [SerializeField] private Transform transitionStartPoint;
+    [SerializeField] private Transform transitionEndPoint;
     [SerializeField] private float transitionDuration = 2f;
 
     [Header("UI Elements")]
@@ -19,19 +19,19 @@ public class MenuTransitionManager : MonoBehaviour
     private void Start()
     {
         uiCamera.enabled = true;
-        menuCanvas.enabled = true;
-
-        if (playerObject != null)
-            playerObject.SetActive(false); // Le joueur est désactivé par défaut
+        playerCamera.enabled = false;
+        playerObject.SetActive(false);
     }
 
     public void OnPlayButtonClicked()
     {
-        StartCoroutine(TransitionFromUICameraToPlayer());
+        StartCoroutine(PlayTransition());
     }
 
-    private IEnumerator TransitionFromUICameraToPlayer()
+    private IEnumerator PlayTransition()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         menuCanvas.enabled = false;
 
         float elapsed = 0f;
@@ -40,6 +40,7 @@ public class MenuTransitionManager : MonoBehaviour
         Quaternion startRot = transitionStartPoint.rotation;
         Quaternion endRot = transitionEndPoint.rotation;
 
+        // Déplacement fluide de la UI Camera
         while (elapsed < transitionDuration)
         {
             float t = elapsed / transitionDuration;
@@ -49,8 +50,13 @@ public class MenuTransitionManager : MonoBehaviour
             yield return null;
         }
 
-        // Fin de transition : désactiver la UICamera, activer le joueur
+        // Une fois terminé : activer le joueur, placer sa caméra exactement où est la UI Camera
         playerObject.SetActive(true);
+
+        playerCamera.transform.position = uiCamera.transform.position;
+        playerCamera.transform.rotation = uiCamera.transform.rotation;
+
+        playerCamera.enabled = true;
         uiCamera.enabled = false;
     }
 }
