@@ -3,25 +3,15 @@ using System.Collections;
 
 public class MenuTransitionManager : MonoBehaviour
 {
-    [Header("Cameras & Player")]
+    [Header("Cameras")]
     [SerializeField] private Camera uiCamera;
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private GameObject playerObject;
 
     [Header("Transition Settings")]
-    [SerializeField] private Transform transitionStartPoint;
-    [SerializeField] private Transform transitionEndPoint;
     [SerializeField] private float transitionDuration = 2f;
 
     [Header("UI Elements")]
     [SerializeField] private Canvas menuCanvas;
-
-    private void Start()
-    {
-        uiCamera.enabled = true;
-        playerCamera.enabled = false;
-        playerObject.SetActive(false);
-    }
 
     public void OnPlayButtonClicked()
     {
@@ -30,17 +20,18 @@ public class MenuTransitionManager : MonoBehaviour
 
     private IEnumerator PlayTransition()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         menuCanvas.enabled = false;
 
-        float elapsed = 0f;
-        Vector3 startPos = transitionStartPoint.position;
-        Vector3 endPos = transitionEndPoint.position;
-        Quaternion startRot = transitionStartPoint.rotation;
-        Quaternion endRot = transitionEndPoint.rotation;
+        // Start and end transforms
+        Transform start = uiCamera.transform;
+        Transform end = playerCamera.transform;
 
-        // Déplacement fluide de la UI Camera
+        float elapsed = 0f;
+        Vector3 startPos = start.position;
+        Quaternion startRot = start.rotation;
+        Vector3 endPos = end.position;
+        Quaternion endRot = end.rotation;
+
         while (elapsed < transitionDuration)
         {
             float t = elapsed / transitionDuration;
@@ -50,13 +41,11 @@ public class MenuTransitionManager : MonoBehaviour
             yield return null;
         }
 
-        // Une fois terminé : activer le joueur, placer sa caméra exactement où est la UI Camera
-        playerObject.SetActive(true);
+        // Snap to final position
+        uiCamera.transform.position = endPos;
+        uiCamera.transform.rotation = endRot;
 
-        playerCamera.transform.position = uiCamera.transform.position;
-        playerCamera.transform.rotation = uiCamera.transform.rotation;
-
-        playerCamera.enabled = true;
+        // Disable UICamera so player camera takes over
         uiCamera.enabled = false;
     }
 }
