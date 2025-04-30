@@ -1,6 +1,3 @@
-using TMPro.Examples;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class Interaction : MonoBehaviour
@@ -13,7 +10,7 @@ public class Interaction : MonoBehaviour
         switch (_interactionType)
         {
             case InteractionType.EnterCode :
-                // get script and call launch fonction
+                gameObject.GetComponent<EnterCode>().Interact();
                 break;
             case InteractionType.SpawnObject:
                 // get script and call launch fonction

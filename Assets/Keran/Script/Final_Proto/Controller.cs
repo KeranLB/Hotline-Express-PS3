@@ -2,6 +2,7 @@ using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
+    [SerializeField] private Image _aimPoint;
 
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
+    [SerializeField] private InputActionReference _interactBis;
     [SerializeField] private InputActionReference _zoom;
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
@@ -115,9 +118,11 @@ public class Controller : MonoBehaviour
             {
                 ObjectClass objectClass = test.GetComponent<ObjectClass>();
 
-                // modification UI et outline
-
                 ObjectAction(test, objectClass.interactType, hit.distance);
+            }
+            else
+            {
+                _aimPoint.color = Color.white;
             }
         }
     }
@@ -128,6 +133,7 @@ public class Controller : MonoBehaviour
         {
             case ObjectType.Interactable :
                 Interaction interaction = target.GetComponent<Interaction>();
+                _aimPoint.color = Color.green;
                 if (_interact.action.WasPressedThisFrame())
                 {
                     interaction.Interact();
@@ -136,6 +142,7 @@ public class Controller : MonoBehaviour
 
             case ObjectType.Movable :
                 Grab grab = target.GetComponent<Grab>();
+                _aimPoint.color = Color.red;
                 if (_interact.action.WasPressedThisFrame())
                 {
                     grab.MoveObject(_camera, _holdPoint, _interact, _zoom);
@@ -144,9 +151,10 @@ public class Controller : MonoBehaviour
 
             case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
-                if (_interact.action.WasPressedThisFrame())
+                _aimPoint.color = Color.blue;
+                if (_interactBis.action.WasPressedThisFrame())
                 {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this, distance);
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;
         }

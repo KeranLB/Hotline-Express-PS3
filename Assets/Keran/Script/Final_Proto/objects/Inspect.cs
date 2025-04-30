@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class Inspect : MonoBehaviour
     private InputActionReference _rotate;
     private Vector3 _rotateValue;
     private InputActionReference _interact;
+    private InputActionReference _release;
     private Controller _controller;
     [HideInInspector] public bool isInspect;
     public Vector3 _originPosition;
@@ -15,6 +17,7 @@ public class Inspect : MonoBehaviour
 
     [SerializeField,Range(0,500)] private float _rotationSpeed;
     private Transform _camera;
+    private bool _canRelease;
 
     private void Start()
     {
@@ -26,15 +29,19 @@ public class Inspect : MonoBehaviour
     {
         if (isInspect)
         {
-            ObjectRotation();
-            if (_interact.action.WasReleasedThisFrame())
+            if (_interact.action.IsPressed())
             {
-                StopInspect();
+                ObjectRotation();
+            }
+
+            if (_canRelease && _release.action.WasPressedThisFrame())
+            {
+                StartCoroutine(StopInspect());
             }
         }
     }
 
-    public void StartInspect(Transform camera, Transform holdPoint,InputActionReference rotation, InputActionReference interact, Controller controller, float distance)
+    public void StartInspect(Transform camera, Transform holdPoint,InputActionReference rotation, InputActionReference interact, InputActionReference release, Controller controller, float distance)
     {
         transform.parent = camera;
         transform.position = holdPoint.position;
@@ -45,9 +52,17 @@ public class Inspect : MonoBehaviour
         _camera = camera;
         _rotate = rotation;
         _interact = interact;
+        _release = release;
         _controller = controller;
         isInspect = true;
         _controller.canMove = false;
+        StartCoroutine(DelayClick());
+    }
+
+    IEnumerator DelayClick()
+    {
+        yield return new WaitForEndOfFrame();
+        _canRelease = true;
     }
 
     private void ObjectRotation()
@@ -62,12 +77,14 @@ public class Inspect : MonoBehaviour
         transform.Rotate(Vector3.up, rotY, Space.World); // Ici on garde un axe global Y pour éviter des dérives
     }
 
-    private void StopInspect()
+    IEnumerator StopInspect()
     {
         transform.parent = null;
         transform.eulerAngles = _originRotation;
         transform.position = _originPosition;
         isInspect = false;
+        _canRelease = false;
         _controller.canMove = true;
+        yield return new WaitForEndOfFrame();
     }
 }
