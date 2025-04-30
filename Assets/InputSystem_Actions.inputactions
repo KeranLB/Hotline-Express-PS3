@@ -1032,18 +1032,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Squat",
+                    "name": "TipToe",
                     "type": "Button",
-                    "id": "e5cc3a9b-bbdd-4ebb-8ed9-2ada3b700514",
+                    "id": "c114e78d-35e0-4f0c-8143-4a8f72c54f60",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Tiptoe",
+                    "name": "Crouch",
                     "type": "Button",
-                    "id": "4554d6bb-cd22-4c4f-a7ac-719ba5b3467a",
+                    "id": "5341436f-7e45-43a0-9a05-150691a28e05",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1251,23 +1251,23 @@
                 },
                 {
                     "name": "",
-                    "id": "bac11f9d-1047-42af-82bb-010a381fc1fd",
-                    "path": "<Keyboard>/shift",
+                    "id": "f0af5d8b-a2ac-4e27-a35e-8632ae4f9fd5",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Squat",
+                    "action": "TipToe",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "6f46af32-0f87-4563-ae18-e03e00831a38",
-                    "path": "<Keyboard>/space",
+                    "id": "e74a40a7-e577-4910-9a9b-d9f0d69717e5",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tiptoe",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

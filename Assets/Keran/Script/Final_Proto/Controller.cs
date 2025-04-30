@@ -97,9 +97,7 @@ public class Controller : MonoBehaviour
     void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
-
         Vector3 direction = _moveDirection.x * transform.right + transform.forward * _moveDirection.z;
-
         _rb.AddForce(direction * _moveSpeed);
         _rb.maxLinearVelocity = _moveSpeed;
     }
@@ -146,7 +144,7 @@ public class Controller : MonoBehaviour
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this, distance);
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this);
                 }
                 break;
         }
