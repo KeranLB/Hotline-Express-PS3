@@ -7,7 +7,6 @@ public class Controller : MonoBehaviour
 {
     [Header("Set component :")]
     [SerializeField] private Rigidbody _rb;
-    [SerializeField] private CharacterController _controller;
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
@@ -145,7 +144,7 @@ public class Controller : MonoBehaviour
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this, distance);
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this);
                 }
                 break;
         }
