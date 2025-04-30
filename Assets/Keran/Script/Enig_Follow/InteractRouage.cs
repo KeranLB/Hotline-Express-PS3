@@ -8,7 +8,6 @@ public class InteractRouage : MonoBehaviour
     [SerializeField,Range(0f, 359.99f)] private float _target;
     [SerializeField] private float _speedRotaion;
     public bool isLock = false;
-    public bool test = false;
     private bool _isRotating;
 
     public float currentRotation;
@@ -18,20 +17,6 @@ public class InteractRouage : MonoBehaviour
     {
         baseRota = transform.localEulerAngles;
         currentRotation = baseRota.x;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (test)
-        {
-            if (!_isRotating)
-            {
-                Interact();
-            }
-            test = false;
-        }
-        Verif();
     }
 
     private void Verif()
@@ -48,7 +33,10 @@ public class InteractRouage : MonoBehaviour
 
     public void Interact()
     {
-        StartCoroutine(Rotation(currentRotation + _rotationValue));
+        if (!_isRotating)
+        {
+            StartCoroutine(Rotation(currentRotation + _rotationValue));
+        }
     }
 
     IEnumerator Rotation(float target)
@@ -71,7 +59,7 @@ public class InteractRouage : MonoBehaviour
 
             yield return null;
         }
-
+        Verif();
         _isRotating = false;
     }
 }

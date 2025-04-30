@@ -9,6 +9,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Transform _camera;
+    [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
 
     [Header("control mapping :")]
@@ -16,6 +17,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
     [SerializeField] private InputActionReference _zoom;
+    [SerializeField] private InputActionReference _tipToe;
+    [SerializeField] private InputActionReference _crouch;
 
     private Vector3 _moveDirection;
     private Vector3 _lookDirection;
@@ -61,10 +64,35 @@ public class Controller : MonoBehaviour
         // Rotation verticale (haut/bas)
         _verticalRotation -= _lookDirection.y * _sensitivity;
         _verticalRotation = Mathf.Clamp(_verticalRotation, -_maxVerticalLook, _maxVerticalLook);
-        _camera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
+        _targetCamera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
         
         // Rotation horizontale (gauche/droite) : le corps tourne ici
         transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
+    }
+
+    private void TipToe()
+    {
+        if (_tipToe.action.WasPressedThisFrame())
+        {
+            _camera.position += new Vector3(0f, 2f, 0f);
+        }
+        if (_tipToe.action.WasReleasedThisFrame())
+        {
+            _camera.position -= new Vector3(0f, 2f, 0f);
+
+        }
+    }
+
+    private void Crouch()
+    {
+        if (_crouch.action.WasPressedThisFrame())
+        {
+            _camera.position -= new Vector3(0f, 2f, 0f);
+        }
+        if (_crouch.action.WasReleasedThisFrame())
+        {
+            _camera.position += new Vector3(0f, 2f, 0f);
+        }
     }
 
     void Move()
@@ -88,12 +116,12 @@ public class Controller : MonoBehaviour
 
                 // modification UI et outline
 
-                ObjectAction(test, objectClass.interactType);
+                ObjectAction(test, objectClass.interactType, hit.distance);
             }
         }
     }
 
-    private void ObjectAction(GameObject target, ObjectType interactType)
+    private void ObjectAction(GameObject target, ObjectType interactType, float distance)
     {
         switch (interactType)
         {
@@ -117,11 +145,7 @@ public class Controller : MonoBehaviour
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this);
-                }
-                else if (_interact.action.WasReleasedThisFrame())
-                {
-                    //Grab.DropObject();
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this, distance);
                 }
                 break;
         }
