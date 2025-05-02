@@ -14,6 +14,8 @@ public enum InteractionType
     OffButton,
     MonteCharge,
     EnterCode,
+    LightButtonInteraction,
+    LightSequence,
 }
 
 public enum RotationDirection

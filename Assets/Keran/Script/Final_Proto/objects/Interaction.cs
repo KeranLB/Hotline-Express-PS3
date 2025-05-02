@@ -24,6 +24,12 @@ public class Interaction : MonoBehaviour
             case InteractionType.OffButton:
                 gameObject.GetComponent<TutoManager>().Interact();
                 break;
+            case InteractionType.LightButtonInteraction:
+                gameObject.GetComponent<LightButtonInteraction>().Interact();
+                break;
+            case InteractionType.LightSequence:
+                gameObject.GetComponent<LightSequenceTrigger>().Interact();
+                break;
         }
     }
 }
