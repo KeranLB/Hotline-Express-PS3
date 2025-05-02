@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2d58a4f5d5851e049886205d63f83208
+guid: ed4e01b69c3dac241bcf712f1cd90edd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Phone_001
-    second: {fileID: 2100000, guid: 2dec51b031f837943b0af849c9e44b2f, type: 2}
+      name: M_Dial_001
+    second: {fileID: 2100000, guid: 08b3193332dafdd408f9a895ca1a2ac4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
