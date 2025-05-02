@@ -15,7 +15,7 @@ public class InspectableObject : MonoBehaviour
 
     private bool isInspecting = false;
     private GameObject currentInspectableClone;
-    private float rotateSpeed = 200f;
+    private float rotateSpeed = 1000f;
 
     void Update()
     {
