@@ -39,7 +39,7 @@ public class Controller : MonoBehaviour
 
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool canInspect = true;
-
+    public bool isLock = true;
 
 
 
@@ -53,8 +53,11 @@ public class Controller : MonoBehaviour
     {
         if (canMove)
         {
+            if (!isLock)
+            {
+                Move();
+            }
             Look();
-            Move();
             RaycastThrow();
         }
     }

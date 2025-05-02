@@ -21,6 +21,9 @@ public class Interaction : MonoBehaviour
             case InteractionType.MonteCharge:
                 gameObject.GetComponent<InteractMonteCharge>().Interact();
                 break;
+            case InteractionType.OffButton:
+                gameObject.GetComponent<TutoManager>().Interact();
+                break;
         }
     }
 }

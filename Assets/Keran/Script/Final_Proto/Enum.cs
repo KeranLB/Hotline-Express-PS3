@@ -11,7 +11,7 @@ public enum InteractionType
 {
     Rotation,
     SpawnObject,
-    StateChange,
+    OffButton,
     MonteCharge,
     EnterCode,
 }

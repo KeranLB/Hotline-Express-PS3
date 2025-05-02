@@ -27,7 +27,7 @@ public class CodeManager : MonoBehaviour
             if (currentCode == _finalCode)
             {
                 isCorrect = true;
-                text.text = "correct";
+                text.text = "";
             }
             else
             {

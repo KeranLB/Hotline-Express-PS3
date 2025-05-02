@@ -7,6 +7,9 @@ public class LaunchGameTransition : MonoBehaviour
     public Transform playerCameraTransform;
     public GameObject player;
 
+    public GameObject windowsImage;     // Image actuelle (écran Windows)
+    public GameObject nextStepImage;    // Image suivante (suite du tuto)
+
     public float transitionDuration = 2f;
     public float startFOV = 40f;
     public float endFOV = 60f;
@@ -20,16 +23,14 @@ public class LaunchGameTransition : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        // Sauvegarde de la position, rotation et FOV de départ
+
         Vector3 startPos = uiCamera.transform.position;
         Quaternion startRot = uiCamera.transform.rotation;
         float initialFOV = startFOV;
         float targetFOV = endFOV;
 
-        // Appliquer FOV de départ si pas déjà fait
         uiCamera.fieldOfView = initialFOV;
 
-        // Le joueur reste désactivé durant la transition
         player.SetActive(false);
 
         Vector3 endPos = playerCameraTransform.position;
@@ -49,12 +50,16 @@ public class LaunchGameTransition : MonoBehaviour
             yield return null;
         }
 
-        // Position finale
+        // Fin de transition
         uiCamera.transform.position = endPos;
         uiCamera.transform.rotation = endRot;
         uiCamera.fieldOfView = targetFOV;
 
-        // Activer joueur et désactiver la UIcamera
+        // Changement des images
+        if (windowsImage != null) windowsImage.SetActive(false);
+        if (nextStepImage != null) nextStepImage.SetActive(true);
+
+        // Activer le joueur et désactiver la caméra UI
         player.SetActive(true);
         uiCamera.gameObject.SetActive(false);
     }
