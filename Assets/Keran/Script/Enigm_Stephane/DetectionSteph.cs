@@ -6,36 +6,37 @@ public class DetectionSteph : MonoBehaviour
     [SerializeField] private ObjectClass _objectClass;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private int _nbObjectWaited;
-    private int _nbObject;
+    private int _nbObject = 0;
     public bool isComplet = false;
 
     private void Verif()
     {
-        if (isComplet)
-        {
-            _objectClass.interactType = ObjectType.Movable;
-            _rb.constraints = RigidbodyConstraints.None;
-            _rb.constraints = RigidbodyConstraints.FreezeRotation;
-            _rb.useGravity = true;
-        }
+        _objectClass.interactType = ObjectType.Movable;
+        _rb.constraints = RigidbodyConstraints.None;
+        _rb.useGravity = true;
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Stephane"))
         {
+            Grab grab = other.gameObject.GetComponent<Grab>();
+            grab.DropObject();
             other.transform.SetParent(transform);
             Vector3 target = other.gameObject.GetComponent<ObjectData>().target.transform.position;
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            rb.isKinematic = false;
             rb.useGravity = false;
             other.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
             other.transform.position = target;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            rb.constraints = RigidbodyConstraints.FreezePosition;
             _nbObject++;
-            if(_nbObject == _nbObjectWaited)
+            Debug.Log(_nbObject);
+            Debug.Log(_nbObjectWaited);
+            if (_nbObject == _nbObjectWaited)
             {
+                Verif();
                 isComplet = true;
             }
-            Verif();
         }
     }
 }

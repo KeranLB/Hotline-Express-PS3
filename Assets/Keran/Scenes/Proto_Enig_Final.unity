@@ -4532,6 +4532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 932408201}
   isGrab: 0
+  _objectSize: 0
 --- !u!54 &932408201
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5869,10 +5870,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 946126638}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _moveSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: smoothTime
       value: 0.01
       objectReference: {fileID: 0}
@@ -5885,8 +5882,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 250998232}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _rayDistance
-      value: 4
+      propertyPath: _boxCollider
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4645789009740326238, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6028,6 +6025,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8063102954814961160, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 8163944337135258553, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.6
@@ -6040,12 +6041,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8722914349394583670, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8834447445315264378, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: ChannelMask
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1714997478280662104, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+    - target: {fileID: 9096560898694992257, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7541107351878739020, guid: 7467d68992e0b664986765d01da2267b, type: 3}
     m_AddedGameObjects: []
@@ -7758,12 +7766,13 @@ GameObject:
   - component: {fileID: 1909944816}
   - component: {fileID: 1909944815}
   - component: {fileID: 1909944814}
+  - component: {fileID: 1909944818}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &1909944814
 BoxCollider:
@@ -7854,6 +7863,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1893258524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1909944818
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909944813}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!4 &1917948527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3896474140631108082, guid: 7467d68992e0b664986765d01da2267b, type: 3}
@@ -9292,6 +9328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 2122937380}
   isGrab: 0
+  _objectSize: 2
 --- !u!114 &2122937382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9304,7 +9341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914c27b0d80d7d94cb93dc6eb56ba78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactType: 2
+  interactType: 0
 --- !u!1001 &1376511486630280175
 PrefabInstance:
   m_ObjectHideFlags: 0

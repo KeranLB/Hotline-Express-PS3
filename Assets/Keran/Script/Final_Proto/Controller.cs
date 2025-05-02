@@ -42,7 +42,6 @@ public class Controller : MonoBehaviour
 
 
 
-
     public void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -53,8 +52,8 @@ public class Controller : MonoBehaviour
     {
         if (canMove)
         {
-            Look();
             Move();
+            Look();
             RaycastThrow();
         }
     }

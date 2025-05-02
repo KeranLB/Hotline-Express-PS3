@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,11 +13,15 @@ public class Grab : MonoBehaviour
     private InputActionReference _interact;
     private InputActionReference _zoom;
 
+    private BoxCollider _boxCollider;
+
+    [SerializeField] private float _objectSize;
+
     private void Update()
     {
         if (isGrab)
         {
-            transform.position = _holdPoint.position;
+            //transform.position = _holdPoint.position;
             if (_interact.action.WasReleasedThisFrame())
             {
                 DropObject();
@@ -28,14 +33,15 @@ public class Grab : MonoBehaviour
     {
         transform.parent = parent;
         _holdPoint = holdPoint;
+        //_holdPoint.position += new Vector3(0f, 0f, _objectSize) * transform.forward;
         _interact = interact;
         _zoom = zoom;
         _rb.useGravity = false;
         _rb.freezeRotation = true;
         _rb.linearDamping = 10f;
         transform.Rotate(new Vector3(0f,0f,0f));
+        transform.position = _holdPoint.position;
         isGrab = true;
-        Debug.Log("grab");
     }
 
     public void DropObject()
@@ -45,7 +51,6 @@ public class Grab : MonoBehaviour
         _rb.freezeRotation = false;
         _rb.linearDamping = 1f;
         isGrab = false;
-        Debug.Log("relache");
     }
 
     public void Zoom(float zoomValue)
