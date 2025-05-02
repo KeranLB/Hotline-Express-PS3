@@ -18,6 +18,9 @@ public class Interaction : MonoBehaviour
             case InteractionType.Rotation:
                 gameObject.GetComponent<InteractRouage>().Interact();
                 break;
+            case InteractionType.MonteCharge:
+                gameObject.GetComponent<InteractMonteCharge>().Interact();
+                break;
         }
     }
 }

@@ -11,9 +11,12 @@ public class CodeManager : MonoBehaviour
 
     public void AddToCode(int newValue)
     {
-        currentCode += newValue.ToString();
-        text.text = currentCode;
-        StartCoroutine(VerifCode());
+        if (!isCorrect && currentCode.Length < 4)
+        {
+            currentCode += newValue.ToString();
+            text.text = currentCode;
+            StartCoroutine(VerifCode());
+        }
     }
 
     IEnumerator VerifCode()
@@ -24,6 +27,7 @@ public class CodeManager : MonoBehaviour
             if (currentCode == _finalCode)
             {
                 isCorrect = true;
+                text.text = "correct";
             }
             else
             {

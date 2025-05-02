@@ -15,6 +15,7 @@ public class DetectionSteph : MonoBehaviour
         {
             _objectClass.interactType = ObjectType.Movable;
             _rb.constraints = RigidbodyConstraints.None;
+            _rb.constraints = RigidbodyConstraints.FreezeRotation;
             _rb.useGravity = true;
         }
     }

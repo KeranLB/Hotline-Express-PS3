@@ -12,15 +12,23 @@ public class MonteCharge : MonoBehaviour
     [SerializeField] private CodeManager _codeManager;
 
     [SerializeField] private float _speedTravel;
-    [SerializeField] private Transform _door;
+    [SerializeField] private GameObject _door;
     private bool _asSwitch = false;
 
     private bool _boxIsIn = false;
+    [HideInInspector] public bool valide = false;
+    private float poseZ;
 
-    private void Update()
+    private void Start()
+    {
+        _door.transform.position = _openPoint.position;
+        poseZ = _door.transform.position.z;
+    }
+    public void closeDoor()
     {
         if (_boxIsIn && _codeManager.isCorrect)
         {
+            valide = true;
             StartCoroutine(Travel(_openPoint, _closedPoint));
         }
     }
@@ -35,12 +43,14 @@ public class MonteCharge : MonoBehaviour
 
     IEnumerator Travel(Transform startPoint, Transform endPoint)
     {
+        Debug.Log("est dans la coroutine");
         float t = 0f;
         while (t < 1f)
         {
             t += _speedTravel * Time.deltaTime;
             t = Mathf.Clamp01(t);
-            _door.position = Vector2.Lerp(startPoint.position, endPoint.position, t);
+            _door.transform.position = Vector2.Lerp(startPoint.position, endPoint.position, t);
+            _door.transform.position = new Vector3(_door.transform.position.x, _door.transform.position.y, poseZ);
             yield return null;
         }
         if (!_asSwitch)
@@ -55,6 +65,7 @@ public class MonteCharge : MonoBehaviour
         {
             _boxIsIn = true;
             _box = other.gameObject;
+            Debug.Log("est dans le monte charge");
         }
     }
 }

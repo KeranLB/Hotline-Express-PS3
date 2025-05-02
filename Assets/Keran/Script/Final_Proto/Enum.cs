@@ -12,7 +12,7 @@ public enum InteractionType
     Rotation,
     SpawnObject,
     StateChange,
-    OpenUI,
+    MonteCharge,
     EnterCode,
 }
 
