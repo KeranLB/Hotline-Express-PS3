@@ -28,7 +28,7 @@ public class InteractRouage : MonoBehaviour
         Debug.Log(currentRotation);
         Debug.Log(_target);
         Debug.Log(currentRotation == _target);
-        if (currentRotation == _target)
+        if (Mathf.RoundToInt(currentRotation) == Mathf.RoundToInt(_target))
         {
             isLock = true;
             Debug.Log("is Lock");

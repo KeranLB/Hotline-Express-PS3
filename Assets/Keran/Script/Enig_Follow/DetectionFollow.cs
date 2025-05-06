@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class DetectionFollow : MonoBehaviour
 {
-    [SerializeField] Material _activeMaterial;
-    [SerializeField] Material _unactiveMaterial;
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<MeshRenderer>().material = _activeMaterial;
+        other.gameObject.GetComponent<Prompteur>().isShowingTime = false;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        other.gameObject.GetComponent<MeshRenderer>().material = _unactiveMaterial;
+        other.gameObject.GetComponent<Prompteur>().isShowingTime = true;
     }
 }
