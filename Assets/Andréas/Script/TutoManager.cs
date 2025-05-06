@@ -5,7 +5,7 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private CodeManager _codeManager;
     [SerializeField] private Controller _controller;
     [SerializeField] private GameObject ecranCodeTuto;
-    [SerializeField] private LightManager _lightManager; // <-- Ajout ici
+    [SerializeField] private LightManager _lightManager;
 
     public void Interact()
     {
@@ -13,7 +13,11 @@ public class TutoManager : MonoBehaviour
         {
             _controller.isLock = false;
             ecranCodeTuto.SetActive(false);
-            _lightManager.ActivateFirstLight(); // <-- Activation de la première lumière
+
+            if (_lightManager != null)
+                _lightManager.ActivateFirstLight();
+            else
+                Debug.LogWarning("LightManager n’est pas assigné dans TutoManager !");
         }
     }
 }

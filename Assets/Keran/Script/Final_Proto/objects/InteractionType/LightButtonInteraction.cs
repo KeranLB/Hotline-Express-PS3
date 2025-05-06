@@ -8,6 +8,7 @@ public class LightButtonInteraction : MonoBehaviour
     public void Interact()
     {
         if (hasBeenActivated) return; // Empêche de relancer l'action plusieurs fois
+        Debug.Log("LightButtonInteraction : Interaction triggered");
 
         _lightManager.SwitchToSecondLight();
         hasBeenActivated = true;
