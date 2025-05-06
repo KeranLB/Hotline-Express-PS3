@@ -165,5 +165,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 8800284600442268263}
   isGrab: 0
-  _colllider: {fileID: 2349855160559499751}
-  _objectSize: 0
+  speedComeBack: 10

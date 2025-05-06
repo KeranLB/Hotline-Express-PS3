@@ -103,7 +103,7 @@ public class Controller : MonoBehaviour
 
         Vector3 direction = ( _moveDirection.x * transform.right + transform.forward * _moveDirection.z );
 
-        _rb.AddForce(direction * _moveSpeed * Time.deltaTime);
+        _rb.AddForce(direction * _moveSpeed, ForceMode.Acceleration);
         _rb.maxLinearVelocity = _moveSpeed;
     }
 

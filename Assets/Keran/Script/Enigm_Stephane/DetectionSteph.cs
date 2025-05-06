@@ -25,6 +25,7 @@ public class DetectionSteph : MonoBehaviour
             Vector3 target = other.gameObject.GetComponent<ObjectData>().target.transform.position;
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.useGravity = false;
+            rb.isKinematic = true;
             other.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
             other.transform.position = target;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
