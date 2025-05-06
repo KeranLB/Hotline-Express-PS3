@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Grab : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rb;
+    [SerializeField] public Rigidbody _rb;
     private float _distanceZoom;
     [HideInInspector] public bool isGrab;
     private Transform _holdPoint;
@@ -13,9 +13,12 @@ public class Grab : MonoBehaviour
     private InputActionReference _interact;
     private InputActionReference _zoom;
 
-    private BoxCollider _boxCollider;
+    private Controller _controller;
 
-    [SerializeField] private float _objectSize;
+    public float speedComeBack;
+
+
+
 
     private void Update()
     {
@@ -26,11 +29,22 @@ public class Grab : MonoBehaviour
             {
                 DropObject();
             }
+
+            else if (transform.position == _holdPoint.position)
+            {
+                _rb.linearVelocity = new Vector3(0,0,0);
+            }
+            else
+            {
+                _rb.AddForce(_holdPoint.position - transform.position, ForceMode.Impulse);
+                _rb.maxLinearVelocity = speedComeBack;
+            }
         }
     }
 
-    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference zoom)
+    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference zoom, Controller controller)
     {
+        _controller = controller;
         transform.parent = parent;
         _holdPoint = holdPoint;
         //_holdPoint.position += new Vector3(0f, 0f, _objectSize) * transform.forward;
@@ -41,6 +55,7 @@ public class Grab : MonoBehaviour
         _rb.linearDamping = 10f;
         transform.Rotate(new Vector3(0f,0f,0f));
         transform.position = _holdPoint.position;
+        
         isGrab = true;
     }
 

@@ -101,9 +101,9 @@ public class Controller : MonoBehaviour
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
 
-        Vector3 direction = _moveDirection.x * transform.right + transform.forward * _moveDirection.z;
+        Vector3 direction = ( _moveDirection.x * transform.right + transform.forward * _moveDirection.z );
 
-        _rb.AddForce(direction * _moveSpeed);
+        _rb.AddForce(direction * _moveSpeed * Time.deltaTime);
         _rb.maxLinearVelocity = _moveSpeed;
     }
 
@@ -145,7 +145,7 @@ public class Controller : MonoBehaviour
                 _aimPoint.color = Color.red;
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom);
+                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
                 }
                 break;
 
