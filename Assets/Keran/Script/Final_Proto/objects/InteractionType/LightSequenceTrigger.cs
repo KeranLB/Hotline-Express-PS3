@@ -8,16 +8,14 @@ public class LightSequenceTrigger : MonoBehaviour
 
     private void Awake()
     {
-        // Définit cet objet comme Interactable pour le système de détection du joueur
         GetComponent<ObjectClass>().interactType = ObjectType.Interactable;
     }
 
     public void Interact()
     {
-        if (hasBeenActivated || lightManager == null) return;
+        if (hasBeenActivated) return;
 
-        Debug.Log("Interaction avec LightSequenceTrigger : activation des lumières séquentielles");
-        lightManager.StartSequentialLights();
+        lightManager.ActivateSequentialLights();
         hasBeenActivated = true;
     }
 }

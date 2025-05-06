@@ -12,7 +12,6 @@ public class TutoManager : MonoBehaviour
         {
             _controller.isLock = false;
             ecranCodeTuto.SetActive(false);
-           
         }
     }
 }

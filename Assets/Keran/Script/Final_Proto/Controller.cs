@@ -167,7 +167,7 @@ public class Controller : MonoBehaviour
                 _aimPoint.color = Color.red;
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom);
+                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
                 }
                 break;
 
