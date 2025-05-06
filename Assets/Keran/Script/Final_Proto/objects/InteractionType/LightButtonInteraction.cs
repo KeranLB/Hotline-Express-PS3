@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class LightButtonInteraction : MonoBehaviour
 {
-    [SerializeField] private LightManager _lightManager;
-    [SerializeField] private bool hasBeenActivated = false;
+    [SerializeField] private LightManager lightManager;
+    [SerializeField] private bool isFirstButton = true;
+    private bool hasBeenUsed = false;
 
     public void Interact()
     {
-        if (hasBeenActivated) return; // Empêche de relancer l'action plusieurs fois
-        Debug.Log("LightButtonInteraction : Interaction triggered");
+        if (hasBeenUsed || lightManager == null) return;
 
-        _lightManager.SwitchToSecondLight();
-        hasBeenActivated = true;
+        if (isFirstButton)
+        {
+            lightManager.SwitchToLight2();
+        }
+        else
+        {
+            lightManager.StartSequentialLights();
+        }
+
+        hasBeenUsed = true;
     }
 }

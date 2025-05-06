@@ -4,57 +4,44 @@ using UnityEngine;
 
 public class LightManager : MonoBehaviour
 {
-    [SerializeField] private Light firstLight;
-    [SerializeField] private Light secondLight;
-    [SerializeField] private List<Light> sequentialLights; // Toutes les autres lumières à allumer en cascade
+    [SerializeField] private Light light1;
+    [SerializeField] private Light light2;
+    [SerializeField] private List<Light> sequentialLights;
     [SerializeField] private float delayBetweenLights = 1.5f;
 
-    // Appelée à la fin du tuto
-    public void ActivateFirstLight()
+    private void SetLightState(Light light, bool state)
     {
-        Debug.Log(">>> ActivateFirstLight() called");
-        if (firstLight != null)
-        {
-            firstLight.enabled = true;
-            Debug.Log(">>> First light enabled");
-        }
+        if (light != null) light.enabled = state;
+    }
+    public void ActivateLight1()
+    {
+        Debug.Log("Activation de la première lumière");
+        SetLightState(light1, true);
     }
 
-
-    // Appelée après interaction au niveau de la première lumière
-    public void SwitchToSecondLight()
+    public void SwitchToLight2()
     {
-        Debug.Log(">>> SwitchToSecondLight() called");
-        if (firstLight != null) firstLight.enabled = false;
-        if (secondLight != null)
-        {
-            secondLight.enabled = true;
-            Debug.Log(">>> Second light enabled");
-        }
+        Debug.Log("Switch vers la deuxième lumière");
+        SetLightState(light1, false);
+        SetLightState(light2, true);
     }
 
-    // Appelée après interaction avec la deuxième lumière
-    public void ActivateSequentialLights()
+    public void StartSequentialLights()
     {
-        Debug.Log(">>> ActivateSequentialLights() called");
-        StartCoroutine(ActivateLightsSequentially());
+        Debug.Log("Démarrage de l'activation séquentielle des lumières");
+        StartCoroutine(ActivateLightsOneByOne());
     }
 
-    private IEnumerator ActivateLightsSequentially()
+    private IEnumerator ActivateLightsOneByOne()
     {
-        foreach (Light l in sequentialLights)
+        foreach (var l in sequentialLights)
         {
             if (l != null)
             {
                 l.enabled = true;
-                Debug.Log($">>> Light {l.name} enabled");
+                Debug.Log("Lumière activée : " + l.name);
+                yield return new WaitForSeconds(delayBetweenLights);
             }
-            else
-            {
-                Debug.LogWarning(">>> One of the sequentialLights is null!");
-            }
-
-            yield return new WaitForSeconds(delayBetweenLights);
         }
     }
 }

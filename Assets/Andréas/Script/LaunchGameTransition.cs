@@ -1,5 +1,6 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
+using TMPro; // Assure-toi d'avoir cette ligne
 
 public class LaunchGameTransition : MonoBehaviour
 {
@@ -7,12 +8,16 @@ public class LaunchGameTransition : MonoBehaviour
     public Transform playerCameraTransform;
     public GameObject player;
 
-    public GameObject windowsImage;     // Image actuelle (écran Windows)
-    public GameObject nextStepImage;    // Image suivante (suite du tuto)
+    public GameObject windowsImage;
+    public GameObject nextStepImage;
 
     public float transitionDuration = 2f;
     public float startFOV = 40f;
     public float endFOV = 60f;
+
+    [Header("Instructions UI")]
+    public TextMeshProUGUI controlsText;  // <--- Glisse ici ton TMP dans l'inspecteur
+    public float displayDuration = 5f;     // DurÃ©e d'affichage du message
 
     public void OnPlayClicked()
     {
@@ -30,7 +35,6 @@ public class LaunchGameTransition : MonoBehaviour
         float targetFOV = endFOV;
 
         uiCamera.fieldOfView = initialFOV;
-
         player.SetActive(false);
 
         Vector3 endPos = playerCameraTransform.position;
@@ -50,17 +54,30 @@ public class LaunchGameTransition : MonoBehaviour
             yield return null;
         }
 
-        // Fin de transition
         uiCamera.transform.position = endPos;
         uiCamera.transform.rotation = endRot;
         uiCamera.fieldOfView = targetFOV;
 
-        // Changement des images
         if (windowsImage != null) windowsImage.SetActive(false);
         if (nextStepImage != null) nextStepImage.SetActive(true);
 
-        // Activer le joueur et désactiver la caméra UI
         player.SetActive(true);
         uiCamera.gameObject.SetActive(false);
+
+        // âž• Active le texte d'instructions
+        if (controlsText != null)
+        {
+            controlsText.gameObject.SetActive(true);
+            StartCoroutine(HideControlsTextAfterDelay());
+        }
+    }
+
+    private IEnumerator HideControlsTextAfterDelay()
+    {
+        yield return new WaitForSeconds(displayDuration);
+        if (controlsText != null)
+        {
+            controlsText.gameObject.SetActive(false);
+        }
     }
 }

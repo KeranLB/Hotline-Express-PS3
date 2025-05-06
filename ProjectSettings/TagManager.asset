@@ -7,6 +7,7 @@ TagManager:
   - prompteur
   - Stephane
   - Box
+  - TutorialObject
   layers:
   - Default
   - TransparentFX

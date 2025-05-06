@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -33,6 +34,11 @@ public class Controller : MonoBehaviour
 
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
+
+    [Header("UI Interaction Texts")]
+    [SerializeField] private GameObject uiInteractionText;
+    [SerializeField] private GameObject uiInspectionText;
+    [SerializeField] private GameObject uiGrabText;
 
     private float _verticalRotation = 0f;
     private float _maxVerticalLook = 80f;
@@ -113,21 +119,33 @@ public class Controller : MonoBehaviour
 
     private void RaycastThrow()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
+        if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, _rayDistance))
         {
-            GameObject test = hit.collider.gameObject;
-            if (test.GetComponent<ObjectClass>() != null)
-            {
-                ObjectClass objectClass = test.GetComponent<ObjectClass>();
+            GameObject hitObject = hit.collider.gameObject;
 
-                ObjectAction(test, objectClass.interactType, hit.distance);
+            if (hitObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
+            {
+                ObjectAction(hitObject, objectClass.interactType, hit.distance);
+
+                if (hitObject.CompareTag("TutorialObject"))
+                {
+                    ShowTutorialMessage(objectClass.interactType);
+                }
+                else
+                {
+                    HideAllTutorialMessages();
+                }
             }
             else
             {
                 _aimPoint.color = Color.white;
+                HideAllTutorialMessages();
             }
+        }
+        else
+        {
+            _aimPoint.color = Color.white;
+            HideAllTutorialMessages();
         }
     }
 
@@ -162,5 +180,31 @@ public class Controller : MonoBehaviour
                 }
                 break;
         }
+    }
+    private void ShowTutorialMessage(ObjectType type)
+    {
+        uiInteractionText.SetActive(false);
+        uiInspectionText.SetActive(false);
+        uiGrabText.SetActive(false);
+
+        switch (type)
+        {
+            case ObjectType.Interactable:
+                uiInteractionText.SetActive(true);
+                break;
+            case ObjectType.Movable:
+                uiGrabText.SetActive(true);
+                break;
+            case ObjectType.Inspectable:
+                uiInspectionText.SetActive(true);
+                break;
+        }
+    }
+
+    private void HideAllTutorialMessages()
+    {
+        uiInteractionText.SetActive(false);
+        uiInspectionText.SetActive(false);
+        uiGrabText.SetActive(false);
     }
 }
