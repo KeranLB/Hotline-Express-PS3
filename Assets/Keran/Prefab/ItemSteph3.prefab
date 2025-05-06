@@ -133,7 +133,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 4724051762036837455}
   isGrab: 0
+  speedComeBack: 0
 --- !u!114 &9086245356888804450
 MonoBehaviour:
   m_ObjectHideFlags: 0

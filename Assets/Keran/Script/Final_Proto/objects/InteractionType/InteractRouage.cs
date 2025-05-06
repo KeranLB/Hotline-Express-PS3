@@ -10,20 +10,28 @@ public class InteractRouage : MonoBehaviour
     [HideInInspector] public bool isLock = false;
     private bool _isRotating;
     [SerializeField] private RotationDirection _rotationDirection;
-    [HideInInspector] public float currentRotation;
+    public float currentRotation;
     private Vector3 baseRota;
+    private Vector3 _rotaOrigine;
 
     private void Start()
     {
         baseRota = transform.localEulerAngles;
-        currentRotation = baseRota.x;
+        currentRotation = Mathf.RoundToInt(baseRota.x);
+        _target = Mathf.RoundToInt(_target);
+        _rotaOrigine = baseRota;
+
     }
 
     private void Verif()
     {
+        Debug.Log(currentRotation);
+        Debug.Log(_target);
+        Debug.Log(currentRotation == _target);
         if (currentRotation == _target)
         {
             isLock = true;
+            Debug.Log("is Lock");
         }
         else
         {
