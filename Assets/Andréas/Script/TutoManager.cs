@@ -12,7 +12,7 @@ public class TutoManager : MonoBehaviour
         {
             _controller.isLock = false;
             ecranCodeTuto.SetActive(false);
-            lightManager.ActivateLight1(); // <- Activation de la première lumière
+           
         }
     }
 }
