@@ -11,11 +11,10 @@ public enum InteractionType
 {
     Rotation,
     SpawnObject,
-    OffButton,
+    StateChange,
     MonteCharge,
     EnterCode,
-    LightButtonInteraction,
-    LightSequence,
+    FinaleEnigme,
 }
 
 public enum RotationDirection

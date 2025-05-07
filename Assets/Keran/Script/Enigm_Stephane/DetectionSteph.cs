@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class DetectionSteph : MonoBehaviour
 {
-    [Header("BoxCollider à désactiver :")]
-    [SerializeField] private List<BoxCollider> colliders = new List<BoxCollider>();
-
-    [Header("BoxCollider for Grab :")]
-    [SerializeField] private BoxCollider _boxCollider;
-
-    [Header("Other Components :")]
+    [Header("Set Components :")]
     [SerializeField] private ObjectClass _objectClass;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private int _nbObjectWaited;
@@ -22,6 +16,7 @@ public class DetectionSteph : MonoBehaviour
         _objectClass.interactType = ObjectType.Movable;
         _rb.useGravity = true;
         _rb.isKinematic = false;
+        _rb.constraints = RigidbodyConstraints.None;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -41,6 +36,4 @@ public class DetectionSteph : MonoBehaviour
             }
         }
     }
-
-    //private void 
 }
