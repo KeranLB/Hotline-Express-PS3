@@ -1,8 +1,16 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class DetectionSteph : MonoBehaviour
 {
+    [Header("BoxCollider à désactiver :")]
+    [SerializeField] private List<BoxCollider> colliders = new List<BoxCollider>();
+
+    [Header("BoxCollider for Grab :")]
+    [SerializeField] private BoxCollider _boxCollider;
+
+    [Header("Other Components :")]
     [SerializeField] private ObjectClass _objectClass;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private int _nbObjectWaited;
@@ -12,8 +20,8 @@ public class DetectionSteph : MonoBehaviour
     private void Verif()
     {
         _objectClass.interactType = ObjectType.Movable;
-        _rb.constraints = RigidbodyConstraints.None;
         _rb.useGravity = true;
+        _rb.isKinematic = false;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -21,18 +29,11 @@ public class DetectionSteph : MonoBehaviour
         {
             Grab grab = other.gameObject.GetComponent<Grab>();
             grab.DropObject();
-            other.transform.SetParent(transform);
-            Vector3 target = other.gameObject.GetComponent<ObjectData>().target.transform.position;
-            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            rb.useGravity = false;
-            rb.isKinematic = true;
-            other.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
-            other.transform.position = target;
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
+            other.gameObject.GetComponent<ObjectData>().target.transform.gameObject.SetActive(true);
+            other.gameObject.SetActive(false);
+
             _nbObject++;
-            Debug.Log(_nbObject);
-            Debug.Log(_nbObjectWaited);
+
             if (_nbObject == _nbObjectWaited)
             {
                 Verif();
@@ -40,4 +41,6 @@ public class DetectionSteph : MonoBehaviour
             }
         }
     }
+
+    //private void 
 }

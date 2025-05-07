@@ -271,6 +271,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a1f693af74d5d46a6e1072dc7bd246, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7694628450443441472}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a1f693af74d5d46a6e1072dc7bd246, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2344990264404086646}
   m_SourcePrefab: {fileID: 100100000, guid: b0a1f693af74d5d46a6e1072dc7bd246, type: 3}
 --- !u!4 &1449977038084464347 stripped
 Transform:
@@ -294,6 +297,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c245dc87621e8f4bac12de81b7525ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 4437093611043582679}
+  - {fileID: 8245597952439966624}
+  - {fileID: 3685530313514127410}
+  - {fileID: 1900817721001137426}
+  - {fileID: 7864295138460625748}
+  _boxCollider: {fileID: 2344990264404086646}
   _objectClass: {fileID: 2232638959126993703}
   _rb: {fileID: 7694628450443441472}
   _nbObjectWaited: 4
@@ -325,8 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 7694628450443441472}
   isGrab: 0
-  _colllider: {fileID: 0}
-  _objectSize: 2
+  speedComeBack: 0
 --- !u!65 &4437093611043582679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -459,3 +468,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &2344990264404086646
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2257581885856089185}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.5105632, z: 0.70004344}
+  m_Center: {x: 0, y: 0.24471994, z: 0.0021675883}
