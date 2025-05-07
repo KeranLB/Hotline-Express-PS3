@@ -24,6 +24,9 @@ public class Interaction : MonoBehaviour
             case InteractionType.FinaleEnigme:
                 gameObject.GetComponent<FinalEnigmeManager>().Interact();
                 break;
+            case InteractionType.StateChange:
+                gameObject.GetComponent<TutoManager>().Interact();
+                break;
         }
     }
 }
