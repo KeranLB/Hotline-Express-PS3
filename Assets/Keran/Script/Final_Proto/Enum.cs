@@ -14,6 +14,7 @@ public enum InteractionType
     StateChange,
     MonteCharge,
     EnterCode,
+    FinaleEnigme,
 }
 
 public enum RotationDirection
