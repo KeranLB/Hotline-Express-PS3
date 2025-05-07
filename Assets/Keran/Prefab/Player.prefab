@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 3578577768574024827}
   - component: {fileID: 9096560898694992257}
   - component: {fileID: 7526982861462641497}
-  - component: {fileID: 1714997478280662104}
   - component: {fileID: 3226792078658162033}
   - component: {fileID: 4977068925150361593}
   m_Layer: 0
@@ -156,7 +155,7 @@ Rigidbody:
   m_GameObject: {fileID: 7443359927458983235}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -174,31 +173,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!143 &1714997478280662104
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7443359927458983235}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3226792078658162033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,17 +186,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 7526982861462641497}
-  _camera: {fileID: 0}
-  _targetCamera: {fileID: 0}
-  _holdPoint: {fileID: 0}
+  _camera: {fileID: 1454902759105263400}
+  _targetCamera: {fileID: 3896474140631108082}
+  _holdPoint: {fileID: 8722914349394583670}
+  _aimPoint: {fileID: 0}
   _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _interactBis: {fileID: -4480554188412710622, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _zoom: {fileID: -2529592550516788070, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _tipToe: {fileID: 0}
+  _crouch: {fileID: 0}
   _moveSpeed: 7
   _sensitivity: 0.1
-  _rayDistance: 28
+  _rayDistance: 4
   canMove: 1
+  canInspect: 1
 --- !u!114 &4977068925150361593
 MonoBehaviour:
   m_ObjectHideFlags: 0

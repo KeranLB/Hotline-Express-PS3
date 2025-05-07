@@ -10,19 +10,25 @@ public class Interaction : MonoBehaviour
         switch (_interactionType)
         {
             case InteractionType.EnterCode :
-                // get script and call launch fonction
+                gameObject.GetComponent<EnterCode>().Interact();
                 break;
             case InteractionType.SpawnObject:
-                // get script and call launch fonction
-                break;
-            case InteractionType.OpenUI:
-                // get script and call launch fonction
-                break;
-            case InteractionType.StateChange:
-                // get script and call launch fonction
+                gameObject.GetComponent<SpawnObject>().Interact();
                 break;
             case InteractionType.Rotation:
                 gameObject.GetComponent<InteractRouage>().Interact();
+                break;
+            case InteractionType.MonteCharge:
+                gameObject.GetComponent<InteractMonteCharge>().Interact();
+                break;
+            case InteractionType.OffButton:
+                gameObject.GetComponent<TutoManager>().Interact();
+                break;
+            case InteractionType.LightButtonInteraction:
+                gameObject.GetComponent<LightButtonInteraction>().Interact();
+                break;
+            case InteractionType.LightSequence:
+                gameObject.GetComponent<LightSequenceTrigger>().Interact();
                 break;
         }
     }

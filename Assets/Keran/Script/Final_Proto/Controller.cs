@@ -2,6 +2,8 @@ using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -10,11 +12,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
+    [SerializeField] private Image _aimPoint;
 
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
+    [SerializeField] private InputActionReference _interactBis;
     [SerializeField] private InputActionReference _zoom;
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
@@ -31,11 +35,17 @@ public class Controller : MonoBehaviour
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
 
+    [Header("UI Interaction Texts")]
+    [SerializeField] private GameObject uiInteractionText;
+    [SerializeField] private GameObject uiInspectionText;
+    [SerializeField] private GameObject uiGrabText;
+
     private float _verticalRotation = 0f;
     private float _maxVerticalLook = 80f;
 
     [HideInInspector] public bool canMove = true;
-
+    [HideInInspector] public bool canInspect = true;
+    public bool isLock = true;
 
 
 
@@ -49,8 +59,11 @@ public class Controller : MonoBehaviour
     {
         if (canMove)
         {
+            if (!isLock)
+            {
+                Move();
+            }
             Look();
-            Move();
             RaycastThrow();
         }
     }
@@ -97,26 +110,42 @@ public class Controller : MonoBehaviour
     void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
+
         Vector3 direction = _moveDirection.x * transform.right + transform.forward * _moveDirection.z;
+
         _rb.AddForce(direction * _moveSpeed);
         _rb.maxLinearVelocity = _moveSpeed;
     }
 
     private void RaycastThrow()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
+        if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, _rayDistance))
         {
-            GameObject test = hit.collider.gameObject;
-            if (test.GetComponent<ObjectClass>() != null)
+            GameObject hitObject = hit.collider.gameObject;
+
+            if (hitObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
             {
-                ObjectClass objectClass = test.GetComponent<ObjectClass>();
+                ObjectAction(hitObject, objectClass.interactType, hit.distance);
 
-                // modification UI et outline
-
-                ObjectAction(test, objectClass.interactType, hit.distance);
+                if (hitObject.CompareTag("TutorialObject"))
+                {
+                    ShowTutorialMessage(objectClass.interactType);
+                }
+                else
+                {
+                    HideAllTutorialMessages();
+                }
             }
+            else
+            {
+                _aimPoint.color = Color.white;
+                HideAllTutorialMessages();
+            }
+        }
+        else
+        {
+            _aimPoint.color = Color.white;
+            HideAllTutorialMessages();
         }
     }
 
@@ -126,6 +155,7 @@ public class Controller : MonoBehaviour
         {
             case ObjectType.Interactable :
                 Interaction interaction = target.GetComponent<Interaction>();
+                _aimPoint.color = Color.green;
                 if (_interact.action.WasPressedThisFrame())
                 {
                     interaction.Interact();
@@ -134,19 +164,47 @@ public class Controller : MonoBehaviour
 
             case ObjectType.Movable :
                 Grab grab = target.GetComponent<Grab>();
+                _aimPoint.color = Color.red;
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom);
+                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
                 }
                 break;
 
             case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
-                if (_interact.action.WasPressedThisFrame())
+                _aimPoint.color = Color.blue;
+                if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, this);
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;
         }
+    }
+    private void ShowTutorialMessage(ObjectType type)
+    {
+        uiInteractionText.SetActive(false);
+        uiInspectionText.SetActive(false);
+        uiGrabText.SetActive(false);
+
+        switch (type)
+        {
+            case ObjectType.Interactable:
+                uiInteractionText.SetActive(true);
+                break;
+            case ObjectType.Movable:
+                uiGrabText.SetActive(true);
+                break;
+            case ObjectType.Inspectable:
+                uiInspectionText.SetActive(true);
+                break;
+        }
+    }
+
+    private void HideAllTutorialMessages()
+    {
+        uiInteractionText.SetActive(false);
+        uiInspectionText.SetActive(false);
+        uiGrabText.SetActive(false);
     }
 }

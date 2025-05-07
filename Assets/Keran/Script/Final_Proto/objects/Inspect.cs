@@ -1,87 +1,92 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Inspect : MonoBehaviour
 {
-    [SerializeField] private float _rotationSpeed = 100f;
-
     private InputActionReference _rotate;
+    private Vector3 _rotateValue;
     private InputActionReference _interact;
-    private Transform _holdPoint;
-    private Transform _originalParent;
-    private Vector3 _originalPosition;
-    private Quaternion _originalRotation;
+    private InputActionReference _release;
+    private Controller _controller;
+    [HideInInspector] public bool isInspect;
+    public Vector3 _originPosition;
+    private Vector3 _originRotation;
 
-    private Controller _playerController;
+    [SerializeField] private float _minDistance;
 
-    private bool _isInspecting = false;
+    [SerializeField,Range(0,500)] private float _rotationSpeed;
+    private Transform _camera;
+    private bool _canRelease;
+
+    private void Start()
+    {
+        _originPosition = transform.position;
+        _originRotation = transform.eulerAngles;
+    }
 
     private void Update()
     {
-        if (_isInspecting)
+        if (isInspect)
         {
-            RotateObject();
-
-            if (_interact.action.WasReleasedThisFrame())
+            if (_interact.action.IsPressed())
             {
-                StopInspect();
+                ObjectRotation();
+            }
+
+            if (_canRelease && _release.action.WasPressedThisFrame())
+            {
+                StartCoroutine(StopInspect());
             }
         }
     }
-    private Transform _cameraTransform;
 
-    public void StartInspect(Transform cameraTransform, Transform holdPoint, InputActionReference rotateAction, InputActionReference interactAction, Controller controller)
+    public void StartInspect(Transform camera, Transform holdPoint,InputActionReference rotation, InputActionReference interact, InputActionReference release, Controller controller, float distance)
     {
-        _cameraTransform = cameraTransform;
-        _rotate = rotateAction;
-        _interact = interactAction;
-        _holdPoint = holdPoint;
-        _playerController = controller;
-
-        // Save state
-        _originalParent = transform.parent;
-        _originalPosition = transform.position;
-        _originalRotation = transform.rotation;
-
-        // Prepare object
-        transform.parent = cameraTransform;
+        transform.parent = camera;
         transform.position = holdPoint.position;
-        transform.rotation = Quaternion.identity;
-
-        if (TryGetComponent<Rigidbody>(out var rb))
+        if (distance < _minDistance)
         {
-            rb.isKinematic = true;
-            rb.useGravity = false;
+            transform.parent.parent.localPosition -= transform.parent.parent.forward * (_minDistance - distance);
         }
-
-        _playerController.canMove = false;
-        _isInspecting = true;
+        _camera = camera;
+        _rotate = rotation;
+        _interact = interact;
+        _release = release;
+        _controller = controller;
+        isInspect = true;
+        _controller.canMove = false;
+        _controller.canInspect = false;
+        StartCoroutine(DelayClick());
     }
 
-    private void StopInspect()
+    IEnumerator DelayClick()
     {
-        transform.parent = _originalParent;
-        transform.position = _originalPosition;
-        transform.rotation = _originalRotation;
-
-        if (TryGetComponent<Rigidbody>(out var rb))
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-        }
-
-        _playerController.canMove = true;
-        _isInspecting = false;
+        yield return new WaitForEndOfFrame();
+        _canRelease = true;
     }
 
-    private void RotateObject()
+    private void ObjectRotation()
     {
-        Vector2 rotationInput = _rotate.action.ReadValue<Vector3>();
-        float rotX = rotationInput.y * _rotationSpeed * Time.deltaTime;
-        float rotY = -rotationInput.x * _rotationSpeed * Time.deltaTime;
+        _rotateValue = _rotate.action.ReadValue<Vector3>();
+
+        float rotX = _rotateValue.y * _rotationSpeed * Time.deltaTime;
+        float rotY = _rotateValue.x * _rotationSpeed * Time.deltaTime;
 
         // Rotation par rapport à l'orientation de la caméra
-        transform.Rotate(_cameraTransform.right, rotX, Space.World);
+        transform.Rotate(_camera.right, rotX, Space.World);
         transform.Rotate(Vector3.up, rotY, Space.World); // Ici on garde un axe global Y pour éviter des dérives
+    }
+
+    IEnumerator StopInspect()
+    {
+        transform.parent = null;
+        transform.eulerAngles = _originRotation;
+        transform.position = _originPosition;
+        isInspect = false;
+        _canRelease = false;
+        _controller.canMove = true;
+        yield return new WaitForEndOfFrame();
+        _controller.canInspect = true;
     }
 }

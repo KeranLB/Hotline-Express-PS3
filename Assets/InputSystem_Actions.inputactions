@@ -1048,6 +1048,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "InteractBis",
+                    "type": "Button",
+                    "id": "d2bc155e-dd94-4c0d-81a8-2723f0847f2e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1268,6 +1277,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17dca96f-687e-404c-ac1c-82a6794d3844",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractBis",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
