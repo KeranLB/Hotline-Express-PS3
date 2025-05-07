@@ -15,6 +15,8 @@ public enum InteractionType
     MonteCharge,
     EnterCode,
     FinaleEnigme,
+    ActivateLight,
+    LightSequence,
 }
 
 public enum RotationDirection

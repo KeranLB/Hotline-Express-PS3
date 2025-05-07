@@ -12,6 +12,7 @@ public class LightManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float delayBetweenLights = 1.5f;
 
+   
     public void ActivateFirstLight()
     {
         if (firstLight != null)
