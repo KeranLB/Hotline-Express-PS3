@@ -103,7 +103,7 @@ public class Controller : MonoBehaviour
 
         Vector3 direction = ( _moveDirection.x * transform.right + transform.forward * _moveDirection.z );
 
-        _rb.AddForce(direction * _moveSpeed, ForceMode.Acceleration);
+        _rb.AddForce(direction * _moveSpeed * 1000 * Time.deltaTime, ForceMode.Acceleration);
         _rb.maxLinearVelocity = _moveSpeed;
     }
 
@@ -157,6 +157,28 @@ public class Controller : MonoBehaviour
                     inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
+        {
+            if (objectClass.interactType == ObjectType.Movable)
+            {
+                other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
+        {
+            if (objectClass.interactType == ObjectType.Movable)
+            {
+                other.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
     }
 }
