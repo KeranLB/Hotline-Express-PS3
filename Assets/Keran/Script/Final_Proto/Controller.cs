@@ -10,7 +10,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
-    [HideInInspector] public Grab grab;
+    public Grab grab;
 
     [Header("Aim Point UI :")]
     public Image aimPoint;
@@ -21,9 +21,9 @@ public class Controller : MonoBehaviour
     [SerializeField] private Sprite _noneSprite;
 
     [Header("Text Tuto UI :")]
-    [SerializeField] private TextMeshPro _interactText;
-    [SerializeField] private TextMeshPro _inspectText;
-    [SerializeField] private TextMeshPro _grabText;
+    [SerializeField] private TextMeshProUGUI _interactText;
+    [SerializeField] private TextMeshProUGUI _inspectText;
+    [SerializeField] private TextMeshProUGUI _grabText;
 
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
