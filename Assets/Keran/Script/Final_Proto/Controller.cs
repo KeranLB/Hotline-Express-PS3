@@ -1,5 +1,4 @@
-using NUnit.Framework.Internal;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,7 +10,20 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
-    [SerializeField] private Image _aimPoint;
+    [HideInInspector] public Grab grab;
+
+    [Header("Aim Point UI :")]
+    public Image aimPoint;
+    public Sprite grabSprite;
+    [SerializeField] private Sprite _grabSpriteOuvert;
+    [SerializeField] private Sprite _interactSprite;
+    [SerializeField] private Sprite _inspectSprite;
+    [SerializeField] private Sprite _noneSprite;
+
+    [Header("Text Tuto UI :")]
+    [SerializeField] private TextMeshPro _interactText;
+    [SerializeField] private TextMeshPro _inspectText;
+    [SerializeField] private TextMeshPro _grabText;
 
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
@@ -39,6 +51,8 @@ public class Controller : MonoBehaviour
 
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool canInspect = true;
+    [HideInInspector] public bool isLock = true;
+    [HideInInspector] public bool isInTuto = true;
 
 
 
@@ -46,13 +60,20 @@ public class Controller : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        _grabText.enabled = false;
+        _inspectText.enabled = false;
+        _interactText.enabled = false;
     }
 
     private void Update()
     {
         if (canMove)
         {
-            Move();
+            if (isLock)
+            {
+                Move();
+            }
             Look();
             RaycastThrow();
         }
@@ -120,10 +141,20 @@ public class Controller : MonoBehaviour
 
                 ObjectAction(test, objectClass.interactType, hit.distance);
             }
-            else
+            else if(!grab.isGrab)
             {
-                _aimPoint.color = Color.white;
+                _grabText.enabled = false;
+                _interactText.enabled = false;
+                _inspectText.enabled = false;
+                aimPoint.sprite = _noneSprite;
             }
+        }
+        else if(!grab.isGrab)
+        {
+            _grabText.enabled = false;
+            _interactText.enabled = false;
+            _inspectText.enabled = false;
+            aimPoint.sprite = _noneSprite;
         }
     }
 
@@ -133,7 +164,13 @@ public class Controller : MonoBehaviour
         {
             case ObjectType.Interactable :
                 Interaction interaction = target.GetComponent<Interaction>();
-                _aimPoint.color = Color.green;
+                aimPoint.sprite = _interactSprite;
+                if (isInTuto)
+                {
+                    _interactText.enabled = true;
+                    _inspectText.enabled = false;
+                    _grabText.enabled = false;
+                }
                 if (_interact.action.WasPressedThisFrame())
                 {
                     interaction.Interact();
@@ -142,7 +179,16 @@ public class Controller : MonoBehaviour
 
             case ObjectType.Movable :
                 Grab grab = target.GetComponent<Grab>();
-                _aimPoint.color = Color.red;
+                if (isInTuto)
+                {
+                    _grabText.enabled = true;
+                    _inspectText.enabled = false;
+                    _interactText.enabled = false;
+                }
+                if (!grab.isGrab)
+                {
+                aimPoint.sprite = _grabSpriteOuvert;
+                }
                 if (_interact.action.WasPressedThisFrame())
                 {
                     grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
@@ -151,34 +197,18 @@ public class Controller : MonoBehaviour
 
             case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
-                _aimPoint.color = Color.blue;
+                if (isInTuto)
+                {
+                    _inspectText.enabled = true;
+                    _interactText.enabled = false;
+                    _grabText.enabled = false;
+                }
+                aimPoint.sprite = _inspectSprite;
                 if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
                     inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
-        {
-            if (objectClass.interactType == ObjectType.Movable)
-            {
-                other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
-        {
-            if (objectClass.interactType == ObjectType.Movable)
-            {
-                other.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            }
         }
     }
 }
