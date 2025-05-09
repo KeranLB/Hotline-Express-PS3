@@ -3,7 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -35,18 +34,11 @@ public class Controller : MonoBehaviour
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
 
-    [Header("UI Interaction Texts")]
-    [SerializeField] private GameObject uiInteractionText;
-    [SerializeField] private GameObject uiInspectionText;
-    [SerializeField] private GameObject uiGrabText;
-
     private float _verticalRotation = 0f;
     private float _maxVerticalLook = 80f;
 
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool canInspect = true;
-    public bool isLock = true;
-    public bool isInTuto = true;
 
 
 
@@ -60,10 +52,7 @@ public class Controller : MonoBehaviour
     {
         if (canMove)
         {
-            if (!isLock)
-            {
-                Move();
-            }
+            Move();
             Look();
             RaycastThrow();
         }
@@ -112,39 +101,29 @@ public class Controller : MonoBehaviour
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
 
-        Vector3 direction = _moveDirection.x * transform.right + transform.forward * _moveDirection.z;
+        Vector3 direction = ( _moveDirection.x * transform.right + transform.forward * _moveDirection.z );
 
-        _rb.AddForce(direction * _moveSpeed * 1000 * Time.deltaTime);
+        _rb.AddForce(direction * _moveSpeed * 1000 * Time.deltaTime, ForceMode.Acceleration);
         _rb.maxLinearVelocity = _moveSpeed;
     }
 
     private void RaycastThrow()
     {
-        uiInteractionText.SetActive(false);
-        uiInspectionText.SetActive(false);
-        uiGrabText.SetActive(false);
-        if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, _rayDistance))
-        {
-            GameObject hitObject = hit.collider.gameObject;
+        RaycastHit hit;
 
-            if (hitObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
+        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
+        {
+            GameObject test = hit.collider.gameObject;
+            if (test.GetComponent<ObjectClass>() != null)
             {
-                ObjectAction(hitObject, objectClass.interactType, hit.distance);
+                ObjectClass objectClass = test.GetComponent<ObjectClass>();
+
+                ObjectAction(test, objectClass.interactType, hit.distance);
             }
             else
             {
                 _aimPoint.color = Color.white;
-                uiInteractionText.SetActive(false);
-                uiInspectionText.SetActive(false);
-                uiGrabText.SetActive(false);
             }
-        }
-        else
-        {
-            _aimPoint.color = Color.white;
-            uiInteractionText.SetActive(false);
-            uiInspectionText.SetActive(false);
-            uiGrabText.SetActive(false);
         }
     }
 
@@ -155,12 +134,6 @@ public class Controller : MonoBehaviour
             case ObjectType.Interactable :
                 Interaction interaction = target.GetComponent<Interaction>();
                 _aimPoint.color = Color.green;
-                if (isInTuto)
-                {
-                    uiInteractionText.SetActive(true);
-                    uiInspectionText.SetActive(false);
-                    uiGrabText.SetActive(false);
-                }
                 if (_interact.action.WasPressedThisFrame())
                 {
                     interaction.Interact();
@@ -170,12 +143,6 @@ public class Controller : MonoBehaviour
             case ObjectType.Movable :
                 Grab grab = target.GetComponent<Grab>();
                 _aimPoint.color = Color.red;
-                if (isInTuto)
-                {
-                    uiGrabText.SetActive(true);
-                    uiInteractionText.SetActive(false);
-                    uiInspectionText.SetActive(false);
-                }
                 if (_interact.action.WasPressedThisFrame())
                 {
                     grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
@@ -185,12 +152,6 @@ public class Controller : MonoBehaviour
             case ObjectType.Inspectable :
                 Inspect inspect = target.GetComponent<Inspect>();
                 _aimPoint.color = Color.blue;
-                if (isInTuto)
-                {
-                    uiInspectionText.SetActive(true);
-                    uiInteractionText.SetActive(false);
-                    uiGrabText.SetActive(false);
-                }
                 if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
                     inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
@@ -199,49 +160,25 @@ public class Controller : MonoBehaviour
         }
     }
 
-    /*
-     
-                    if (hitObject.CompareTag("TutorialObject"))
-                {
-                    ShowTutorialMessage(objectClass.interactType);
-                }
-                else
-                {
-                    HideAllTutorialMessages();
-                }
-            }
-            else
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
+        {
+            if (objectClass.interactType == ObjectType.Movable)
             {
-                _aimPoint.color = Color.white;
-                HideAllTutorialMessages();
+                other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
-        else
-        {
-            _aimPoint.color = Color.white;
-            HideAllTutorialMessages();
+    }
 
-
-    private void ShowTutorialMessage(ObjectType type)
+    private void OnTriggerExit(Collider other)
     {
-
-
-        switch (type)
+        if (other.gameObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
         {
-            case ObjectType.Interactable:
-                break;
-            case ObjectType.Movable:
-                break;
-            case ObjectType.Inspectable:
-                break;
+            if (objectClass.interactType == ObjectType.Movable)
+            {
+                other.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
     }
-
-    private void HideAllTutorialMessages()
-    {
-        uiInteractionText.SetActive(false);
-        uiInspectionText.SetActive(false);
-        uiGrabText.SetActive(false);
-    }
-    */
 }
