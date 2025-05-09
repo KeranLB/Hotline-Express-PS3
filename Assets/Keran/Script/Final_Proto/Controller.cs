@@ -10,7 +10,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
-    [HideInInspector] public Grab grab;
+    public Grab grab;
 
     [Header("Aim Point UI :")]
     public Image aimPoint;
@@ -21,9 +21,9 @@ public class Controller : MonoBehaviour
     [SerializeField] private Sprite _noneSprite;
 
     [Header("Text Tuto UI :")]
-    [SerializeField] private TextMeshPro _interactText;
-    [SerializeField] private TextMeshPro _inspectText;
-    [SerializeField] private TextMeshPro _grabText;
+    [SerializeField] private TextMeshProUGUI _interactText;
+    [SerializeField] private TextMeshProUGUI _inspectText;
+    [SerializeField] private TextMeshProUGUI _grabText;
 
     [Header("control mapping :")]
     [SerializeField] private InputActionReference _look;
@@ -34,6 +34,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
 
+    [Header("Stance Settings")]
+    [SerializeField] private float defaultCamHeight = 1.75f;
+    [SerializeField] private float crouchCamHeight = 1.2f;
+    [SerializeField] private float tipToeCamHeight = 2.0f;
+    [SerializeField] private float camLerpSpeed = 5f;
+
+    private float _targetCamHeight;
     private Vector3 _moveDirection;
     private Vector3 _lookDirection;
 
@@ -56,7 +63,7 @@ public class Controller : MonoBehaviour
 
 
 
-    public void Start()
+    void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -64,17 +71,23 @@ public class Controller : MonoBehaviour
         _grabText.enabled = false;
         _inspectText.enabled = false;
         _interactText.enabled = false;
+
+        _targetCamHeight = defaultCamHeight;
+        Vector3 camLocalPos = _camera.localPosition;
+        camLocalPos.y = defaultCamHeight;
+        _camera.localPosition = camLocalPos;
     }
 
     private void Update()
     {
         if (canMove)
         {
-            if (isLock)
+            if (!isLock)
             {
                 Move();
             }
             Look();
+            HandleStance();
             RaycastThrow();
         }
     }
@@ -93,29 +106,25 @@ public class Controller : MonoBehaviour
         transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
     }
 
-    private void TipToe()
+    private void HandleStance()
     {
-        if (_tipToe.action.WasPressedThisFrame())
+        if (_tipToe.action.IsPressed())
         {
-            _camera.position += new Vector3(0f, 2f, 0f);
+            _targetCamHeight = tipToeCamHeight;
         }
-        if (_tipToe.action.WasReleasedThisFrame())
+        else if (_crouch.action.IsPressed())
         {
-            _camera.position -= new Vector3(0f, 2f, 0f);
+            _targetCamHeight = crouchCamHeight;
+        }
+        else
+        {
+            _targetCamHeight = defaultCamHeight;
+        }
 
-        }
-    }
-
-    private void Crouch()
-    {
-        if (_crouch.action.WasPressedThisFrame())
-        {
-            _camera.position -= new Vector3(0f, 2f, 0f);
-        }
-        if (_crouch.action.WasReleasedThisFrame())
-        {
-            _camera.position += new Vector3(0f, 2f, 0f);
-        }
+        // Lerp la caméra pour éviter des mouvements brusques
+        Vector3 camLocalPos = _camera.localPosition;
+        camLocalPos.y = Mathf.Lerp(camLocalPos.y, _targetCamHeight, Time.deltaTime * camLerpSpeed);
+        _camera.localPosition = camLocalPos;
     }
 
     void Move()
