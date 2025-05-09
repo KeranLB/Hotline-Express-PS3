@@ -46,6 +46,7 @@ public class Controller : MonoBehaviour
     [HideInInspector] public bool canMove = true;
     [HideInInspector] public bool canInspect = true;
     public bool isLock = true;
+    public bool isInTuto = true;
 
 
 
@@ -119,6 +120,9 @@ public class Controller : MonoBehaviour
 
     private void RaycastThrow()
     {
+        uiInteractionText.SetActive(false);
+        uiInspectionText.SetActive(false);
+        uiGrabText.SetActive(false);
         if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, _rayDistance))
         {
             GameObject hitObject = hit.collider.gameObject;
@@ -126,8 +130,78 @@ public class Controller : MonoBehaviour
             if (hitObject.TryGetComponent<ObjectClass>(out ObjectClass objectClass))
             {
                 ObjectAction(hitObject, objectClass.interactType, hit.distance);
+            }
+            else
+            {
+                _aimPoint.color = Color.white;
+                uiInteractionText.SetActive(false);
+                uiInspectionText.SetActive(false);
+                uiGrabText.SetActive(false);
+            }
+        }
+        else
+        {
+            _aimPoint.color = Color.white;
+            uiInteractionText.SetActive(false);
+            uiInspectionText.SetActive(false);
+            uiGrabText.SetActive(false);
+        }
+    }
 
-                if (hitObject.CompareTag("TutorialObject"))
+    private void ObjectAction(GameObject target, ObjectType interactType, float distance)
+    {
+        switch (interactType)
+        {
+            case ObjectType.Interactable :
+                Interaction interaction = target.GetComponent<Interaction>();
+                _aimPoint.color = Color.green;
+                if (isInTuto)
+                {
+                    uiInteractionText.SetActive(true);
+                    uiInspectionText.SetActive(false);
+                    uiGrabText.SetActive(false);
+                }
+                if (_interact.action.WasPressedThisFrame())
+                {
+                    interaction.Interact();
+                }
+                break;
+
+            case ObjectType.Movable :
+                Grab grab = target.GetComponent<Grab>();
+                _aimPoint.color = Color.red;
+                if (isInTuto)
+                {
+                    uiGrabText.SetActive(true);
+                    uiInteractionText.SetActive(false);
+                    uiInspectionText.SetActive(false);
+                }
+                if (_interact.action.WasPressedThisFrame())
+                {
+                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
+                }
+                break;
+
+            case ObjectType.Inspectable :
+                Inspect inspect = target.GetComponent<Inspect>();
+                _aimPoint.color = Color.blue;
+                if (isInTuto)
+                {
+                    uiInspectionText.SetActive(true);
+                    uiInteractionText.SetActive(false);
+                    uiGrabText.SetActive(false);
+                }
+                if (canInspect && _interactBis.action.WasPressedThisFrame())
+                {
+                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
+                }
+                break;
+        }
+    }
+
+    /*
+     
+                    if (hitObject.CompareTag("TutorialObject"))
                 {
                     ShowTutorialMessage(objectClass.interactType);
                 }
@@ -146,57 +220,19 @@ public class Controller : MonoBehaviour
         {
             _aimPoint.color = Color.white;
             HideAllTutorialMessages();
-        }
-    }
 
-    private void ObjectAction(GameObject target, ObjectType interactType, float distance)
-    {
-        switch (interactType)
-        {
-            case ObjectType.Interactable :
-                Interaction interaction = target.GetComponent<Interaction>();
-                _aimPoint.color = Color.green;
-                if (_interact.action.WasPressedThisFrame())
-                {
-                    interaction.Interact();
-                }
-                break;
 
-            case ObjectType.Movable :
-                Grab grab = target.GetComponent<Grab>();
-                _aimPoint.color = Color.red;
-                if (_interact.action.WasPressedThisFrame())
-                {
-                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
-                }
-                break;
-
-            case ObjectType.Inspectable :
-                Inspect inspect = target.GetComponent<Inspect>();
-                _aimPoint.color = Color.blue;
-                if (canInspect && _interactBis.action.WasPressedThisFrame())
-                {
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
-                }
-                break;
-        }
-    }
     private void ShowTutorialMessage(ObjectType type)
     {
-        uiInteractionText.SetActive(false);
-        uiInspectionText.SetActive(false);
-        uiGrabText.SetActive(false);
+
 
         switch (type)
         {
             case ObjectType.Interactable:
-                uiInteractionText.SetActive(true);
                 break;
             case ObjectType.Movable:
-                uiGrabText.SetActive(true);
                 break;
             case ObjectType.Inspectable:
-                uiInspectionText.SetActive(true);
                 break;
         }
     }
@@ -207,4 +243,5 @@ public class Controller : MonoBehaviour
         uiInspectionText.SetActive(false);
         uiGrabText.SetActive(false);
     }
+    */
 }
