@@ -11,7 +11,6 @@ public class TutoManager : MonoBehaviour
     {
         if (_codeManager.isCorrect)
         {
-            Debug.Log("Test");
             _controller.isLock = false;
             _controller.isInTuto = false;
             ecranCodeTuto.SetActive(false);

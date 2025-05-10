@@ -1,58 +1,58 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class CodeManager : MonoBehaviour
 {
-    [SerializeField] private string _finalCode;
-    [HideInInspector] public string currentCode;
+    [SerializeField] private string finalCode;
+    [HideInInspector] public List<int> currentCode;
+    [HideInInspector] public string verifStringCurrentCode;
+    [HideInInspector] public string stringCurrentCode;
     [HideInInspector] public bool isCorrect = false;
     [SerializeField] private TextMeshPro text;
 
-    [Header("UI Texts (optionnel)")]
-    [SerializeField] private TextMeshPro messageText;  // 3D TextMeshPro dans la scène;
-    [SerializeField] private string defaultMessage = "Entrez le code.";
-    [SerializeField] private string correctMessage = "Code correct !";
-    [SerializeField] private string incorrectMessage = "Code incorrect.";
-
     private void Start()
     {
-        if (messageText != null)
-            messageText.text = defaultMessage;
+        text.text = "_ _ _ _ ";
     }
-
     public void AddToCode(int newValue)
     {
-        if (!isCorrect && currentCode.Length < 4)
+        if (!isCorrect && currentCode.Count < 4)
         {
-            currentCode += newValue.ToString();
-            text.text = currentCode;
-
-            if (currentCode.Length == 4)
+            currentCode.Add(newValue);
+            stringCurrentCode = "";
+            foreach (int code in currentCode)
             {
-                StartCoroutine(VerifCode());
+                stringCurrentCode += code.ToString() + " ";
             }
+            verifStringCurrentCode += newValue.ToString();
+            for (int code = currentCode.Count; code < 4; code++)
+            {
+                stringCurrentCode += "_ ";
+            }
+            text.text = stringCurrentCode;
+            StartCoroutine(VerifCode());
         }
     }
 
     IEnumerator VerifCode()
     {
         yield return new WaitForSeconds(1);
-
-        if (currentCode == _finalCode)
+        if (currentCode.Count == 4)
         {
-            isCorrect = true;
-            text.text = "Correct";
-            if (messageText != null) messageText.text = correctMessage;
-        }
-        else
-        {
-            text.text = "False";
-            if (messageText != null) messageText.text = incorrectMessage;
-            yield return new WaitForSeconds(1);
-            currentCode = "";
-            text.text = "";
-            if (messageText != null) messageText.text = defaultMessage;
+            if (verifStringCurrentCode == finalCode)
+            {
+                isCorrect = true;
+                text.text = "correct";
+            }
+            else
+            {
+                verifStringCurrentCode = "";
+                currentCode.Clear();
+                stringCurrentCode = "_ _ _ _ ";
+                text.text = stringCurrentCode;
+            }
         }
     }
 }

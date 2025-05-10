@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FinalEnigmeManager : MonoBehaviour
 {
+    [Header("Set PanelManager :")]
+    [SerializeField] private PanelFinalManager panelFinalManager;
+    [SerializeField] private MeshManager _meshManager;
     [Header("Rouages crypté :")]
     [SerializeField] private List<InteractRouage> _rouages;
 
@@ -13,28 +16,32 @@ public class FinalEnigmeManager : MonoBehaviour
     public bool isFinish = false;
 
     public void Interact()
-    {   
-        if (!_isComplet)
+    {
+        if (panelFinalManager.isComplet)
         {
-            _isComplet = true;
-            foreach (var code in _codes)
-            {
-                if (!code.isLock)
-                {
-                    Debug.Log(code.isLock);
-                    _isComplet = false;
-                }
-            }
             if (!_isComplet)
             {
-                foreach (var rouage in _rouages)
+                _isComplet = true;
+                foreach (var code in _codes)
                 {
-                    rouage.Interact();
+                    if (!code.isLock)
+                    {
+                        Debug.Log(code.isLock);
+                        _isComplet = false;
+                    }
                 }
-            }
-            else
-            {
-                isFinish = true;
+                if (!_isComplet)
+                {
+                    foreach (var rouage in _rouages)
+                    {
+                        rouage.Interact();
+                    }
+                }
+                else
+                {
+                    isFinish = true;
+                    _meshManager.Open();
+                }
             }
         }
     }

@@ -46,7 +46,6 @@ public class MonteCharge : MonoBehaviour
 
     IEnumerator Travel(Transform startPoint, Transform endPoint)
     {
-        Debug.Log("est dans la coroutine");
         float t = 0f;
         while (t < 1f)
         {
@@ -68,7 +67,6 @@ public class MonteCharge : MonoBehaviour
         {
             _boxIsIn = true;
             _box = other.gameObject;
-            Debug.Log("est dans le monte charge");
         }
     }
 }
