@@ -19,6 +19,8 @@ public class MonteCharge : MonoBehaviour
     [HideInInspector] public bool valide = false;
     private float poseZ;
 
+    [SerializeField] private BoxCollider _boxCollider;
+
     private void Start()
     {
         _door.transform.position = _openPoint.position;
@@ -37,13 +39,13 @@ public class MonteCharge : MonoBehaviour
     {
         _box.SetActive(false);
         _rouage.SetActive(true);
+        _boxCollider.enabled = false;
         _asSwitch = true;
         StartCoroutine(Travel(_closedPoint, _openPoint));
     }
 
     IEnumerator Travel(Transform startPoint, Transform endPoint)
     {
-        Debug.Log("est dans la coroutine");
         float t = 0f;
         while (t < 1f)
         {
@@ -65,7 +67,6 @@ public class MonteCharge : MonoBehaviour
         {
             _boxIsIn = true;
             _box = other.gameObject;
-            Debug.Log("est dans le monte charge");
         }
     }
 }
