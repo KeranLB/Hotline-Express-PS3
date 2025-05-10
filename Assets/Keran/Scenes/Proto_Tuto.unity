@@ -23590,6 +23590,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonteCharge
       objectReference: {fileID: 0}
+    - target: {fileID: 4314468977743191498, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4469408553651818501, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: _rouage
       value: 
@@ -23631,12 +23635,20 @@ PrefabInstance:
       value: 0.3422004
       objectReference: {fileID: 0}
     - target: {fileID: 6243589691972866485, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.1198022
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243589691972866485, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.62
       objectReference: {fileID: 0}
     - target: {fileID: 6243589691972866485, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.29
+      value: -1.575
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243589691972866485, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.166
       objectReference: {fileID: 0}
     - target: {fileID: 6243589691972866485, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23728,11 +23740,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7670683237809267739, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.25733185
+      value: -0.166
       objectReference: {fileID: 0}
     - target: {fileID: 9019328715707020503, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.356
+      value: 0.293
       objectReference: {fileID: 0}
     - target: {fileID: 9019328715707020503, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23740,7 +23752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9019328715707020503, guid: 9e5289968193533408715d90f4cd56d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.04
+      value: -1.377
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
