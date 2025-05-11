@@ -21,10 +21,13 @@ public class Interaction : MonoBehaviour
             case InteractionType.MonteCharge:
                 gameObject.GetComponent<InteractMonteCharge>().Interact();
                 break;
-            case InteractionType.OffButton:
+            case InteractionType.FinaleEnigme:
+                gameObject.GetComponent<FinalEnigmeManager>().Interact();
+                break;
+            case InteractionType.StateChange:
                 gameObject.GetComponent<TutoManager>().Interact();
                 break;
-            case InteractionType.LightButtonInteraction:
+            case InteractionType.ActivateLight:
                 gameObject.GetComponent<LightButtonInteraction>().Interact();
                 break;
             case InteractionType.LightSequence:

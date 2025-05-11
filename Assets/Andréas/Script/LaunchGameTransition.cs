@@ -9,6 +9,7 @@ public class LaunchGameTransition : MonoBehaviour
     public GameObject player;
 
     public GameObject windowsImage;
+    public GameObject IntroWindows;
     public GameObject nextStepImage;
 
     public float transitionDuration = 2f;
@@ -59,6 +60,7 @@ public class LaunchGameTransition : MonoBehaviour
         uiCamera.fieldOfView = targetFOV;
 
         if (windowsImage != null) windowsImage.SetActive(false);
+        if (IntroWindows != null) IntroWindows.SetActive(false);
         if (nextStepImage != null) nextStepImage.SetActive(true);
 
         player.SetActive(true);

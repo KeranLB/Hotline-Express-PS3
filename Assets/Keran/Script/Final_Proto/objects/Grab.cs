@@ -24,6 +24,7 @@ public class Grab : MonoBehaviour
     {
         if (isGrab)
         {
+            _controller.aimPoint.sprite = _controller.grabSprite;
             //transform.position = _holdPoint.position;
             if (_interact.action.WasReleasedThisFrame())
             {
@@ -45,6 +46,7 @@ public class Grab : MonoBehaviour
     public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference zoom, Controller controller)
     {
         _controller = controller;
+        _controller.grab= this;
         transform.parent = parent;
         _holdPoint = holdPoint;
         //_holdPoint.position += new Vector3(0f, 0f, _objectSize) * transform.forward;

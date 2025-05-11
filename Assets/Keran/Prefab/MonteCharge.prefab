@@ -57,6 +57,7 @@ MonoBehaviour:
   _speedTravel: 0.25
   _door: {fileID: 5146913058562492722}
   valide: 0
+  _boxCollider: {fileID: 4666990926409825168}
 --- !u!65 &4666990926409825168
 BoxCollider:
   m_ObjectHideFlags: 0

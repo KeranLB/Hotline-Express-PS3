@@ -1,3 +1,4 @@
+using TMPro.Examples;
 using UnityEngine;
 
 public class TutoManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class TutoManager : MonoBehaviour
         if (_codeManager.isCorrect)
         {
             _controller.isLock = false;
+            _controller.isInTuto = false;
             ecranCodeTuto.SetActive(false);
         }
     }
