@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractRouage : MonoBehaviour
 {
-    [SerializeField] private float _rotationValue;
+    public float _rotationValue;
     [SerializeField, Range(0f, 359.99f)] private float _target;
     [SerializeField] private float _speedRotaion;
     [HideInInspector] public bool isLock = false;
@@ -20,14 +20,11 @@ public class InteractRouage : MonoBehaviour
         currentRotation = Mathf.RoundToInt(baseRota.x);
         _target = Mathf.RoundToInt(_target);
         _rotaOrigine = baseRota;
-
+        Verif();
     }
 
     private void Verif()
     {
-        Debug.Log(currentRotation);
-        Debug.Log(_target);
-        Debug.Log(currentRotation == _target);
         if (Mathf.RoundToInt(currentRotation) == Mathf.RoundToInt(_target))
         {
             isLock = true;
@@ -35,6 +32,7 @@ public class InteractRouage : MonoBehaviour
         }
         else
         {
+            Debug.Log("is not Lock");
             isLock = false;
         }
     }

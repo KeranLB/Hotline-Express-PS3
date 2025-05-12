@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
@@ -35,6 +36,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _grabText;
 
     [Header("Control mapping :")]
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
@@ -108,6 +110,14 @@ public class Controller : MonoBehaviour
 
     private void Look()
     {
+        if (_playerInput.currentControlScheme == "Gamepad")
+        {
+            _sensitivity = 0.5f; 
+        }
+        else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            _sensitivity = 0.1f;
+        }
         _lookDirection = _look.action.ReadValue<Vector3>();
 
         _verticalRotation -= _lookDirection.y * _sensitivity;
