@@ -16754,17 +16754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fd29cfb38c1214c8a45ee99fb58ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1195969475 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4977068925150361593, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-  m_PrefabInstance: {fileID: 1409901227}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195969469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &1195969478 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 9096560898694992257, guid: 7467d68992e0b664986765d01da2267b, type: 3}
@@ -18240,14 +18229,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 447319149}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _crouch
-      value: 
-      objectReference: {fileID: -2682461618996658327, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _tipToe
-      value: 
-      objectReference: {fileID: 8459141271094738296, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: aimPoint
       value: 
       objectReference: {fileID: 946126638}
@@ -18260,14 +18241,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 113581446}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _moveSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: grabSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ae91024b283e34843aa56ffe9b55730a, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: uiGrabText
       value: 
       objectReference: {fileID: 113581444}
@@ -18275,14 +18248,6 @@ PrefabInstance:
       propertyPath: _inspectText
       value: 
       objectReference: {fileID: 1800886328}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _playerInput
-      value: 
-      objectReference: {fileID: 1195969475}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _rayDistance
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: _interactText
       value: 
@@ -18300,29 +18265,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1800886326}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _grabSpriteOuvert
-      value: 
-      objectReference: {fileID: 21300000, guid: ffdc98b91b74ff447b71485dfa6d4185, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _targetCrouchPosY
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _targetTipToePosY
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: uiInteractionText
       value: 
       objectReference: {fileID: 1562230566}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _speedTranslateCam
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _targetDefaultPosY
-      value: 0.38
-      objectReference: {fileID: 0}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: _capsuleColliderCrouch
       value: 
