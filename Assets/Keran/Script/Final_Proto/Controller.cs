@@ -1,19 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
-    [System.Serializable]
-    public struct StanceData
-    {
-        public string name;
-        public float cameraHeight;
-        public float playerScaleY;
-        public float speedMultiplier;
-    }
-
     [Header("Set component :")]
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _camera;
@@ -35,6 +29,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _grabText;
 
     [Header("Control mapping :")]
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
@@ -43,14 +38,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
 
-    [Header("Stance Settings")]
-    [SerializeField] private StanceData defaultStance = new StanceData { name = "Default", cameraHeight = 1.75f, playerScaleY = 1.0f, speedMultiplier = 1.0f };
-    [SerializeField] private StanceData crouchStance = new StanceData { name = "Crouch", cameraHeight = 1.0f, playerScaleY = 0.35f, speedMultiplier = 0.4f };
-    [SerializeField] private StanceData tipToeStance = new StanceData { name = "TipToe", cameraHeight = 2.2f, playerScaleY = 1.3f, speedMultiplier = 0.9f };
-    [SerializeField] private float camLerpSpeed = 5f;
-    [SerializeField] private float scaleLerpSpeed = 5f;
-
-    private StanceData _currentStance;
+    [Header("TipToe :")]
+    [SerializeField] private float _targetTipToePosY;
+    [SerializeField] private float _targetCrouchPosY;
+    [SerializeField] private float _targetDefaultPosY;
+    private float _timeTranslateCam = 0f;
+    [SerializeField] private float _speedTranslateCam;
+    [SerializeField] private float _speedModification = 1f;
 
     [Header("Move Settings")]
     [SerializeField, Range(0, 500)] private float _moveSpeed;
@@ -80,16 +74,7 @@ public class Controller : MonoBehaviour
         _inspectText.enabled = false;
         _interactText.enabled = false;
 
-        _currentStance = defaultStance;
-
-        SetInitialCameraPosition();
-    }
-
-    private void SetInitialCameraPosition()
-    {
-        Vector3 camLocalPos = _camera.localPosition;
-        camLocalPos.y = _currentStance.cameraHeight;
-        _camera.localPosition = camLocalPos;
+        _targetDefaultPosY = _targetCamera.localPosition.y;
     }
 
     void Update()
@@ -101,13 +86,21 @@ public class Controller : MonoBehaviour
                 Move();
             }
             Look();
-            HandleStance();
+            TipToeAndCrouch();
             RaycastThrow();
         }
     }
 
     private void Look()
     {
+        if (_playerInput.currentControlScheme == "Gamepad")
+        {
+            _sensitivity = 0.5f; 
+        }
+        else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            _sensitivity = 0.1f;
+        }
         _lookDirection = _look.action.ReadValue<Vector3>();
 
         _verticalRotation -= _lookDirection.y * _sensitivity;
@@ -116,32 +109,51 @@ public class Controller : MonoBehaviour
 
         transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
     }
-
-    private void HandleStance()
+    
+    
+    private void TipToeAndCrouch()
     {
-        StanceData targetStance = defaultStance;
-
-        if (_tipToe.action.IsPressed())
+        if (_tipToe.action.WasReleasedThisFrame() || _crouch.action.WasReleasedThisFrame())
         {
-            targetStance = tipToeStance;
+            _timeTranslateCam = 0f;
+            _speedModification = 1f;
         }
-        else if (_crouch.action.IsPressed())
+        else if (_tipToe.action.IsPressed())
         {
-            targetStance = crouchStance;
+            Debug.Log("input TipToe");
+            if (_targetCamera.localPosition.y != _targetTipToePosY)
+            {
+            CamTranslate(_targetCamera.localPosition.y, _targetTipToePosY);
+            }
+            _speedModification = 0.5f;
         }
+        else if(_crouch.action.IsPressed())
+        {
+            Debug.Log("input Crouch");
+            if (_targetCamera.localPosition.y != _targetCrouchPosY)
+            {
+                CamTranslate(_targetCamera.localPosition.y, _targetCrouchPosY);
+            }
+            _speedModification = 0.5f;
+        }
+        else if (_targetCamera.localPosition.y != _targetDefaultPosY)
+        {
+            Debug.Log("return default");
+            CamTranslate(_targetCamera.localPosition.y, _targetDefaultPosY);
+        }
+        else if(_targetCamera.localPosition.y == _targetDefaultPosY)
+        {
+            _timeTranslateCam = 0f;
+        }
+    }
 
-        _currentStance = targetStance;
-
-        // Smooth camera position
-        Vector3 camPos = _camera.localPosition;
-        camPos.y = Mathf.Lerp(camPos.y, _currentStance.cameraHeight, Time.deltaTime * camLerpSpeed);
-        _camera.localPosition = camPos;
-
-        // Smooth scale transition
-        Vector3 scale = transform.localScale;
-        float targetY = _currentStance.playerScaleY;
-        scale.y = Mathf.Lerp(scale.y, targetY, Time.deltaTime * scaleLerpSpeed);
-        transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+    private void CamTranslate(float start, float end)
+    {
+        _timeTranslateCam += _speedTranslateCam * Time.deltaTime;
+        _timeTranslateCam = Mathf.Clamp01(_timeTranslateCam);
+        float tmpX = _targetCamera.localPosition.x;
+        float tmpZ = _targetCamera.localPosition.z;
+        _targetCamera.localPosition = Vector3.Lerp(new Vector3(tmpX,start,tmpZ), new Vector3(tmpX, end,tmpZ), _timeTranslateCam);
     }
 
     private void Move()
@@ -149,9 +161,8 @@ public class Controller : MonoBehaviour
         _moveDirection = _move.action.ReadValue<Vector3>();
         Vector3 direction = (_moveDirection.x * transform.right + transform.forward * _moveDirection.z);
 
-        float adjustedSpeed = _moveSpeed * _currentStance.speedMultiplier;
-        _rb.AddForce(direction * adjustedSpeed * 1000 * Time.deltaTime, ForceMode.Acceleration);
-        _rb.maxLinearVelocity = adjustedSpeed;
+        _rb.AddForce(direction * _moveSpeed * _speedModification * 1000 * Time.deltaTime, ForceMode.Acceleration);
+        _rb.maxLinearVelocity = _moveSpeed * _speedModification;
     }
 
     private void RaycastThrow()

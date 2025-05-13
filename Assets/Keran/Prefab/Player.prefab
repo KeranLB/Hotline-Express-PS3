@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4977068925150361593}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7443359927458983235}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -189,27 +189,36 @@ MonoBehaviour:
   _camera: {fileID: 1454902759105263400}
   _targetCamera: {fileID: 3896474140631108082}
   _holdPoint: {fileID: 8722914349394583670}
-  _aimPoint: {fileID: 0}
-  _grabSprite: {fileID: 21300000, guid: ae91024b283e34843aa56ffe9b55730a, type: 3}
+  grab: {fileID: 0}
+  aimPoint: {fileID: 0}
+  grabSprite: {fileID: 21300000, guid: ae91024b283e34843aa56ffe9b55730a, type: 3}
+  _grabSpriteOuvert: {fileID: 21300000, guid: ffdc98b91b74ff447b71485dfa6d4185, type: 3}
   _interactSprite: {fileID: 21300000, guid: 693a2a3b12ff4ba4e9d94e962d4294dd, type: 3}
   _inspectSprite: {fileID: 21300000, guid: 54bfd5f8b000abf44adde97f78c6feca, type: 3}
   _noneSprite: {fileID: 21300000, guid: e69d48a9ca1cc174a8d0ed984718ca62, type: 3}
+  _interactText: {fileID: 0}
+  _inspectText: {fileID: 0}
+  _grabText: {fileID: 0}
+  _playerInput: {fileID: 4977068925150361593}
   _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _interact: {fileID: -1854677164761916682, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _interactBis: {fileID: -4480554188412710622, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _zoom: {fileID: -2529592550516788070, guid: 289c1b55c9541489481df5cc06664110, type: 3}
-  _tipToe: {fileID: 0}
-  _crouch: {fileID: 0}
-  _moveSpeed: 7
+  _tipToe: {fileID: 8459141271094738296, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _crouch: {fileID: -2682461618996658327, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _targetTipToePosY: 0.75
+  _targetCrouchPosY: -0.3
+  _targetDefaultPosY: 0.38
+  _speedTranslateCam: 1
+  _speedModification: 1
+  _moveSpeed: 6
   _sensitivity: 0.1
   _rayDistance: 4
-  uiInteractionText: {fileID: 0}
-  uiInspectionText: {fileID: 0}
-  uiGrabText: {fileID: 0}
   canMove: 1
   canInspect: 1
   isLock: 1
+  isInTuto: 1
 --- !u!114 &4977068925150361593
 MonoBehaviour:
   m_ObjectHideFlags: 0
