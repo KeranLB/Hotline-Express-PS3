@@ -11,6 +11,7 @@ public class LaunchGameTransition : MonoBehaviour
     public GameObject windowsImage;
     public GameObject IntroWindows;
     public GameObject nextStepImage;
+    [SerializeField] private GameObject _codeImageTuto;
 
     public float transitionDuration = 2f;
     public float startFOV = 40f;
@@ -19,6 +20,11 @@ public class LaunchGameTransition : MonoBehaviour
     [Header("Instructions UI")]
     public TextMeshProUGUI controlsText;  // <--- Glisse ici ton TMP dans l'inspecteur
     public float displayDuration = 5f;     // Durée d'affichage du message
+
+    private void Start()
+    {
+        _codeImageTuto.SetActive(false);
+    }
 
     public void OnPlayClicked()
     {
@@ -62,6 +68,7 @@ public class LaunchGameTransition : MonoBehaviour
         if (windowsImage != null) windowsImage.SetActive(false);
         if (IntroWindows != null) IntroWindows.SetActive(false);
         if (nextStepImage != null) nextStepImage.SetActive(true);
+        _codeImageTuto.SetActive(true);
 
         player.SetActive(true);
         uiCamera.gameObject.SetActive(false);
