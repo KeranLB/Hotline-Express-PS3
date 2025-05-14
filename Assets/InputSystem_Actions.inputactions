@@ -1414,8 +1414,30 @@
                 },
                 {
                     "name": "",
+                    "id": "cb173207-ff93-44d1-8bc6-7927f331b94e",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TipToe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e74a40a7-e577-4910-9a9b-d9f0d69717e5",
                     "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53be6435-efae-4a40-b9b7-6c0bc9cd138d",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1437,7 +1459,7 @@
                 {
                     "name": "",
                     "id": "c9bc891b-1495-473b-abe8-8e8ecae205e6",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

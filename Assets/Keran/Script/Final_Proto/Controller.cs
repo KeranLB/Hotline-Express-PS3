@@ -95,7 +95,7 @@ public class Controller : MonoBehaviour
     {
         if (_playerInput.currentControlScheme == "Gamepad")
         {
-            _sensitivity = 0.5f; 
+            _sensitivity = 0.25f; 
         }
         else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
         {

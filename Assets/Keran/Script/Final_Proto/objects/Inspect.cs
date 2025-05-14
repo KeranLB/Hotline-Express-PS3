@@ -61,6 +61,7 @@ public class Inspect : MonoBehaviour
         _controller.canMove = false;
         _controller.canInspect = false;
         StartCoroutine(DelayClick());
+        Debug.Log("Inspect an object");
     }
 
     IEnumerator DelayClick()

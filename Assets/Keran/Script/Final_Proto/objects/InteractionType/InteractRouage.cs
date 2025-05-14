@@ -32,7 +32,6 @@ public class InteractRouage : MonoBehaviour
         }
         else
         {
-            Debug.Log("is not Lock");
             isLock = false;
         }
     }
