@@ -19,6 +19,8 @@ public class Inspect : MonoBehaviour
     private Transform _camera;
     private bool _canRelease;
 
+    [SerializeField] private Collider _collider;
+
     private void Start()
     {
         _originPosition = transform.position;
@@ -43,6 +45,7 @@ public class Inspect : MonoBehaviour
 
     public void StartInspect(Transform camera, Transform holdPoint,InputActionReference rotation, InputActionReference interact, InputActionReference release, Controller controller, float distance)
     {
+        _collider.enabled = false;
         transform.parent = camera;
         transform.position = holdPoint.position;
         if (distance < _minDistance)
@@ -80,6 +83,7 @@ public class Inspect : MonoBehaviour
 
     IEnumerator StopInspect()
     {
+        _collider.enabled = true;
         transform.parent = null;
         transform.eulerAngles = _originRotation;
         transform.position = _originPosition;

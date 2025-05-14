@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
@@ -25,7 +28,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _inspectText;
     [SerializeField] private TextMeshProUGUI _grabText;
 
-    [Header("control mapping :")]
+    [Header("Control mapping :")]
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private InputActionReference _look;
     [SerializeField] private InputActionReference _move;
     [SerializeField] private InputActionReference _interact;
@@ -34,15 +38,13 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
 
-    [Header("Stance Settings")]
-    [SerializeField] private float defaultCamHeight = 1.75f;
-    [SerializeField] private float crouchCamHeight = 1.2f;
-    [SerializeField] private float tipToeCamHeight = 2.0f;
-    [SerializeField] private float camLerpSpeed = 5f;
-
-    private float _targetCamHeight;
-    private Vector3 _moveDirection;
-    private Vector3 _lookDirection;
+    [Header("TipToe :")]
+    [SerializeField] private float _targetTipToePosY;
+    [SerializeField] private float _targetCrouchPosY;
+    [SerializeField] private float _targetDefaultPosY;
+    private float _timeTranslateCam = 0f;
+    [SerializeField] private float _speedTranslateCam;
+    [SerializeField] private float _speedModification = 1f;
 
     [Header("Move Settings")]
     [SerializeField, Range(0, 500)] private float _moveSpeed;
@@ -53,6 +55,8 @@ public class Controller : MonoBehaviour
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
 
+    private Vector3 _moveDirection;
+    private Vector3 _lookDirection;
     private float _verticalRotation = 0f;
     private float _maxVerticalLook = 80f;
 
@@ -60,8 +64,6 @@ public class Controller : MonoBehaviour
     [HideInInspector] public bool canInspect = true;
     [HideInInspector] public bool isLock = true;
     [HideInInspector] public bool isInTuto = true;
-
-
 
     void Start()
     {
@@ -72,13 +74,10 @@ public class Controller : MonoBehaviour
         _inspectText.enabled = false;
         _interactText.enabled = false;
 
-        _targetCamHeight = defaultCamHeight;
-        Vector3 camLocalPos = _camera.localPosition;
-        camLocalPos.y = defaultCamHeight;
-        _camera.localPosition = camLocalPos;
+        _targetDefaultPosY = _targetCamera.localPosition.y;
     }
 
-    private void Update()
+    void Update()
     {
         if (canMove)
         {
@@ -87,54 +86,83 @@ public class Controller : MonoBehaviour
                 Move();
             }
             Look();
-            HandleStance();
+            TipToeAndCrouch();
             RaycastThrow();
         }
     }
 
     private void Look()
     {
-        // Input souris brut
+        if (_playerInput.currentControlScheme == "Gamepad")
+        {
+            _sensitivity = 0.5f; 
+        }
+        else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            _sensitivity = 0.1f;
+        }
         _lookDirection = _look.action.ReadValue<Vector3>();
 
-        // Rotation verticale (haut/bas)
         _verticalRotation -= _lookDirection.y * _sensitivity;
         _verticalRotation = Mathf.Clamp(_verticalRotation, -_maxVerticalLook, _maxVerticalLook);
         _targetCamera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
-        
-        // Rotation horizontale (gauche/droite) : le corps tourne ici
+
         transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
     }
-
-    private void HandleStance()
+    
+    
+    private void TipToeAndCrouch()
     {
-        if (_tipToe.action.IsPressed())
+        if (_tipToe.action.WasReleasedThisFrame() || _crouch.action.WasReleasedThisFrame())
         {
-            _targetCamHeight = tipToeCamHeight;
+            _timeTranslateCam = 0f;
+            _speedModification = 1f;
         }
-        else if (_crouch.action.IsPressed())
+        else if (_tipToe.action.IsPressed())
         {
-            _targetCamHeight = crouchCamHeight;
+            Debug.Log("input TipToe");
+            if (_targetCamera.localPosition.y != _targetTipToePosY)
+            {
+            CamTranslate(_targetCamera.localPosition.y, _targetTipToePosY);
+            }
+            _speedModification = 0.5f;
         }
-        else
+        else if(_crouch.action.IsPressed())
         {
-            _targetCamHeight = defaultCamHeight;
+            Debug.Log("input Crouch");
+            if (_targetCamera.localPosition.y != _targetCrouchPosY)
+            {
+                CamTranslate(_targetCamera.localPosition.y, _targetCrouchPosY);
+            }
+            _speedModification = 0.5f;
         }
-
-        // Lerp la caméra pour éviter des mouvements brusques
-        Vector3 camLocalPos = _camera.localPosition;
-        camLocalPos.y = Mathf.Lerp(camLocalPos.y, _targetCamHeight, Time.deltaTime * camLerpSpeed);
-        _camera.localPosition = camLocalPos;
+        else if (_targetCamera.localPosition.y != _targetDefaultPosY)
+        {
+            Debug.Log("return default");
+            CamTranslate(_targetCamera.localPosition.y, _targetDefaultPosY);
+        }
+        else if(_targetCamera.localPosition.y == _targetDefaultPosY)
+        {
+            _timeTranslateCam = 0f;
+        }
     }
 
-    void Move()
+    private void CamTranslate(float start, float end)
+    {
+        _timeTranslateCam += _speedTranslateCam * Time.deltaTime;
+        _timeTranslateCam = Mathf.Clamp01(_timeTranslateCam);
+        float tmpX = _targetCamera.localPosition.x;
+        float tmpZ = _targetCamera.localPosition.z;
+        _targetCamera.localPosition = Vector3.Lerp(new Vector3(tmpX,start,tmpZ), new Vector3(tmpX, end,tmpZ), _timeTranslateCam);
+    }
+
+    private void Move()
     {
         _moveDirection = _move.action.ReadValue<Vector3>();
+        Vector3 direction = (_moveDirection.x * transform.right + transform.forward * _moveDirection.z);
 
-        Vector3 direction = ( _moveDirection.x * transform.right + transform.forward * _moveDirection.z );
-
-        _rb.AddForce(direction * _moveSpeed * 1000 * Time.deltaTime, ForceMode.Acceleration);
-        _rb.maxLinearVelocity = _moveSpeed;
+        _rb.AddForce(direction * _moveSpeed * _speedModification * 1000 * Time.deltaTime, ForceMode.Acceleration);
+        _rb.maxLinearVelocity = _moveSpeed * _speedModification;
     }
 
     private void RaycastThrow()
@@ -147,10 +175,9 @@ public class Controller : MonoBehaviour
             if (test.GetComponent<ObjectClass>() != null)
             {
                 ObjectClass objectClass = test.GetComponent<ObjectClass>();
-
                 ObjectAction(test, objectClass.interactType, hit.distance);
             }
-            else if(!grab.isGrab)
+            else if (!grab.isGrab)
             {
                 _grabText.enabled = false;
                 _interactText.enabled = false;
@@ -158,7 +185,7 @@ public class Controller : MonoBehaviour
                 aimPoint.sprite = _noneSprite;
             }
         }
-        else if(!grab.isGrab)
+        else if (!grab.isGrab)
         {
             _grabText.enabled = false;
             _interactText.enabled = false;
@@ -171,7 +198,7 @@ public class Controller : MonoBehaviour
     {
         switch (interactType)
         {
-            case ObjectType.Interactable :
+            case ObjectType.Interactable:
                 Interaction interaction = target.GetComponent<Interaction>();
                 aimPoint.sprite = _interactSprite;
                 if (isInTuto)
@@ -186,7 +213,7 @@ public class Controller : MonoBehaviour
                 }
                 break;
 
-            case ObjectType.Movable :
+            case ObjectType.Movable:
                 Grab grab = target.GetComponent<Grab>();
                 if (isInTuto)
                 {
@@ -196,7 +223,7 @@ public class Controller : MonoBehaviour
                 }
                 if (!grab.isGrab)
                 {
-                aimPoint.sprite = _grabSpriteOuvert;
+                    aimPoint.sprite = _grabSpriteOuvert;
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
@@ -204,7 +231,7 @@ public class Controller : MonoBehaviour
                 }
                 break;
 
-            case ObjectType.Inspectable :
+            case ObjectType.Inspectable:
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (isInTuto)
                 {
