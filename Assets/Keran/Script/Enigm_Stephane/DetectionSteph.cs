@@ -28,7 +28,7 @@ public class DetectionSteph : MonoBehaviour
             other.gameObject.SetActive(false);
 
             _nbObject++;
-
+            Debug.Log($"objet Eude {_nbObject}");
             if (_nbObject == _nbObjectWaited)
             {
                 Verif();
