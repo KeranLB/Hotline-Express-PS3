@@ -18227,17 +18227,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 113581446}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: grabSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c2d2a0a8d9390a24983fa90174ec8afd, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: uiGrabText
       value: 
       objectReference: {fileID: 113581444}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _noneSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 74bb201df6bcb4340b872427aa8b8d00, type: 3}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: _inspectText
       value: 
@@ -18246,14 +18238,6 @@ PrefabInstance:
       propertyPath: _interactText
       value: 
       objectReference: {fileID: 1562230568}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _inspectSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 49176c3829a0ac84d8fa546e29696ed7, type: 3}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _interactSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: dc3aaa39e08642f48ad2065c799737ae, type: 3}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: crouchCamHeight
       value: 0.01
@@ -18266,10 +18250,6 @@ PrefabInstance:
       propertyPath: uiInspectionText
       value: 
       objectReference: {fileID: 1800886326}
-    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
-      propertyPath: _grabSpriteOuvert
-      value: 
-      objectReference: {fileID: 21300000, guid: 1955846c23c1dc7448d2955a8fe135f6, type: 3}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: uiInteractionText
       value: 
@@ -19017,7 +18997,7 @@ Transform:
   m_GameObject: {fileID: 1505482239}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 82.339, y: 1.1728708, z: 77.866}
+  m_LocalPosition: {x: 82.304, y: 1.1728708, z: 77.866}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

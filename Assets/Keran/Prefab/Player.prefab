@@ -191,11 +191,11 @@ MonoBehaviour:
   _holdPoint: {fileID: 8722914349394583670}
   grab: {fileID: 0}
   aimPoint: {fileID: 0}
-  grabSprite: {fileID: 21300000, guid: ae91024b283e34843aa56ffe9b55730a, type: 3}
-  _grabSpriteOuvert: {fileID: 21300000, guid: ffdc98b91b74ff447b71485dfa6d4185, type: 3}
-  _interactSprite: {fileID: 21300000, guid: 693a2a3b12ff4ba4e9d94e962d4294dd, type: 3}
-  _inspectSprite: {fileID: 21300000, guid: 54bfd5f8b000abf44adde97f78c6feca, type: 3}
-  _noneSprite: {fileID: 21300000, guid: e69d48a9ca1cc174a8d0ed984718ca62, type: 3}
+  grabSprite: {fileID: 21300000, guid: c2d2a0a8d9390a24983fa90174ec8afd, type: 3}
+  _grabSpriteOuvert: {fileID: 21300000, guid: 1955846c23c1dc7448d2955a8fe135f6, type: 3}
+  _interactSprite: {fileID: 21300000, guid: dc3aaa39e08642f48ad2065c799737ae, type: 3}
+  _inspectSprite: {fileID: 21300000, guid: 49176c3829a0ac84d8fa546e29696ed7, type: 3}
+  _noneSprite: {fileID: 21300000, guid: 74bb201df6bcb4340b872427aa8b8d00, type: 3}
   _interactText: {fileID: 0}
   _inspectText: {fileID: 0}
   _grabText: {fileID: 0}
