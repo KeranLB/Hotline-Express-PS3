@@ -11,7 +11,10 @@ public class EndManager : MonoBehaviour
     [SerializeField] private Image _curseur;
     [SerializeField] private Image _endImage;
 
-
+    private void Start()
+    {
+        Debug.Log("find");
+    }
     private void Update()
     {
         if (_prompteur.timeIsOver)
@@ -25,6 +28,9 @@ public class EndManager : MonoBehaviour
         _controller.canMove = false;
         _curseur.gameObject.SetActive(false);
         _endImage.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+
     }
     private void OnTriggerEnter(Collider other)
     {
