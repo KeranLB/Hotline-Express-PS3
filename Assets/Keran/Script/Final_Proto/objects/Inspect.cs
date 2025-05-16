@@ -1,30 +1,43 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Inspect : MonoBehaviour
 {
     private InputActionReference _rotate;
-    private Vector3 _rotateValue;
     private InputActionReference _interact;
     private InputActionReference _release;
+
     private Controller _controller;
-    [HideInInspector] public bool isInspect;
-    public Vector3 _originPosition;
+
+    private Vector3 _rotateValue;
+    private Vector3 _originPosition;
     private Vector3 _originRotation;
+    private Vector3 _originScale;
 
-    [SerializeField] private float _minDistance;
-
-    [SerializeField,Range(0,500)] private float _rotationSpeed;
     private Transform _camera;
+
+    private Image _aimPoint;
+
+    [HideInInspector] public bool isInspect;
     private bool _canRelease;
 
+    [Header("Object Collider :")]
     [SerializeField] private Collider _collider;
+
+    [Header("atomic parameters :")]
+    [SerializeField,Range(0,3)] private float _minDistance;
+    [SerializeField, Range(0f, 1f)] private float _reduceSize;
+    [SerializeField,Range(0,100)] private float _rotationSpeed;
+
+
 
     private void Start()
     {
         _originPosition = transform.position;
         _originRotation = transform.eulerAngles;
+        _originScale = transform.localScale;
     }
 
     private void Update()
@@ -48,6 +61,7 @@ public class Inspect : MonoBehaviour
         _collider.enabled = false;
         transform.parent = camera;
         transform.position = holdPoint.position;
+        transform.localScale = transform.localScale * _reduceSize;
         if (distance < _minDistance)
         {
             transform.parent.parent.localPosition -= transform.parent.parent.forward * (_minDistance - distance);
@@ -60,8 +74,8 @@ public class Inspect : MonoBehaviour
         isInspect = true;
         _controller.canMove = false;
         _controller.canInspect = false;
+        _controller.aimPoint.enabled = false;
         StartCoroutine(DelayClick());
-        Debug.Log("Inspect an object");
     }
 
     IEnumerator DelayClick()
@@ -84,10 +98,12 @@ public class Inspect : MonoBehaviour
 
     IEnumerator StopInspect()
     {
+        _controller.aimPoint.enabled = true;
         _collider.enabled = true;
         transform.parent = null;
         transform.eulerAngles = _originRotation;
         transform.position = _originPosition;
+        transform.localScale = _originScale;
         isInspect = false;
         _canRelease = false;
         _controller.canMove = true;

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class EndManager : MonoBehaviour
 {
     [Header("Set Script :")]
-    [SerializeField] private Prompteur _prompteur;
     [SerializeField] private Controller _controller;
 
     [Header("Set UI :")]
@@ -14,13 +13,6 @@ public class EndManager : MonoBehaviour
     private void Start()
     {
         Debug.Log("find");
-    }
-    private void Update()
-    {
-        if (_prompteur.timeIsOver)
-        {
-            End();
-        }
     }
 
     private void End()

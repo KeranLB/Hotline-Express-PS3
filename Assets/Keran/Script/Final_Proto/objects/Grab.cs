@@ -6,12 +6,10 @@ using UnityEngine.InputSystem;
 public class Grab : MonoBehaviour
 {
     [SerializeField] public Rigidbody _rb;
-    private float _distanceZoom;
     [HideInInspector] public bool isGrab;
     private Transform _holdPoint;
 
     private InputActionReference _interact;
-    private InputActionReference _zoom;
 
     private Controller _controller;
 
@@ -43,7 +41,7 @@ public class Grab : MonoBehaviour
         }
     }
 
-    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference zoom, Controller controller)
+    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, Controller controller)
     {
         _controller = controller;
         _controller.grab= this;
@@ -51,7 +49,6 @@ public class Grab : MonoBehaviour
         _holdPoint = holdPoint;
         //_holdPoint.position += new Vector3(0f, 0f, _objectSize) * transform.forward;
         _interact = interact;
-        _zoom = zoom;
         _rb.useGravity = false;
         _rb.freezeRotation = true;
         _rb.linearDamping = 10f;
@@ -68,13 +65,5 @@ public class Grab : MonoBehaviour
         _rb.freezeRotation = false;
         _rb.linearDamping = 1f;
         isGrab = false;
-    }
-
-    public void Zoom(float zoomValue)
-    {
-        if (transform.position.z < 3f && transform.position.z > 1f)
-        {
-            transform.position += new Vector3(0f, 0f, zoomValue/10f);
-        }
     }
 }

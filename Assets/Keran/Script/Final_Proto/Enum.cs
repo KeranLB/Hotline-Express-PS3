@@ -19,9 +19,15 @@ public enum InteractionType
     LightSequence,
 }
 
-public enum RotationDirection
+public enum RotationOrientation
 {
     RotationX,
     RotationY,
     RotationZ,
+}
+
+public enum RotationDirection
+{
+    Positif,
+    Negatif,
 }

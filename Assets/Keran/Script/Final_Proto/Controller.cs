@@ -169,7 +169,7 @@ public class Controller : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance))
+        if (Physics.Raycast(_camera.position, _camera.forward, out hit, _rayDistance, LayerMask.GetMask("Default") ,QueryTriggerInteraction.Ignore))
         {
             GameObject test = hit.collider.gameObject;
             if (test.GetComponent<ObjectClass>() != null)
@@ -227,7 +227,7 @@ public class Controller : MonoBehaviour
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
-                    grab.MoveObject(_camera, _holdPoint, _interact, _zoom, this);
+                    grab.MoveObject(_camera, _holdPoint, _interact, this);
                 }
                 break;
 

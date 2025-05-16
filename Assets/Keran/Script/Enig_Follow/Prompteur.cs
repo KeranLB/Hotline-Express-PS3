@@ -1,40 +1,44 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class Prompteur : MonoBehaviour
 {
-    [SerializeField] private int _hours;
-    [SerializeField] private int _minutes;
-    [SerializeField] private float _secondes;
+    private int _hours = 0;
+    private int _minutes = 0;
+    private float _secondes = 0;
 
     [SerializeField] private int _nombreCache;
 
     [SerializeField] private TextMeshPro _textMeshPro;
 
     public bool isShowingTime = true;
-    public bool timeIsOver = false;
 
+    private void Start()
+    {
+        _textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
+        StartCoroutine(Timer());
+    }
     private void Update()
     {
-        if (!timeIsOver)
+        if (!isShowingTime)
         {
-            _secondes -= 1 * Time.deltaTime;
-            if (_secondes < 0)
+            _textMeshPro.text = _nombreCache.ToString();
+        }
+    }
+
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(1);
+        _secondes += 1;
+        if (_secondes >= 60)
+        {
+            _secondes = 0;
+            _minutes += 1;
+            if (_minutes >= 60)
             {
-                if (_hours == 0 && _minutes == 0)
-                {
-                    timeIsOver = true;
-                }
-                else
-                {
-                    _secondes = 60;
-                    _minutes -= 1;
-                    if (_minutes <= 0)
-                    {
-                        _minutes = 60;
-                        _hours -= 1;
-                    }
-                }
+                _minutes = 0;
+                _hours += 1;
             }
         }
 
@@ -42,9 +46,6 @@ public class Prompteur : MonoBehaviour
         {
             _textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
         }
-        else
-        {
-            _textMeshPro.text = _nombreCache.ToString();
-        }
+        StartCoroutine(Timer());
     }
 }

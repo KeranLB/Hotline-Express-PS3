@@ -9,17 +9,15 @@ public class InteractRouage : MonoBehaviour
     [SerializeField] private float _speedRotaion;
     [HideInInspector] public bool isLock = false;
     private bool _isRotating;
-    [SerializeField] private RotationDirection _rotationDirection;
+    [SerializeField] private RotationOrientation _rotationDirection;
     public float currentRotation;
-    private Vector3 baseRota;
-    private Vector3 _rotaOrigine;
+    private Vector3 _baseRota;
 
     private void Start()
     {
-        baseRota = transform.localEulerAngles;
-        currentRotation = Mathf.RoundToInt(baseRota.x);
+        _baseRota = transform.localEulerAngles;
+        currentRotation = Mathf.RoundToInt(_baseRota.x);
         _target = Mathf.RoundToInt(_target);
-        _rotaOrigine = baseRota;
         Verif();
     }
 
@@ -36,11 +34,11 @@ public class InteractRouage : MonoBehaviour
         }
     }
 
-    public void Interact()
+    public void Interact(int direction)
     {
         if (!_isRotating)
         {
-            StartCoroutine(Rotation(currentRotation + _rotationValue));
+            StartCoroutine(Rotation(currentRotation + _rotationValue * direction));
         }
     }
 
@@ -62,14 +60,14 @@ public class InteractRouage : MonoBehaviour
             }
             switch (_rotationDirection)
             {
-                case RotationDirection.RotationX:
-                    transform.localEulerAngles = new Vector3(currentRotation, baseRota.y, baseRota.z);
+                case RotationOrientation.RotationX:
+                    transform.localEulerAngles = new Vector3(currentRotation, _baseRota.y, _baseRota.z);
                     break;
-                case RotationDirection.RotationY: 
-                    transform.localEulerAngles = new Vector3(baseRota.x, currentRotation, baseRota.z);
+                case RotationOrientation.RotationY: 
+                    transform.localEulerAngles = new Vector3(_baseRota.x, currentRotation, _baseRota.z);
                     break;
-                case RotationDirection.RotationZ:
-                    transform.localEulerAngles = new Vector3(baseRota.x, baseRota.y, currentRotation);
+                case RotationOrientation.RotationZ:
+                    transform.localEulerAngles = new Vector3(_baseRota.x, _baseRota.y, currentRotation);
                     break;
             }
 

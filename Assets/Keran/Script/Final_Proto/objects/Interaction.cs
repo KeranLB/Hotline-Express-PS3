@@ -16,7 +16,7 @@ public class Interaction : MonoBehaviour
                 gameObject.GetComponent<SpawnObject>().Interact();
                 break;
             case InteractionType.Rotation:
-                gameObject.GetComponent<InteractRouage>().Interact();
+                gameObject.GetComponent<ActiveRotation>().Interact();
                 break;
             case InteractionType.MonteCharge:
                 gameObject.GetComponent<InteractMonteCharge>().Interact();

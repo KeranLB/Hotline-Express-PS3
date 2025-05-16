@@ -31,6 +31,8 @@ public class Follow : MonoBehaviour
 
     private void SwitchType()
     {
+        _interactionRouageA.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
+        _interactionRouageC.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
         _interactionRouageB.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
         _interactionRouageB.GetComponent<Grab>()._rb =  _interactionRouageB.AddComponent<Rigidbody>();
         Debug.Log("débloque engrenage follow");
