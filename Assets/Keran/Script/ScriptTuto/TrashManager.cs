@@ -13,11 +13,9 @@ public class TrashManager : MonoBehaviour
         if (lightTriggered) return;
 
         currentPlacedObjects++;
-        Debug.Log("Trash placed: " + currentPlacedObjects);
 
         if (currentPlacedObjects >= requiredObjects)
         {
-            Debug.Log("All trash placed. Turning on light.");
             lightManager.ActivateFirstLight();
             lightTriggered = true;
         }

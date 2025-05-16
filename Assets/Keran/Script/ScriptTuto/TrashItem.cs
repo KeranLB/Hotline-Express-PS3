@@ -15,7 +15,6 @@ public class TrashItem : MonoBehaviour
         if (Vector3.Distance(transform.position, targetSpot.position) <= placementTolerance)
         {
             hasBeenPlaced = true;
-            Debug.Log("Trash item placed.");
             trashManager.RegisterObjectPlacement();
         }
     }

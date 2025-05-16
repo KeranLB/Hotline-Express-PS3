@@ -10,10 +10,10 @@ public class MonteCharge : MonoBehaviour
     [SerializeField] private GameObject _rouage;
     private GameObject _box;
     [SerializeField] private CodeManager _codeManager;
+    [SerializeField] private InteractMonteCharge _interactMonteCharge;
 
     [SerializeField] private float _speedTravel;
     [SerializeField] private GameObject _door;
-    private bool _asSwitch = false;
 
     private bool _boxIsIn = false;
     [HideInInspector] public bool valide = false;
@@ -21,17 +21,30 @@ public class MonteCharge : MonoBehaviour
 
     [SerializeField] private BoxCollider _boxCollider;
 
+    private bool _isopen;
+
     private void Start()
     {
-        _door.transform.position = _openPoint.position;
+        _door.transform.position = _closedPoint.position;
         poseZ = _door.transform.position.z;
     }
+
+    private void Update()
+    {
+        if (_codeManager.isCorrect && !_isopen)
+        {
+            _isopen = true;
+            StartCoroutine(Travel(_closedPoint, _openPoint, false));
+        }
+    }
+
     public void closeDoor()
     {
         if (_boxIsIn && _codeManager.isCorrect)
         {
             valide = true;
-            StartCoroutine(Travel(_openPoint, _closedPoint));
+            _interactMonteCharge.asFired = true;
+            StartCoroutine(Travel(_openPoint, _closedPoint, true));
         }
     }
 
@@ -40,11 +53,10 @@ public class MonteCharge : MonoBehaviour
         _box.SetActive(false);
         _rouage.SetActive(true);
         _boxCollider.enabled = false;
-        _asSwitch = true;
-        StartCoroutine(Travel(_closedPoint, _openPoint));
+        StartCoroutine(Travel(_closedPoint, _openPoint, false));
     }
 
-    IEnumerator Travel(Transform startPoint, Transform endPoint)
+    IEnumerator Travel(Transform startPoint, Transform endPoint, bool switchItem)
     {
         float t = 0f;
         while (t < 1f)
@@ -55,7 +67,7 @@ public class MonteCharge : MonoBehaviour
             _door.transform.position = new Vector3(_door.transform.position.x, _door.transform.position.y, poseZ);
             yield return null;
         }
-        if (!_asSwitch)
+        if (switchItem)
         {
             SwitchItem();
         }

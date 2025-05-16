@@ -18,7 +18,6 @@ public class LightManager : MonoBehaviour
         if (firstLight != null)
         {
             firstLight.enabled = true;
-            Debug.Log("First light activated");
         }
     }
 
@@ -30,7 +29,6 @@ public class LightManager : MonoBehaviour
         if (secondLight != null)
         {
             secondLight.enabled = true;
-            Debug.Log("Second light activated");
         }
     }
 
@@ -46,7 +44,6 @@ public class LightManager : MonoBehaviour
             if (l != null)
             {
                 l.enabled = true;
-                Debug.Log($"Light {l.name} activated");
                 yield return new WaitForSeconds(delayBetweenLights);
             }
         }

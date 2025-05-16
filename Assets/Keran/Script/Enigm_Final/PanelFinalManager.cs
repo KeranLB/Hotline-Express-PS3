@@ -2,9 +2,17 @@ using UnityEngine;
 
 public class PanelFinalManager : MonoBehaviour
 {
+    [SerializeField] private BoxCollider _colliderA;
+    [SerializeField] private BoxCollider _colliderB;
     private int _nbObjectWaited = 3;
     private int _nbObject = 0;
     public bool isComplet = false;
+
+    private void Start()
+    {
+        _colliderA.enabled = false;
+        _colliderB.enabled = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,6 +28,8 @@ public class PanelFinalManager : MonoBehaviour
             if (_nbObject == _nbObjectWaited)
             {
                 isComplet = true;
+                _colliderA.enabled = true;
+                _colliderB.enabled = true;
             }
         }
     }

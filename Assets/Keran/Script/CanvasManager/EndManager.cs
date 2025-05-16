@@ -10,11 +10,6 @@ public class EndManager : MonoBehaviour
     [SerializeField] private Image _curseur;
     [SerializeField] private Image _endImage;
 
-    private void Start()
-    {
-        Debug.Log("find");
-    }
-
     private void End()
     {
         _controller.canMove = false;

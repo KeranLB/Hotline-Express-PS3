@@ -11,6 +11,7 @@ public class CodeManager : MonoBehaviour
     [HideInInspector] public string stringCurrentCode;
     [HideInInspector] public bool isCorrect = false;
     [SerializeField] private TextMeshPro text;
+    [SerializeField] private string _messageFin;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class CodeManager : MonoBehaviour
             stringCurrentCode = "";
             foreach (int code in currentCode)
             {
-                stringCurrentCode += code.ToString() + " ";
+                stringCurrentCode += "* ";
             }
             verifStringCurrentCode += newValue.ToString();
             for (int code = currentCode.Count; code < 4; code++)
@@ -44,7 +45,7 @@ public class CodeManager : MonoBehaviour
             if (verifStringCurrentCode == finalCode)
             {
                 isCorrect = true;
-                text.text = "correct";
+                text.text = _messageFin;
             }
             else
             {

@@ -24,7 +24,6 @@ public class Follow : MonoBehaviour
             _direction = new Vector2(
             transform.position.x - _target.transform.position.x,
             transform.position.z - _target.transform.position.z);
-            //transform.Rotate(0.0f, Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg, 0.0f);
             transform.eulerAngles = new Vector3(0f, -Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg + _adjustement, 0f);
         }
     }
@@ -35,7 +34,6 @@ public class Follow : MonoBehaviour
         _interactionRouageC.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
         _interactionRouageB.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
         _interactionRouageB.GetComponent<Grab>()._rb =  _interactionRouageB.AddComponent<Rigidbody>();
-        Debug.Log("débloque engrenage follow");
         asSwitch = true;
     }
 }

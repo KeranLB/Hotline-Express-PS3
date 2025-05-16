@@ -3,10 +3,13 @@ using UnityEngine;
 public class InteractMonteCharge : MonoBehaviour
 {
     [SerializeField] private MonteCharge _monteCharge;
+    [HideInInspector] public bool asFired = false;
 
     public void Interact()
     {
-        Debug.Log("le bouton marche");
-        _monteCharge.closeDoor();
+        if (!asFired)
+        {
+            _monteCharge.closeDoor();
+        }
     }
 }

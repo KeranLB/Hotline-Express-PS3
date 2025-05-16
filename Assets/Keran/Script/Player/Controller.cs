@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
@@ -120,7 +117,6 @@ public class Controller : MonoBehaviour
         }
         else if (_tipToe.action.IsPressed())
         {
-            Debug.Log("input TipToe");
             if (_targetCamera.localPosition.y != _targetTipToePosY)
             {
             CamTranslate(_targetCamera.localPosition.y, _targetTipToePosY);
@@ -129,7 +125,6 @@ public class Controller : MonoBehaviour
         }
         else if(_crouch.action.IsPressed())
         {
-            Debug.Log("input Crouch");
             if (_targetCamera.localPosition.y != _targetCrouchPosY)
             {
                 CamTranslate(_targetCamera.localPosition.y, _targetCrouchPosY);
@@ -138,7 +133,6 @@ public class Controller : MonoBehaviour
         }
         else if (_targetCamera.localPosition.y != _targetDefaultPosY)
         {
-            Debug.Log("return default");
             CamTranslate(_targetCamera.localPosition.y, _targetDefaultPosY);
         }
         else if(_targetCamera.localPosition.y == _targetDefaultPosY)

@@ -1,5 +1,3 @@
-using NUnit.Framework.Internal;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,7 +21,7 @@ public class Grab : MonoBehaviour
         if (isGrab)
         {
             _controller.aimPoint.sprite = _controller.grabSprite;
-            //transform.position = _holdPoint.position;
+
             if (_interact.action.WasReleasedThisFrame())
             {
                 DropObject();
@@ -47,7 +45,6 @@ public class Grab : MonoBehaviour
         _controller.grab= this;
         transform.parent = parent;
         _holdPoint = holdPoint;
-        //_holdPoint.position += new Vector3(0f, 0f, _objectSize) * transform.forward;
         _interact = interact;
         _rb.useGravity = false;
         _rb.freezeRotation = true;

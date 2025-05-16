@@ -18,8 +18,6 @@ public class Inspect : MonoBehaviour
 
     private Transform _camera;
 
-    private Image _aimPoint;
-
     [HideInInspector] public bool isInspect;
     private bool _canRelease;
 
