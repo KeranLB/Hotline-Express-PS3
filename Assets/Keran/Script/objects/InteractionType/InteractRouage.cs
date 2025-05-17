@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InteractRouage : MonoBehaviour
 {
+    [SerializeField] private AudioSource _gearSound;
     public float _rotationValue;
     [SerializeField, Range(0f, 359.99f)] private float _target;
     [SerializeField] private float _speedRotaion;
@@ -45,6 +46,10 @@ public class InteractRouage : MonoBehaviour
     {
         _isRotating = true;
 
+        if (_gearSound != null)
+        {
+            _gearSound.Play();
+        }
         float start = currentRotation;
         
         var t = 0f;

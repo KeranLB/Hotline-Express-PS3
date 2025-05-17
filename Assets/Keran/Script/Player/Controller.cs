@@ -11,6 +11,9 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
     public Grab grab;
+    [SerializeField] private AudioSource _grabAudio;
+    private AudioSource _interactAudio;
+    private AudioSource _inspectAudio;
 
     [Header("Aim Point UI :")]
     public Image aimPoint;
@@ -203,6 +206,7 @@ public class Controller : MonoBehaviour
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
+                    _grabAudio.Play();
                     interaction.Interact();
                 }
                 break;
@@ -221,6 +225,7 @@ public class Controller : MonoBehaviour
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
+                    _grabAudio.Play();
                     grab.MoveObject(_camera, _holdPoint, _interact, this);
                 }
                 break;
@@ -236,6 +241,7 @@ public class Controller : MonoBehaviour
                 aimPoint.sprite = _inspectSprite;
                 if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
+                    _grabAudio.Play();
                     inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;

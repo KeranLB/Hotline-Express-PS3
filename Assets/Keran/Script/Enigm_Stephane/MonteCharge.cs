@@ -21,6 +21,8 @@ public class MonteCharge : MonoBehaviour
 
     [SerializeField] private BoxCollider _boxCollider;
 
+    [SerializeField] private AudioSource _audioSource;
+
     private bool _isopen;
 
     private void Start()
@@ -58,6 +60,7 @@ public class MonteCharge : MonoBehaviour
 
     IEnumerator Travel(Transform startPoint, Transform endPoint, bool switchItem)
     {
+        _audioSource.Play();
         float t = 0f;
         while (t < 1f)
         {
