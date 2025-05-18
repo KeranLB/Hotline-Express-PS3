@@ -24,13 +24,27 @@ public class InteractRouage : MonoBehaviour
 
     private void Verif()
     {
-        if (Mathf.RoundToInt(currentRotation) == Mathf.RoundToInt(_target))
+        if (currentRotation < 0f)
         {
-            isLock = true;
+            if (Mathf.RoundToInt(currentRotation) + 360 == Mathf.RoundToInt(_target))
+            {
+                isLock = true;
+            }
+            else
+            {
+                isLock = false;
+            }
         }
         else
         {
-            isLock = false;
+            if (Mathf.Abs(Mathf.RoundToInt(currentRotation)) == Mathf.RoundToInt(_target))
+            {
+                isLock = true;
+            }
+            else
+            {
+                isLock = false;
+            }
         }
     }
 
@@ -61,6 +75,10 @@ public class InteractRouage : MonoBehaviour
             if (currentRotation >= 360f)
             {
                 currentRotation -= 360;
+            }
+            else if (currentRotation <= -360f)
+            {
+                currentRotation += 360;
             }
             switch (_rotationDirection)
             {

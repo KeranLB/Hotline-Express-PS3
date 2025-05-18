@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour
 {
     public void Quit()
     {
-        EditorApplication.Exit(0);
+        Application.Quit();
     }
 
     public void Restart()
