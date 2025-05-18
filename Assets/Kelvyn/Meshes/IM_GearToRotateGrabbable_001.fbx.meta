@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5fef9e5a535cf3946955a22cbecb3798
+guid: 4b19104ab693b27459fa3065b06ad15b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_GearToRotate_001
-    second: {fileID: 2100000, guid: ac95d61e36a4235439ad933b7ab13b42, type: 2}
+      name: M_GearToRotateGrabbable_001
+    second: {fileID: 2100000, guid: a5370ed19d8afc4468fc185e8712636b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +45,7 @@ ModelImporter:
     sortHierarchyByName: 1
     importPhysicalCameras: 1
     importVisibility: 1
-    importBlendShapes: 1
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     nodeNameCollisionStrategy: 1
@@ -104,7 +104,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
+  importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 

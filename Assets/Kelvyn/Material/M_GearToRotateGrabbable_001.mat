@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_FollowEnigmaPanel_001
+  m_Name: M_GearToRotateGrabbable_001
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -26,7 +26,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: a8e5d821fad2d8948a05747c7eaf6255, type: 3}
+        m_Texture: {fileID: 2800000, guid: b78b9f3097ff3d74d9744cedada262c4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -46,11 +46,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 58991d888a262dd46a90d3ff21edc4a0, type: 3}
+        m_Texture: {fileID: 2800000, guid: a62f4ca0985c7f54db40415360202fea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 668f3739fb504bf4a88c2d222b5c41da, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0aa85666e39249945a947d552123a298, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
