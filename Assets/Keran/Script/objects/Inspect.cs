@@ -26,7 +26,7 @@ public class Inspect : MonoBehaviour
 
     [Header("atomic parameters :")]
     [SerializeField,Range(0,3)] private float _minDistance;
-    [SerializeField, Range(0f, 1f)] private float _reduceSize;
+    [SerializeField, Range(0f, 10f)] private float _reduceSize;
     [SerializeField,Range(0,100)] private float _rotationSpeed;
 
 
