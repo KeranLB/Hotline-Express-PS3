@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c8017fed4c6d4d4b945f61f8fbd0811
+guid: 8191d869065c76144aa0f1cc9493622f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Props_001
-    second: {fileID: 2100000, guid: 5d1b7c6b3ca8c8448b4864b112671948, type: 2}
+      name: M_Paper_001
+    second: {fileID: 2100000, guid: 15d5896d67c2816449fe67c735cce92d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
