@@ -1474,8 +1474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d009556ec4e59dd4bac89387f30ce9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _finalCode: 1234
+  finalCode: 
   currentCode: 
+  verifStringCurrentCode: 
+  stringCurrentCode: 
   isCorrect: 0
   text: {fileID: 594291316687545234}
 --- !u!1 &3768103412981547643
