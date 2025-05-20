@@ -1796,6 +1796,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -4121242287675615543, guid: ea6c13ce1a3b4df46b91a372a08217f6, type: 3}
+    - target: {fileID: 3432121637628171675, guid: 1ff0a4cfad028c94a9feea790149f093, type: 3}
+      propertyPath: interactType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6695535392485584962, guid: 1ff0a4cfad028c94a9feea790149f093, type: 3}
       propertyPath: m_Size.x
       value: 0.25840676
@@ -7067,7 +7071,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 139881047}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &139881045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11192,7 +11195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 234787701}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &234787703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21404,7 +21406,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 446083505}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &446083507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21764,7 +21765,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 447319148}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &447319150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23697,11 +23697,12 @@ PrefabInstance:
       objectReference: {fileID: 1561671628}
     m_RemovedComponents:
     - {fileID: 2605051017218528809, guid: 1df71e69c04b48142bc248731d35bc20, type: 3}
+    - {fileID: 1283029433454481584, guid: 1df71e69c04b48142bc248731d35bc20, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6784056716062574185, guid: 1df71e69c04b48142bc248731d35bc20, type: 3}
-      insertIndex: 5
+      insertIndex: 4
       addedObject: {fileID: 1561671622}
     - targetCorrespondingSourceObject: {fileID: 6784056716062574185, guid: 1df71e69c04b48142bc248731d35bc20, type: 3}
       insertIndex: -1
@@ -24322,11 +24323,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2945468403759887424, guid: 0d0ef698de818fc43a13a257c21972e2, type: 3}
+    - {fileID: 2809895486365147386, guid: 0d0ef698de818fc43a13a257c21972e2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5750401507986244726, guid: 0d0ef698de818fc43a13a257c21972e2, type: 3}
-      insertIndex: 5
+      insertIndex: 4
       addedObject: {fileID: 2084459327}
     - targetCorrespondingSourceObject: {fileID: 5750401507986244726, guid: 0d0ef698de818fc43a13a257c21972e2, type: 3}
       insertIndex: -1
@@ -28171,7 +28173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 578506795}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &578506793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32712,7 +32713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 673013806}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &673013805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68757,7 +68757,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1546765782}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &1546765784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70714,7 +70713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1590144458}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &1590144456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76265,7 +76263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1715357821}
   isGrab: 0
-  _speedComeBack: 0
 --- !u!114 &1715357820
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class Grab : MonoBehaviour
     private Controller _controller;
 
     private float _speedComeBack = 10;
+    private float _limitThrow = 30f;
 
 
 
@@ -62,11 +63,22 @@ public class Grab : MonoBehaviour
     public void DropObject()
     {
         transform.parent = null;
+
+        Vector3 direction = _look.action.ReadValue<Vector3>();
+        if (direction.x > _limitThrow || direction.x < _limitThrow || direction.y > _limitThrow || direction.y < -_limitThrow || direction.z > _limitThrow || direction.z < _limitThrow)
+        {
+            Mathf.Clamp(direction.x, -_speedComeBack, _speedComeBack);
+            Mathf.Clamp(direction.y, -_speedComeBack, _speedComeBack);
+            Mathf.Clamp(direction.z, -_speedComeBack, _speedComeBack);
+            transform.eulerAngles = _holdPoint.eulerAngles;
+            _rb.AddRelativeForce(direction, ForceMode.Impulse);
+        }
         _rb.useGravity = true;
         _rb.freezeRotation = false;
         _rb.linearDamping = 1f;
         Debug.Log(_look.action.ReadValue<Vector3>());
-        _rb.AddRelativeForce(_look.action.ReadValue<Vector3>(), ForceMode.Impulse);
+
+        _rb.maxLinearVelocity = _speedComeBack;
         isGrab = false;
     }
 }
