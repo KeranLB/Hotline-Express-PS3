@@ -8,10 +8,12 @@ public class Grab : MonoBehaviour
     private Transform _holdPoint;
 
     private InputActionReference _interact;
+    private InputActionReference _look;
+    private InputActionReference _zoom;
 
     private Controller _controller;
 
-    public float speedComeBack;
+    private float _speedComeBack = 10;
 
 
 
@@ -34,14 +36,16 @@ public class Grab : MonoBehaviour
             else
             {
                 _rb.AddForce(_holdPoint.position - transform.position, ForceMode.Impulse);
-                _rb.maxLinearVelocity = speedComeBack;
+                _rb.maxLinearVelocity = _speedComeBack;
             }
         }
     }
 
-    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, Controller controller)
+    public void MoveObject(Transform parent, Transform holdPoint, InputActionReference interact, InputActionReference look, InputActionReference zoom, Controller controller)
     {
         _controller = controller;
+        _look = look;
+        _zoom = zoom;
         _controller.grab= this;
         transform.parent = parent;
         _holdPoint = holdPoint;
@@ -61,6 +65,8 @@ public class Grab : MonoBehaviour
         _rb.useGravity = true;
         _rb.freezeRotation = false;
         _rb.linearDamping = 1f;
+        Debug.Log(_look.action.ReadValue<Vector3>());
+        _rb.AddRelativeForce(_look.action.ReadValue<Vector3>(), ForceMode.Impulse);
         isGrab = false;
     }
 }

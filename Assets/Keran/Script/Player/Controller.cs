@@ -226,7 +226,7 @@ public class Controller : MonoBehaviour
                 if (_interact.action.WasPressedThisFrame())
                 {
                     _grabAudio.Play();
-                    grab.MoveObject(_camera, _holdPoint, _interact, this);
+                    grab.MoveObject(_camera, _holdPoint, _interact, _look, _zoom, this);
                 }
                 break;
 
