@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Controller : MonoBehaviour
 {
     [Header("Set component :")]
-    [SerializeField] private Rigidbody _rb;
+    [SerializeField] public Rigidbody rb;
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
@@ -88,6 +88,7 @@ public class Controller : MonoBehaviour
             Look();
             TipToeAndCrouch();
             RaycastThrow();
+            Debug.Log(_look.action.ReadValue<Vector3>());
         }
     }
 
@@ -158,8 +159,8 @@ public class Controller : MonoBehaviour
         _moveDirection = _move.action.ReadValue<Vector3>();
         Vector3 direction = (_moveDirection.x * transform.right + transform.forward * _moveDirection.z);
 
-        _rb.AddForce(direction * _moveSpeed * _speedModification * 1000 * Time.deltaTime, ForceMode.Acceleration);
-        _rb.maxLinearVelocity = _moveSpeed * _speedModification;
+        rb.AddForce(direction * _moveSpeed * _speedModification * 1000 * Time.deltaTime, ForceMode.Acceleration);
+        rb.maxLinearVelocity = _moveSpeed * _speedModification;
     }
 
     private void RaycastThrow()
