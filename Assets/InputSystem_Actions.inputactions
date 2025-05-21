@@ -1426,7 +1426,7 @@
                 {
                     "name": "",
                     "id": "e74a40a7-e577-4910-9a9b-d9f0d69717e5",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1459,7 +1459,7 @@
                 {
                     "name": "",
                     "id": "c9bc891b-1495-473b-abe8-8e8ecae205e6",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
