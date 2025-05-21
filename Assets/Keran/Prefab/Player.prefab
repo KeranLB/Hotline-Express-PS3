@@ -185,11 +185,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fd29cfb38c1214c8a45ee99fb58ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 7526982861462641497}
+  rb: {fileID: 7526982861462641497}
   _camera: {fileID: 1454902759105263400}
   _targetCamera: {fileID: 3896474140631108082}
   _holdPoint: {fileID: 8722914349394583670}
   grab: {fileID: 0}
+  _grabAudio: {fileID: 0}
   aimPoint: {fileID: 0}
   grabSprite: {fileID: 21300000, guid: c2d2a0a8d9390a24983fa90174ec8afd, type: 3}
   _grabSpriteOuvert: {fileID: 21300000, guid: 1955846c23c1dc7448d2955a8fe135f6, type: 3}
@@ -212,9 +213,9 @@ MonoBehaviour:
   _targetDefaultPosY: 0.38
   _speedTranslateCam: 1
   _speedModification: 1
-  _moveSpeed: 6
+  _moveSpeed: 5
   _sensitivity: 0.1
-  _rayDistance: 4
+  _rayDistance: 2
   canMove: 1
   canInspect: 1
   isLock: 1
