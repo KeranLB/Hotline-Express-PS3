@@ -131,6 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInspect: 0
   _collider: {fileID: -2662325955470481276}
-  _minDistance: 0.1
-  _reduceSize: 1
+  _minDistance: 1.5
+  _reduceSize: 1.5
   _rotationSpeed: 75
