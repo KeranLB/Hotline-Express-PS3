@@ -88,7 +88,6 @@ public class Controller : MonoBehaviour
             Look();
             TipToeAndCrouch();
             RaycastThrow();
-            Debug.Log(_look.action.ReadValue<Vector3>());
         }
     }
 
