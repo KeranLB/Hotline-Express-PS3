@@ -10,20 +10,20 @@ public class Prompteur : MonoBehaviour
 
     [SerializeField] private int _nombreCache;
 
-    [SerializeField] private TextMeshPro _textMeshPro;
+    public TextMeshPro textMeshPro;
 
     public bool isShowingTime = true;
 
     private void Start()
     {
-        _textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
+        textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
         StartCoroutine(Timer());
     }
     private void Update()
     {
         if (!isShowingTime)
         {
-            _textMeshPro.text = _nombreCache.ToString();
+            textMeshPro.text = _nombreCache.ToString();
         }
     }
 
@@ -44,7 +44,7 @@ public class Prompteur : MonoBehaviour
 
         if (isShowingTime)
         {
-            _textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
+            textMeshPro.text = _hours.ToString() + " : " + _minutes.ToString() + " : " + Mathf.RoundToInt(_secondes).ToString();
         }
         StartCoroutine(Timer());
     }

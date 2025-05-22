@@ -130,7 +130,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7443359927458983235}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d20484b51d8cdb640a5deb46ad2cf2e1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -191,6 +191,7 @@ MonoBehaviour:
   _holdPoint: {fileID: 8722914349394583670}
   grab: {fileID: 0}
   _grabAudio: {fileID: 0}
+  _pauseMenu: {fileID: 0}
   aimPoint: {fileID: 0}
   grabSprite: {fileID: 21300000, guid: c2d2a0a8d9390a24983fa90174ec8afd, type: 3}
   _grabSpriteOuvert: {fileID: 21300000, guid: 1955846c23c1dc7448d2955a8fe135f6, type: 3}
@@ -208,6 +209,7 @@ MonoBehaviour:
   _zoom: {fileID: -2529592550516788070, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _tipToe: {fileID: 8459141271094738296, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _crouch: {fileID: -2682461618996658327, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _Pause: {fileID: 1707438419553526366, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _targetTipToePosY: 0.75
   _targetCrouchPosY: -0.3
   _targetDefaultPosY: 0.38
