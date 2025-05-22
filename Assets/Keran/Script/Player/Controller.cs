@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private AudioSource _grabAudio;
     private AudioSource _interactAudio;
     private AudioSource _inspectAudio;
+    [SerializeField] private GameObject _pauseMenu;
 
     [Header("Aim Point UI :")]
     public Image aimPoint;
@@ -37,6 +38,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private InputActionReference _zoom;
     [SerializeField] private InputActionReference _tipToe;
     [SerializeField] private InputActionReference _crouch;
+    [SerializeField] private InputActionReference _Pause;
 
     [Header("TipToe :")]
     [SerializeField] private float _targetTipToePosY;
@@ -50,7 +52,7 @@ public class Controller : MonoBehaviour
     [SerializeField, Range(0, 500)] private float _moveSpeed;
 
     [Header("Look Settings")]
-    [SerializeField, Range(0, 500)] private float _sensitivity;
+    [SerializeField, Range(0, 1)] private float _sensitivity;
 
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
@@ -81,6 +83,10 @@ public class Controller : MonoBehaviour
     {
         if (canMove)
         {
+            if (_Pause.action.WasPressedThisFrame())
+            {
+                PauseMenu(true);
+            }
             if (!isLock)
             {
                 Move();
@@ -88,6 +94,38 @@ public class Controller : MonoBehaviour
             Look();
             TipToeAndCrouch();
             RaycastThrow();
+        }
+        else
+        {
+            if (_Pause.action.WasPressedThisFrame())
+            {
+                PauseMenu(false);
+            }
+        }
+    }
+
+    public void SensitivityChange(float value)
+    {
+        _sensitivity = value;
+    }
+
+    public void PauseMenu(bool open)
+    {
+        if (open)
+        {
+            canMove = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            aimPoint.enabled = false;
+            _pauseMenu.SetActive(true);
+        }
+        else if (!open)
+        {
+            canMove = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            aimPoint.enabled = true;
+            _pauseMenu.SetActive(false);
         }
     }
 
