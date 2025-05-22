@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class Follow : MonoBehaviour
     [SerializeField] private InteractRouage _interactionRouageA;
     [SerializeField] private InteractRouage _interactionRouageB;
     [SerializeField] private InteractRouage _interactionRouageC;
+    [SerializeField] private GameObject _compa;
+    [SerializeField] private List<GameObject> _buttons;
 
     private bool asSwitch = false;
     // Update is called once per frame
@@ -30,10 +33,14 @@ public class Follow : MonoBehaviour
 
     private void SwitchType()
     {
-        _interactionRouageA.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
-        _interactionRouageC.gameObject.GetComponent<ObjectClass>().interactType = ObjectType.None;
-        _interactionRouageB.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
-        _interactionRouageB.GetComponent<Grab>()._rb =  _interactionRouageB.AddComponent<Rigidbody>();
+        foreach (GameObject button in _buttons)
+        {
+            button.GetComponent<ObjectClass>().interactType = ObjectType.None;
+        }
+        _compa.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
+        
+        _compa.AddComponent<Rigidbody>();
+        _compa.GetComponent<Grab>().rb = _compa.GetComponent<Rigidbody>(); 
         asSwitch = true;
     }
 }
