@@ -25,7 +25,10 @@ public class Grab : MonoBehaviour
     private List<Vector3> _lastPositions = new List<Vector3>();
 
 
-
+    private void Start()
+    {
+        gameObject.TryGetComponent<Rigidbody>(out rb);
+    }
 
 
     private void Update()
