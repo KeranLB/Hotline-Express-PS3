@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class Follow : MonoBehaviour
     [SerializeField] private InteractRouage _interactionRouageA;
     [SerializeField] private InteractRouage _interactionRouageB;
     [SerializeField] private InteractRouage _interactionRouageC;
+    [SerializeField] private List<GameObject> _buttons;
 
     private bool asSwitch = false;
     // Update is called once per frame
@@ -24,15 +26,20 @@ public class Follow : MonoBehaviour
             _direction = new Vector2(
             transform.position.x - _target.transform.position.x,
             transform.position.z - _target.transform.position.z);
-            //transform.Rotate(0.0f, Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg, 0.0f);
             transform.eulerAngles = new Vector3(0f, -Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg + _adjustement, 0f);
         }
     }
 
     private void SwitchType()
     {
-        _interactionRouageB.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
-        _interactionRouageB.GetComponent<Grab>()._rb =  _interactionRouageB.AddComponent<Rigidbody>();
+        foreach (GameObject button in _buttons)
+        {
+            button.GetComponent<ObjectClass>().interactType = ObjectType.None;
+        }
+        _target.GetComponent<ObjectClass>().interactType = ObjectType.Movable;
+        
+        _target.AddComponent<Rigidbody>();
+        _target.GetComponent<Grab>().rb = _target.GetComponent<Rigidbody>(); 
         asSwitch = true;
     }
 }

@@ -121,3 +121,4 @@ MonoBehaviour:
   _originPosition: {x: 0, y: 0, z: 0}
   _minDistance: 0.4
   _rotationSpeed: 75
+  _collider: {fileID: 3576711652117612749}
