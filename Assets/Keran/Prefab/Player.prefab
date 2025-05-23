@@ -130,7 +130,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7443359927458983235}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d20484b51d8cdb640a5deb46ad2cf2e1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -185,20 +185,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fd29cfb38c1214c8a45ee99fb58ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 7526982861462641497}
+  rb: {fileID: 7526982861462641497}
   _camera: {fileID: 1454902759105263400}
   _targetCamera: {fileID: 3896474140631108082}
   _holdPoint: {fileID: 8722914349394583670}
   grab: {fileID: 0}
+  _grabAudio: {fileID: 0}
+  _pauseMenu: {fileID: 0}
+  _tutoControl: {fileID: 0}
   aimPoint: {fileID: 0}
   grabSprite: {fileID: 21300000, guid: c2d2a0a8d9390a24983fa90174ec8afd, type: 3}
   _grabSpriteOuvert: {fileID: 21300000, guid: 1955846c23c1dc7448d2955a8fe135f6, type: 3}
   _interactSprite: {fileID: 21300000, guid: dc3aaa39e08642f48ad2065c799737ae, type: 3}
   _inspectSprite: {fileID: 21300000, guid: 49176c3829a0ac84d8fa546e29696ed7, type: 3}
   _noneSprite: {fileID: 21300000, guid: 74bb201df6bcb4340b872427aa8b8d00, type: 3}
-  _interactText: {fileID: 0}
-  _inspectText: {fileID: 0}
-  _grabText: {fileID: 0}
+  _interactSpriteK: {fileID: 21300000, guid: dfaa920bec897c3489e32a54d61a9c84, type: 3}
+  _inspectSpriteK: {fileID: 21300000, guid: 843461fd410d8af49bb9ed0ab5b0e655, type: 3}
+  _startInspectSpriteK: {fileID: 21300000, guid: 3ffa1284af0ae7544b542588ce3ca58a, type: 3}
+  _grabSpriteK: {fileID: 21300000, guid: f9c0f6cc2eda8c44ca0773704afcd43b, type: 3}
+  _lookSpriteK: {fileID: 21300000, guid: 1147e33cb3819bf4f922af575a63e960, type: 3}
+  _moveSpriteK: {fileID: 21300000, guid: 7eaeae368d57e3f42a59bd08bfc348a6, type: 3}
+  _crouchSpriteK: {fileID: 21300000, guid: 1fd19b518285fe24f861cf38dbb22626, type: 3}
+  _tipToeSpriteK: {fileID: 21300000, guid: d7b3f7664865ea14bb6555b979886853, type: 3}
+  _interactSpriteG: {fileID: 21300000, guid: 448015ecd58b0d448ad2ce7e98671163, type: 3}
+  _inspectSpriteG: {fileID: 21300000, guid: 36a61e00b2fa25b419841964893f69f8, type: 3}
+  _startInspectSpriteG: {fileID: 21300000, guid: e98d2420db4b1d145a459b40ad5b8244, type: 3}
+  _grabSpriteG: {fileID: 21300000, guid: 50cbcd529c7be5441bcc31c512520674, type: 3}
+  _lookSpriteG: {fileID: 21300000, guid: d3283b07c30252548b79c2580ed8e312, type: 3}
+  _moveSpriteG: {fileID: 21300000, guid: 9e551deda4581514ea1b440a37d12366, type: 3}
+  _crouchSpriteG: {fileID: 21300000, guid: d713843a5cb33224bb7333041bda1757, type: 3}
+  _tipToeSpriteG: {fileID: 21300000, guid: b295545dcc61bd54fa9de3ff4fc802e9, type: 3}
   _playerInput: {fileID: 4977068925150361593}
   _look: {fileID: 2107092584907527831, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _move: {fileID: 4427919967573900829, guid: 289c1b55c9541489481df5cc06664110, type: 3}
@@ -207,14 +223,15 @@ MonoBehaviour:
   _zoom: {fileID: -2529592550516788070, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _tipToe: {fileID: 8459141271094738296, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _crouch: {fileID: -2682461618996658327, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  _Pause: {fileID: 1707438419553526366, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   _targetTipToePosY: 0.75
   _targetCrouchPosY: -0.3
   _targetDefaultPosY: 0.38
   _speedTranslateCam: 1
   _speedModification: 1
-  _moveSpeed: 6
+  _moveSpeed: 5
   _sensitivity: 0.1
-  _rayDistance: 4
+  _rayDistance: 2
   canMove: 1
   canInspect: 1
   isLock: 1
