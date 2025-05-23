@@ -27898,7 +27898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c64363f27a76df4386d2d18d3f09b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _codeManager: {fileID: 0}
+  _codeManager: {fileID: 463265895}
   _controller: {fileID: 1195969472}
   ecranCodeTuto: {fileID: 700808998}
   lightManager: {fileID: 1443923898}
@@ -68326,6 +68326,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: moveSpriteG
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e551deda4581514ea1b440a37d12366, type: 3}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: moveSpriteK
+      value: 
+      objectReference: {fileID: 21300000, guid: 7eaeae368d57e3f42a59bd08bfc348a6, type: 3}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: tutoControl
+      value: 
+      objectReference: {fileID: 1556289544}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: _inspectText
       value: 
       objectReference: {fileID: 0}
@@ -68337,6 +68349,14 @@ PrefabInstance:
       propertyPath: _interactText
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: inspectSpriteG
+      value: 
+      objectReference: {fileID: 21300000, guid: 36a61e00b2fa25b419841964893f69f8, type: 3}
+    - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
+      propertyPath: inspectSpriteK
+      value: 
+      objectReference: {fileID: 21300000, guid: 843461fd410d8af49bb9ed0ab5b0e655, type: 3}
     - target: {fileID: 3226792078658162033, guid: 7467d68992e0b664986765d01da2267b, type: 3}
       propertyPath: crouchCamHeight
       value: 0.01
