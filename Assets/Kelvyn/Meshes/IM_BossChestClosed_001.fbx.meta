@@ -3,11 +3,16 @@ guid: 1e58ab287b67651459a03a7d0e8b1950
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_BossChest_001
+    second: {fileID: 2100000, guid: 42f577b75ecd3954886d3c046214906b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
-    materialSearch: 1
+    materialSearch: 2
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4

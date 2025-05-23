@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class Grab : MonoBehaviour
 {
-    [SerializeField] public Rigidbody _rb;
+    public Rigidbody rb;
     [HideInInspector] public bool isGrab;
     private Transform _holdPoint = null;
 
@@ -25,7 +25,10 @@ public class Grab : MonoBehaviour
     private List<Vector3> _lastPositions = new List<Vector3>();
 
 
-
+    private void Start()
+    {
+        gameObject.TryGetComponent<Rigidbody>(out rb);
+    }
 
 
     private void Update()
@@ -42,13 +45,13 @@ public class Grab : MonoBehaviour
             else if (transform.position == _holdPoint.position)
             {
                 //_lastPosition = transform.position;
-                _rb.linearVelocity = new Vector3(0,0,0);
+                rb.linearVelocity = new Vector3(0,0,0);
             }
             else
             {
                 //_lastPosition = transform.position;
-                _rb.AddForce(_holdPoint.position - transform.position, ForceMode.Impulse);
-                _rb.maxLinearVelocity = _speedComeBack;
+                rb.AddForce(_holdPoint.position - transform.position, ForceMode.Impulse);
+                rb.maxLinearVelocity = _speedComeBack;
             }
         }
     }
@@ -81,9 +84,9 @@ public class Grab : MonoBehaviour
         transform.parent = parent;
         _holdPoint = holdPoint;
         _interact = interact;
-        _rb.useGravity = false;
-        _rb.freezeRotation = true;
-        _rb.linearDamping = 10f;
+        rb.useGravity = false;
+        rb.freezeRotation = true;
+        rb.linearDamping = 10f;
         transform.Rotate(new Vector3(0f,0f,0f));
         transform.position = _holdPoint.position;
         isGrab = true;
@@ -114,15 +117,15 @@ public class Grab : MonoBehaviour
         float z = Mathf.Clamp(delta.z, -_throwForce, _throwForce);
         delta = new Vector3(x, y, z);
 
-        _rb.linearVelocity = new Vector3(0f,0f,0f);
+        rb.linearVelocity = new Vector3(0f,0f,0f);
 
-        _rb.AddForce(delta * _throwForce, ForceMode.Impulse);
+        rb.AddForce(delta * _throwForce, ForceMode.Impulse);
         transform.parent = null;
-        _rb.useGravity = true;
-        _rb.freezeRotation = false;
-        _rb.linearDamping = 1f;
+        rb.useGravity = true;
+        rb.freezeRotation = false;
+        rb.linearDamping = 1f;
 
-        _rb.maxLinearVelocity = _speedComeBack;
+        rb.maxLinearVelocity = _speedComeBack;
         isGrab = false;
     }
 }
