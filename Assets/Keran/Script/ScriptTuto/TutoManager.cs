@@ -14,7 +14,15 @@ public class TutoManager : MonoBehaviour
         {
             _controller.isLock = false;
             _controller.isInTuto = false;
-            _textMeshPro.enabled = false;
+            if (_controller.isUsingKeyboard)
+            {
+                _controller.tutoControl.sprite = _controller.moveSpriteK;
+            }
+            else if (_controller.isUsingGamepad)
+            {
+                _controller.tutoControl.sprite = _controller.moveSpriteG;
+            }
+            _controller.SetMoveUI();
             ecranCodeTuto.SetActive(false);
         }
     }

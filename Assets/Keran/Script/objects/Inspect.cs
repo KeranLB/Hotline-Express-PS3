@@ -16,6 +16,7 @@ public class Inspect : MonoBehaviour
     private Vector3 _originRotation;
     private Vector3 _originScale;
 
+
     private Transform _camera;
 
     [HideInInspector] public bool isInspect;
@@ -42,6 +43,14 @@ public class Inspect : MonoBehaviour
     {
         if (isInspect)
         {
+            if (_controller.isUsingGamepad)
+            {
+                _controller.tutoControl.sprite = _controller.inspectSpriteG;
+            }
+            else if (_controller.isUsingKeyboard)
+            {
+                _controller.tutoControl.sprite = _controller.inspectSpriteK;
+            }
             if (_interact.action.IsPressed())
             {
                 ObjectRotation();

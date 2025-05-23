@@ -20,7 +20,7 @@ public class ScreenEngrenage : MonoBehaviour
         }
         float tmp = (_interactRouage.currentRotation + _correction) / _interactRouage._rotationValue;
 
-
+        
         _textMeshPro.text = Mathf.RoundToInt(tmp).ToString();
     }
 }

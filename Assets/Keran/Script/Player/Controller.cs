@@ -1,3 +1,5 @@
+
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +17,7 @@ public class Controller : MonoBehaviour
     private AudioSource _interactAudio;
     private AudioSource _inspectAudio;
     [SerializeField] private GameObject _pauseMenu;
+    public Image tutoControl;
 
     [Header("Aim Point UI :")]
     public Image aimPoint;
@@ -24,10 +27,29 @@ public class Controller : MonoBehaviour
     [SerializeField] private Sprite _inspectSprite;
     [SerializeField] private Sprite _noneSprite;
 
-    [Header("Text Tuto UI :")]
-    [SerializeField] private TextMeshProUGUI _interactText;
-    [SerializeField] private TextMeshProUGUI _inspectText;
-    [SerializeField] private TextMeshProUGUI _grabText;
+    [Header("Text Tuto UI Keyboard :")]
+    [SerializeField] private Sprite _interactSpriteK;
+    public Sprite inspectSpriteK;
+    [SerializeField] private Sprite _startInspectSpriteK;
+    [SerializeField] private Sprite _grabSpriteK;
+    [SerializeField] private Sprite _lookSpriteK;
+    public Sprite moveSpriteK;
+    [SerializeField] private Sprite _crouchSpriteK;
+    [SerializeField] private Sprite _tipToeSpriteK;
+
+    private TextMeshPro _inspectText;
+    private TextMeshPro _interactText;
+    private TextMeshPro _grabText;
+
+    [Header("Text Tuto UI GamePad :")]
+    [SerializeField] private Sprite _interactSpriteG;
+    public Sprite inspectSpriteG;
+    [SerializeField] private Sprite _startInspectSpriteG;
+    [SerializeField] private Sprite _grabSpriteG;
+    [SerializeField] private Sprite _lookSpriteG;
+    public Sprite moveSpriteG;
+    [SerializeField] private Sprite _crouchSpriteG;
+    [SerializeField] private Sprite _tipToeSpriteG;
 
     [Header("Control mapping :")]
     [SerializeField] private PlayerInput _playerInput;
@@ -66,21 +88,95 @@ public class Controller : MonoBehaviour
     [HideInInspector] public bool canInspect = true;
     [HideInInspector] public bool isLock = true;
     [HideInInspector] public bool isInTuto = true;
+    [HideInInspector] public bool isUsingGamepad;
+    [HideInInspector] public bool isUsingKeyboard;
+    private bool _isInStart = true;
+    private bool _validCrouch = false;
+    private bool _validTipToe = false;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _grabText.enabled = false;
-        _inspectText.enabled = false;
-        _interactText.enabled = false;
+        tutoControl.sprite = _crouchSpriteK;
 
         _targetDefaultPosY = _targetCamera.localPosition.y;
     }
 
+    
+    public void SetMoveUI()
+    {
+        StartCoroutine(Timer());
+    }
+    
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(5);
+        tutoControl.enabled = false;
+    }
+
+    public void StartTuto()
+    {
+        if (!_validCrouch && !_validTipToe)
+        {
+            if (isUsingGamepad)
+            {
+                tutoControl.sprite = _crouchSpriteG;
+            }
+            else if (isUsingKeyboard)
+            {
+                tutoControl.sprite = _crouchSpriteK;
+            }
+        }
+
+        if (_crouch.action.WasPressedThisFrame() && !_validCrouch)
+        {
+            if (isUsingGamepad)
+            {
+                tutoControl.sprite = _tipToeSpriteG;
+            }
+            else if (isUsingKeyboard)
+            {
+                tutoControl.sprite = _tipToeSpriteK;
+            }
+            _validCrouch = true;
+        }
+
+        else if (_tipToe.action.WasPressedThisFrame() && !_validTipToe)
+        {
+            if (isUsingGamepad)
+            {
+                tutoControl.sprite = _lookSpriteG;
+            }
+            else if (isUsingKeyboard)
+            {
+                tutoControl.sprite = _lookSpriteK;
+            }
+            _validTipToe = true;
+        }
+
+        else if (_validCrouch && _validTipToe)
+        {
+            _isInStart = false;
+        }
+    }
+
     void Update()
     {
+        if (_playerInput.currentControlScheme == "Gamepad")
+        {
+            isUsingGamepad = true;
+            isUsingKeyboard = false;
+        }
+        else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            isUsingKeyboard = true;
+            isUsingGamepad = false;
+        }
+
+        StartTuto();
+
         if (canMove)
         {
             if (_Pause.action.WasPressedThisFrame())
@@ -131,14 +227,6 @@ public class Controller : MonoBehaviour
 
     private void Look()
     {
-        if (_playerInput.currentControlScheme == "Gamepad")
-        {
-            _sensitivity = 0.25f; 
-        }
-        else if (_playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
-            _sensitivity = 0.1f;
-        }
         _lookDirection = _look.action.ReadValue<Vector3>();
 
         _verticalRotation -= _lookDirection.y * _sensitivity;
@@ -212,20 +300,36 @@ public class Controller : MonoBehaviour
                 ObjectClass objectClass = test.GetComponent<ObjectClass>();
                 ObjectAction(test, objectClass.interactType, hit.distance);
             }
-            else if (!grab.isGrab)
+            else if (!grab.isGrab && !_isInStart)
             {
-                _grabText.enabled = false;
-                _interactText.enabled = false;
-                _inspectText.enabled = false;
                 aimPoint.sprite = _noneSprite;
+                if (isInTuto)
+                {
+                    if (isUsingGamepad)
+                    {
+                        tutoControl.sprite = _lookSpriteG;
+                    }
+                    else if (isUsingKeyboard)
+                    {
+                        tutoControl.sprite = _lookSpriteK;
+                    }
+                }
             }
         }
-        else if (!grab.isGrab)
+        else if (!grab.isGrab && !_isInStart)
         {
-            _grabText.enabled = false;
-            _interactText.enabled = false;
-            _inspectText.enabled = false;
             aimPoint.sprite = _noneSprite;
+            if (isInTuto)
+            {
+                if (isUsingGamepad)
+                {
+                    tutoControl.sprite = _lookSpriteG;
+                }
+                else if (isUsingKeyboard)
+                {
+                    tutoControl.sprite = _lookSpriteK;
+                }
+            }
         }
     }
 
@@ -238,9 +342,14 @@ public class Controller : MonoBehaviour
                 aimPoint.sprite = _interactSprite;
                 if (isInTuto)
                 {
-                    _interactText.enabled = true;
-                    _inspectText.enabled = false;
-                    _grabText.enabled = false;
+                    if (isUsingKeyboard)
+                    {
+                        tutoControl.sprite = _interactSpriteK;
+                    }
+                    else if (isUsingGamepad)
+                    {
+                        tutoControl.sprite = _interactSpriteG;
+                    }
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
@@ -253,9 +362,14 @@ public class Controller : MonoBehaviour
                 Grab grab = target.GetComponent<Grab>();
                 if (isInTuto)
                 {
-                    _grabText.enabled = true;
-                    _inspectText.enabled = false;
-                    _interactText.enabled = false;
+                    if (isUsingKeyboard)
+                    {
+                        tutoControl.sprite = _grabSpriteK;
+                    }
+                    else if (isUsingGamepad)
+                    {
+                        tutoControl.sprite = _grabSpriteG;
+                    }
                 }
                 if (!grab.isGrab)
                 {
@@ -272,9 +386,14 @@ public class Controller : MonoBehaviour
                 Inspect inspect = target.GetComponent<Inspect>();
                 if (isInTuto)
                 {
-                    _inspectText.enabled = true;
-                    _interactText.enabled = false;
-                    _grabText.enabled = false;
+                    if (isUsingKeyboard)
+                    {
+                        tutoControl.sprite = _startInspectSpriteK;
+                    }
+                    else if (isUsingGamepad)
+                    {
+                        tutoControl.sprite = _startInspectSpriteG;
+                    }
                 }
                 aimPoint.sprite = _inspectSprite;
                 if (canInspect && _interactBis.action.WasPressedThisFrame())
