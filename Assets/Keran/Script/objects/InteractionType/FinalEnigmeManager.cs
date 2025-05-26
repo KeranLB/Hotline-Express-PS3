@@ -28,8 +28,11 @@ public class FinalEnigmeManager : MonoBehaviour
                         _isComplet = false;
                     }
                 }
-                isFinish = true;
-                _meshManager.Open();
+                if (_isComplet)
+                {
+                    isFinish = true;
+                    _meshManager.Open();
+                }
             }
         }
     }

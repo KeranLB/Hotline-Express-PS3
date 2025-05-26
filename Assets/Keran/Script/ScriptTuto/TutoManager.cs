@@ -24,6 +24,7 @@ public class TutoManager : MonoBehaviour
             }
             _controller.SetMoveUI();
             ecranCodeTuto.SetActive(false);
+            _textMeshPro.enabled = false;
         }
     }
 }
