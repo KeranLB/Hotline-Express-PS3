@@ -3,25 +3,32 @@ using UnityEngine;
 public class MeshManager : MonoBehaviour
 {
     [SerializeField] private MeshFilter _meshActif;
-    [SerializeField] private Mesh _meshFerme;
-    [SerializeField] private Mesh _meshOuvert;
+    [SerializeField] private Mesh _meshClose;
+    [SerializeField] private Mesh _meshOpen;
 
-    [SerializeField] private BoxCollider _boxColliderFerme;
-    [SerializeField] private BoxCollider _boxColliderOuvert;
+    [SerializeField] private BoxCollider _boxColliderClose;
+    [SerializeField] private BoxCollider _boxColliderOpen;
+
+    [SerializeField] private MeshRenderer _materialActif;
+    [SerializeField] private Material _materialClose;
+    [SerializeField] private Material _materialOpen;
 
     private void Start()
     {
-        _boxColliderFerme.enabled = true;
-        _boxColliderOuvert.enabled = false;
+        _boxColliderClose.enabled = true;
+        _boxColliderOpen.enabled = false;
 
-        _meshActif.mesh = _meshFerme;
+        _materialActif.material = _materialClose;
+
+        _meshActif.mesh = _meshClose;
     }
 
     public void Open()
     {
-        _meshActif.mesh = _meshOuvert;
+        _meshActif.mesh = _meshOpen;
+        _materialActif.material = _materialOpen;
 
-        _boxColliderFerme.enabled = false;
-        _boxColliderOuvert.enabled = true;
+        _boxColliderClose.enabled = false;
+        _boxColliderOpen.enabled = true;
     }
 }
