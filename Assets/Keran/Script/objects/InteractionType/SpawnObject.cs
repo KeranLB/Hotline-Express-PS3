@@ -12,7 +12,7 @@ public class SpawnObject : MonoBehaviour
     {
         if (_spawnCount == 0)
         {
-            Instantiate(_importantObjectToSpawn, _spawnPoint.position, Quaternion.identity);
+            _importantObjectToSpawn.transform.position = _spawnPoint.position;
             _spawnCount++;
         }
         else if (_spawnCount <= _limitSpawnCount)
