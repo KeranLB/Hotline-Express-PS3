@@ -120,5 +120,5 @@ MonoBehaviour:
   isInspect: 0
   _collider: {fileID: 3059817303802970259}
   _minDistance: 1
-  _reduceSize: 2
+  _reduceSize: 1.5
   _rotationSpeed: 75
