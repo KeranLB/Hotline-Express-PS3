@@ -8,6 +8,7 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private GameObject ecranCodeTuto;
     [SerializeField] private LightManager lightManager;
     [SerializeField] private TextMeshPro _textMeshPro;
+    [SerializeField] private Light _light;
    public void Interact()
     {
         if (_codeManager.isCorrect)
@@ -25,6 +26,7 @@ public class TutoManager : MonoBehaviour
             _controller.SetMoveUI();
             ecranCodeTuto.SetActive(false);
             _textMeshPro.enabled = false;
+            _light.enabled = false;
         }
     }
 }
