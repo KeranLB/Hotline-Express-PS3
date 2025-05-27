@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 313cf3948ddab8443ab6c001dc35f9b5
+guid: 8afc9a8c890e85943beb02721384f3ee
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Props_001
-    second: {fileID: 2100000, guid: 5d1b7c6b3ca8c8448b4864b112671948, type: 2}
+      name: M_WallCorner_001
+    second: {fileID: 2100000, guid: 42c6b0ccf12af3f4fbe51446a77edfbc, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -38,7 +38,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.2
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -93,7 +93,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.012
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

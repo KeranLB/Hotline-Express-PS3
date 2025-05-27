@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 679987312868929902}
   - component: {fileID: 3944004337657258395}
   - component: {fileID: 4502259920517314470}
-  - component: {fileID: -4367881090980742833}
+  - component: {fileID: -6163749130689647412}
   m_Layer: 0
   m_Name: IM_LivreVide2
   m_TagString: Untagged
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInspect: 0
-  _collider: {fileID: -4367881090980742833}
+  _collider: {fileID: -6163749130689647412}
   _minDistance: 0
   _reduceSize: 0
   _rotationSpeed: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactType: 3
---- !u!65 &-4367881090980742833
+--- !u!65 &-6163749130689647412
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,5 +138,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.79704654, y: 1, z: 0.28944966}
+  m_Size: {x: 0.39852324, y: 0.5, z: 0.14472483}
   m_Center: {x: 0, y: 0, z: 0}
