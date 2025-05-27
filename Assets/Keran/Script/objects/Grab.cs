@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class Grab : MonoBehaviour
 {
     public Rigidbody rb;
-    [HideInInspector] public bool isGrab;
+    [HideInInspector] public bool isGrab = false;
     private Transform _holdPoint = null;
 
     private InputActionReference _interact;
@@ -80,7 +80,7 @@ public class Grab : MonoBehaviour
         _controller = controller;
         _look = look;
         _zoom = zoom;
-        _controller.grab= this;
+        //_controller._grab= this;
         transform.parent = parent;
         _holdPoint = holdPoint;
         _interact = interact;

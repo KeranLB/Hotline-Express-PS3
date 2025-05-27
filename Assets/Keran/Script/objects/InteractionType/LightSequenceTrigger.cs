@@ -6,16 +6,22 @@ public class LightSequenceTrigger : MonoBehaviour
     [SerializeField] private LightManager lightManager;
     private bool hasBeenActivated = false;
 
-    private void Awake()
+    [SerializeField] private MeshFilter _meshFilter;
+    [SerializeField] private Mesh _meshOff;
+    [SerializeField] private Mesh _meshOn;
+
+    private void Start()
     {
-        GetComponent<ObjectClass>().interactType = ObjectType.Interactable;
+        _meshFilter.mesh = _meshOff;
     }
 
     public void Interact()
     {
-        if (hasBeenActivated) return;
-
-        lightManager.ActivateSequentialLights();
-        hasBeenActivated = true;
+        if (!hasBeenActivated)
+        {
+            lightManager.ActivateSequentialLights();
+            hasBeenActivated = true;
+            _meshFilter.mesh = _meshOn;
+        }
     }
 }
