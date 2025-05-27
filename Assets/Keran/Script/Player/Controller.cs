@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
     private Grab _grab;
+    private Inspect _inspect;
     [SerializeField] private AudioSource _grabAudio;
     private AudioSource _interactAudio;
     private AudioSource _inspectAudio;
@@ -74,7 +75,7 @@ public class Controller : MonoBehaviour
     [SerializeField, Range(0, 500)] private float _moveSpeed;
 
     [Header("Look Settings")]
-    [SerializeField, Range(0, 1)] private float _sensitivity;
+    [SerializeField, Range(0, 1)] public float sensitivity;
 
     [Header("Raycast settings")]
     [SerializeField, Range(0, 500)] private float _rayDistance;
@@ -88,6 +89,7 @@ public class Controller : MonoBehaviour
     [HideInInspector] public bool canInspect = true;
     [HideInInspector] public bool isLock = true;
     [HideInInspector] public bool isInTuto = true;
+    [HideInInspector] public bool isInPause = false;
     [HideInInspector] public bool isUsingGamepad;
     [HideInInspector] public bool isUsingKeyboard;
     private bool _isInStart = true;
@@ -181,10 +183,6 @@ public class Controller : MonoBehaviour
 
         if (canMove)
         {
-            if (_Pause.action.WasPressedThisFrame())
-            {
-                PauseMenu(true);
-            }
             if (!isLock)
             {
                 Move();
@@ -193,18 +191,22 @@ public class Controller : MonoBehaviour
             TipToeAndCrouch();
             RaycastThrow();
         }
-        else
+        if (_Pause.action.WasPressedThisFrame())
         {
-            if (_Pause.action.WasPressedThisFrame())
+            if (isInPause)
             {
                 PauseMenu(false);
+            }
+            else
+            {
+                PauseMenu(true);
             }
         }
     }
 
     public void SensitivityChange(float value)
     {
-        _sensitivity = value;
+        sensitivity = value;
     }
 
     public void PauseMenu(bool open)
@@ -215,14 +217,19 @@ public class Controller : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
             aimPoint.enabled = false;
+            isInPause = true;
             _pauseMenu.SetActive(true);
         }
         else if (!open)
         {
-            canMove = true;
+            if (_inspect == null || !_inspect.isInspect)
+            {
+                canMove = true;
+            }
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             aimPoint.enabled = true;
+            isInPause = false;
             _pauseMenu.SetActive(false);
         }
     }
@@ -231,11 +238,11 @@ public class Controller : MonoBehaviour
     {
         _lookDirection = _look.action.ReadValue<Vector3>();
 
-        _verticalRotation -= _lookDirection.y * _sensitivity;
+        _verticalRotation -= _lookDirection.y * sensitivity;
         _verticalRotation = Mathf.Clamp(_verticalRotation, -_maxVerticalLook, _maxVerticalLook);
         _targetCamera.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
 
-        transform.Rotate(Vector3.up * _lookDirection.x * _sensitivity);
+        transform.Rotate(Vector3.up * _lookDirection.x * sensitivity);
     }
     
     
@@ -393,7 +400,8 @@ public class Controller : MonoBehaviour
                 break;
 
             case ObjectType.Inspectable:
-                Inspect inspect = target.GetComponent<Inspect>();
+                _inspect = target.GetComponent<Inspect>();
+                
                 if (isInTuto)
                 {
                     if (isUsingKeyboard)
@@ -409,7 +417,7 @@ public class Controller : MonoBehaviour
                 if (canInspect && _interactBis.action.WasPressedThisFrame())
                 {
                     _grabAudio.Play();
-                    inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
+                    _inspect.StartInspect(_camera, _holdPoint, _look, _interact, _interactBis, this, distance);
                 }
                 break;
         }

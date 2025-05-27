@@ -95,8 +95,8 @@ public class Inspect : MonoBehaviour
     {
         _rotateValue = _rotate.action.ReadValue<Vector3>();
 
-        float rotX = _rotateValue.y * _rotationSpeed * Time.deltaTime;
-        float rotY = _rotateValue.x * _rotationSpeed * Time.deltaTime;
+        float rotX = _rotateValue.y * _rotationSpeed * _controller.sensitivity * Time.deltaTime;
+        float rotY = _rotateValue.x * _rotationSpeed * _controller.sensitivity * Time.deltaTime;
 
         // Rotation par rapport à l'orientation de la caméra
         transform.Rotate(_camera.right, rotX, Space.World);
