@@ -11,6 +11,9 @@ public class FinalEnigmeManager : MonoBehaviour
     [SerializeField] private List<InteractRouage> _codes;
     private bool _isComplet = false;
 
+    [Header("Audio :")]
+    [SerializeField] private AudioSource _audioSource;
+
     public bool isFinish = false;
 
     public void Interact()
@@ -31,6 +34,7 @@ public class FinalEnigmeManager : MonoBehaviour
                 if (_isComplet)
                 {
                     isFinish = true;
+                    _audioSource.PlayOneShot(_audioSource.clip);
                     _meshManager.Open();
                 }
             }

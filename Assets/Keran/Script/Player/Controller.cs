@@ -12,7 +12,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform _targetCamera;
     [SerializeField] private Transform _holdPoint;
-    public Grab grab;
+    private Grab _grab;
     [SerializeField] private AudioSource _grabAudio;
     private AudioSource _interactAudio;
     private AudioSource _inspectAudio;
@@ -118,6 +118,16 @@ public class Controller : MonoBehaviour
 
     public void StartTuto()
     {
+        if (_crouch.action.WasPressedThisFrame() && !_validCrouch)
+        {
+            _validCrouch = true;
+        }
+
+        if (_tipToe.action.WasPressedThisFrame() && !_validTipToe)
+        {
+            _validTipToe = true;
+        }
+
         if (!_validCrouch && !_validTipToe)
         {
             if (isUsingGamepad)
@@ -130,7 +140,7 @@ public class Controller : MonoBehaviour
             }
         }
 
-        if (_crouch.action.WasPressedThisFrame() && !_validCrouch)
+        else if (_validCrouch && !_validTipToe)
         {
             if (isUsingGamepad)
             {
@@ -140,10 +150,9 @@ public class Controller : MonoBehaviour
             {
                 tutoControl.sprite = _tipToeSpriteK;
             }
-            _validCrouch = true;
         }
 
-        else if (_tipToe.action.WasPressedThisFrame() && !_validTipToe)
+        else if (_validCrouch && _validTipToe)
         {
             if (isUsingGamepad)
             {
@@ -153,11 +162,6 @@ public class Controller : MonoBehaviour
             {
                 tutoControl.sprite = _lookSpriteK;
             }
-            _validTipToe = true;
-        }
-
-        else if (_validCrouch && _validTipToe)
-        {
             _isInStart = false;
         }
     }
@@ -174,8 +178,6 @@ public class Controller : MonoBehaviour
             isUsingKeyboard = true;
             isUsingGamepad = false;
         }
-
-        StartTuto();
 
         if (canMove)
         {
@@ -300,10 +302,14 @@ public class Controller : MonoBehaviour
                 ObjectClass objectClass = test.GetComponent<ObjectClass>();
                 ObjectAction(test, objectClass.interactType, hit.distance);
             }
-            else if (!grab.isGrab && !_isInStart)
+            else if ((_grab == null || !_grab.isGrab))
             {
                 aimPoint.sprite = _noneSprite;
-                if (isInTuto)
+                if (_isInStart)
+                {
+                    StartTuto();
+                }
+                else if (isInTuto)
                 {
                     if (isUsingGamepad)
                     {
@@ -316,10 +322,14 @@ public class Controller : MonoBehaviour
                 }
             }
         }
-        else if (!grab.isGrab && !_isInStart)
+        else if (_grab == null || !_grab.isGrab)
         {
             aimPoint.sprite = _noneSprite;
-            if (isInTuto)
+            if (_isInStart)
+            {
+                StartTuto();
+            }
+            else if (isInTuto)
             {
                 if (isUsingGamepad)
                 {
@@ -359,7 +369,7 @@ public class Controller : MonoBehaviour
                 break;
 
             case ObjectType.Movable:
-                Grab grab = target.GetComponent<Grab>();
+                _grab = target.GetComponent<Grab>();
                 if (isInTuto)
                 {
                     if (isUsingKeyboard)
@@ -371,14 +381,14 @@ public class Controller : MonoBehaviour
                         tutoControl.sprite = _grabSpriteG;
                     }
                 }
-                if (!grab.isGrab)
+                if (_grab != null || !_grab.isGrab)
                 {
                     aimPoint.sprite = _grabSpriteOuvert;
                 }
                 if (_interact.action.WasPressedThisFrame())
                 {
                     _grabAudio.Play();
-                    grab.MoveObject(_camera, _holdPoint, _interact, _look, _zoom, this);
+                    _grab.MoveObject(_camera, _holdPoint, _interact, _look, _zoom, this);
                 }
                 break;
 
