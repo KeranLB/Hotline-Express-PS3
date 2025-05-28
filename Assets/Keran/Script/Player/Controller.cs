@@ -388,7 +388,7 @@ public class Controller : MonoBehaviour
                         tutoControl.sprite = _grabSpriteG;
                     }
                 }
-                if (_grab != null || !_grab.isGrab)
+                if (_grab == null || !_grab.isGrab)
                 {
                     aimPoint.sprite = _grabSpriteOuvert;
                 }
