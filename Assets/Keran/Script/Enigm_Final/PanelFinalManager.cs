@@ -4,6 +4,7 @@ public class PanelFinalManager : MonoBehaviour
 {
     [SerializeField] private BoxCollider _colliderA;
     [SerializeField] private BoxCollider _colliderB;
+    [SerializeField] private ObjectClass _objectClass;
     private int _nbObjectWaited = 3;
     private int _nbObject = 0;
     public bool isComplet = false;
@@ -28,6 +29,7 @@ public class PanelFinalManager : MonoBehaviour
             if (_nbObject == _nbObjectWaited)
             {
                 isComplet = true;
+                _objectClass.interactType = ObjectType.None;
                 _colliderA.enabled = true;
                 _colliderB.enabled = true;
             }
